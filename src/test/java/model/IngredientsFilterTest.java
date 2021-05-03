@@ -17,7 +17,6 @@ class IngredientsFilterTest {
     private Ingredient ingredient2 = mock(Ingredient.class);
     private Ingredient ingredient3 = mock(Ingredient.class);
 
-
     @BeforeEach
     public void setUp() {
         mocks = new ArrayList<>();

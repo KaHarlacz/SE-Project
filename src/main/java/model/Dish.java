@@ -27,50 +27,81 @@ public class Dish implements Serializable {
                 Image image,
                 Duration duration,
                 int servings) {
-        throw new NotImplementedException();
+        if (name.equals(""))
+            throw new IllegalArgumentException("Name cannot be empty string.");
+
+        if(servings <= 0)
+            throw new IllegalArgumentException("Servings must be positive value.");
+
+        if(ingredients.size() == 0)
+            throw new IllegalArgumentException("Dish consist of at least one ingredient.");
+
+        if (categories == null || categories.isEmpty())
+            categories = List.of(DishCategory.OTHER);
+
+        this.name = name;
+        this.recipe = recipe;
+        this.ingredients = ingredients;
+        this.categories = categories;
+        this.image = image;
+        this.duration = duration;
+        this.servings = servings;
     }
 
     public String getName() {
-        throw new NotImplementedException();
+        return name;
     }
 
     public String getRecipe() {
-        throw new NotImplementedException();
+        return recipe;
     }
 
     public Image getImage() {
-        throw new NotImplementedException();
+        return image;
     }
 
     public Duration getDuration() {
-        throw new NotImplementedException();
+        return duration;
     }
 
     public int getServings() {
-        throw new NotImplementedException();
+        return servings;
     }
 
     public boolean isFavourite() {
-        throw new NotImplementedException();
+        return favourite;
     }
 
     public void setFavourite(boolean favourite) {
-        throw new NotImplementedException();
+        this.favourite = favourite;
     }
 
     public List<DishCategory> getCategories() {
-        throw new NotImplementedException();
+        return categories;
     }
 
     public Map<Ingredient, Double> getIngredients() {
-        throw new NotImplementedException();
+        return ingredients;
     }
 
     public boolean addIngredient(Ingredient ingredient, double quantity) {
-        throw new NotImplementedException();
+        var keySet = ingredients.keySet();
+
+        if(quantity <= 0)
+            throw new IllegalArgumentException();
+
+        if(keySet.contains(ingredient))
+            return false;
+
+        ingredients.put(ingredient, quantity);
+        return true;
     }
 
-    public boolean deleteIngredient() {
-        throw new NotImplementedException();
+    public boolean deleteIngredient(Ingredient ingredient) {
+        var keySet = ingredients.keySet();
+        if(!keySet.contains(ingredient))
+            return false;
+        ingredients.remove(ingredient);
+        return true;
     }
 }

@@ -19,7 +19,7 @@ class CookBookTest {
 
     @BeforeEach
     public void setUp() {
-        // Creation of list of three mock-dishes consisting of one mock-ingredient
+        // Creation of list of three mock-dishes consisting of one mock-ingredient each
         dishes = List.of(mock(Dish.class), mock(Dish.class), mock(Dish.class));
         when(dishes.get(0).getIngredients()).thenReturn((Map.of(mock(Ingredient.class), 20.1)));
         when(dishes.get(1).getIngredients()).thenReturn((Map.of(mock(Ingredient.class), 4.7)));

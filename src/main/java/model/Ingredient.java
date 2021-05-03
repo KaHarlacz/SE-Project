@@ -2,7 +2,7 @@ package model;
 
 import model.exception.NotImplementedException;
 
-public class Ingredient {
+public class Ingredient implements Comparable<Ingredient> {
     private String name;
     private String unit;
     private IngredientCategory category;
@@ -32,6 +32,11 @@ public class Ingredient {
     }
 
     public void setCategory(IngredientCategory category) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int compareTo(Ingredient o) {
         throw new NotImplementedException();
     }
 }

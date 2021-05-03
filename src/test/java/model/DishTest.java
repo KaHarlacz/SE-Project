@@ -63,13 +63,15 @@ class DishTest {
         assertThrows(IllegalArgumentException.class, () -> dish.addIngredient(mock(Ingredient.class), 0));
     }
 
+    // FIXME: There is some problem with usage of when method
     @Test
     public void deleteNotExistingIngredient() {
-        when(ingredients[0].equals(any(Ingredient.class))).thenReturn(false);
-        when(ingredients[1].equals(any(Ingredient.class))).thenReturn(false);
-        assertFalse(dish.deleteIngredient());
+        when(ingredients[0].equals(any())).thenReturn(false);
+        when(ingredients[1].equals(any())).thenReturn(false);
+        assertFalse(dish.deleteIngredient(mock(Ingredient.class)));
     }
 
+    // FIXME: There is some problem with usage of when method
     @Test
     public void tryAddAlreadyExistingIngredient() {
         Ingredient newIngredient = mock(Ingredient.class);
@@ -78,7 +80,7 @@ class DishTest {
     }
 
     @Test
-    public void favouriteTest() {
+    public void setDishAsFavourite() {
         dish.setFavourite(true);
         assertTrue(dish.isFavourite());
     }
