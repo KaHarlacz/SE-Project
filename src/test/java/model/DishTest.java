@@ -27,18 +27,14 @@ class DishTest {
 
     @Test
     public void passEmptyStringNameConstructor() {
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dish("", null, ingredientQuantityMap, null, null, null, 1)
-        );
+        dish = new Dish("", null, ingredientQuantityMap, null, null, null, 1);
+        assertEquals("No name specified", dish.getName());
     }
 
     @Test
     public void passEmptyIngredientsMapConstructor() {
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dish("Zupa z gwoździa", null, new HashMap<>(), null, null, null, 1)
-        );
+        dish = new Dish("Zupa z gwoździa", null, new HashMap<>(), null, null, null, 1);
+        assertEquals(true, dish.getIngredients().isEmpty());
     }
 
     @Test
@@ -55,28 +51,33 @@ class DishTest {
 
     @Test
     public void addNegativeIngredientQuantity() {
-        assertThrows(IllegalArgumentException.class, () -> dish.addIngredient(mock(Ingredient.class), -1.0));
+        assertFalse(dish.addIngredient(mock(Ingredient.class), -1.0));
     }
 
     @Test
     public void addZeroIngredientQuantity() {
-        assertThrows(IllegalArgumentException.class, () -> dish.addIngredient(mock(Ingredient.class), 0));
+        assertFalse(dish.addIngredient(mock(Ingredient.class), 0));
     }
 
-    // FIXME: There is some problem with usage of when method
+    @Test
+    public void deleteExistingIngredient() {
+        Ingredient testIngredient = mock(Ingredient.class);
+        when(testIngredient.compareTo(ingredients[0])).thenReturn(1);
+        when(testIngredient.compareTo(ingredients[1])).thenReturn(0);
+        assertFalse(dish.deleteIngredient(testIngredient));
+    }
+
     @Test
     public void deleteNotExistingIngredient() {
-        when(ingredients[0].equals(any())).thenReturn(false);
-        when(ingredients[1].equals(any())).thenReturn(false);
-        assertFalse(dish.deleteIngredient(mock(Ingredient.class)));
+        Ingredient testIngredient = mock(Ingredient.class);
+        when(testIngredient.compareTo(any())).thenReturn(1);
+        assertFalse(dish.deleteIngredient(testIngredient));
     }
 
-    // FIXME: There is some problem with usage of when method
     @Test
     public void tryAddAlreadyExistingIngredient() {
-        Ingredient newIngredient = mock(Ingredient.class);
-        when(ingredients[1].equals(newIngredient)).thenReturn(true);
-        assertFalse(dish.addIngredient(newIngredient, 5.0));
+        when(ingredients[1].compareTo(any())).thenReturn(0);
+        assertFalse(dish.addIngredient(ingredients[1], 5.0));
     }
 
     @Test

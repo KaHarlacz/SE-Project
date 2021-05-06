@@ -60,7 +60,6 @@ class CookBookTest {
                 .map(dish -> dish.getIngredients().keySet())
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-
         assertEquals(ingredients, book.getAvailableIngredients());
     }
 

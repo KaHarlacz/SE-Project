@@ -5,6 +5,8 @@ import model.exception.NotImplementedException;
 import java.awt.*;
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,17 +29,20 @@ public class Dish implements Serializable {
                 Image image,
                 Duration duration,
                 int servings) {
+
         if (name.equals(""))
-            throw new IllegalArgumentException("Name cannot be empty string.");
+            name = "No name specified";
 
         if(servings <= 0)
-            throw new IllegalArgumentException("Servings must be positive value.");
+            servings = 1;
 
-        if(ingredients.size() == 0)
-            throw new IllegalArgumentException("Dish consist of at least one ingredient.");
+        if(ingredients == null || ingredients.isEmpty())
+            ingredients = new HashMap<>();
 
-        if (categories == null || categories.isEmpty())
-            categories = List.of(DishCategory.OTHER);
+        if (categories == null || categories.isEmpty()) {
+            categories = new ArrayList<>();
+            categories.add(DishCategory.OTHER);
+        }
 
         this.name = name;
         this.recipe = recipe;
@@ -46,6 +51,28 @@ public class Dish implements Serializable {
         this.image = image;
         this.duration = duration;
         this.servings = servings;
+    }
+
+    public boolean addIngredient(Ingredient ingredient, double quantity) {
+        var keySet = ingredients.keySet();
+
+        if(quantity <= 0 || keySet.contains(ingredient))
+            return false;
+
+        ingredients.put(ingredient, quantity);
+
+        return true;
+    }
+
+    public boolean deleteIngredient(Ingredient ingredient) {
+        var keySet = ingredients.keySet();
+
+        if(!keySet.contains(ingredient))
+            return false;
+
+        ingredients.remove(ingredient);
+
+        return true;
     }
 
     public String getName() {
@@ -82,26 +109,5 @@ public class Dish implements Serializable {
 
     public Map<Ingredient, Double> getIngredients() {
         return ingredients;
-    }
-
-    public boolean addIngredient(Ingredient ingredient, double quantity) {
-        var keySet = ingredients.keySet();
-
-        if(quantity <= 0)
-            throw new IllegalArgumentException();
-
-        if(keySet.contains(ingredient))
-            return false;
-
-        ingredients.put(ingredient, quantity);
-        return true;
-    }
-
-    public boolean deleteIngredient(Ingredient ingredient) {
-        var keySet = ingredients.keySet();
-        if(!keySet.contains(ingredient))
-            return false;
-        ingredients.remove(ingredient);
-        return true;
     }
 }
