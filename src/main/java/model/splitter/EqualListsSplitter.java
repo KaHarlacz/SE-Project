@@ -1,5 +1,6 @@
-package model;
+package model.splitter;
 
+import model.data.Ingredient;
 import model.exception.NotImplementedException;
 
 import java.util.List;

@@ -1,5 +1,7 @@
-package model;
+package model.splitter;
 
+import model.data.Ingredient;
+import model.splitter.EqualListsSplitter;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

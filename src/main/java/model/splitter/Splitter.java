@@ -1,4 +1,6 @@
-package model;
+package model.splitter;
+
+import model.data.Ingredient;
 
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,6 @@
-package model;
+package model.data;
 
+import model.enumerative.IngredientCategory;
 import model.exception.NotImplementedException;
 
 import java.util.Objects;

@@ -1,5 +1,9 @@
-package model;
+package model.splitter;
 
+import model.data.Ingredient;
+import model.enumerative.IngredientCategory;
+import model.splitter.CategoriesSplitter;
+import model.splitter.Splitter;
 import org.junit.jupiter.api.*;
 
 import java.util.*;

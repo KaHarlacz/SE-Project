@@ -1,22 +1,21 @@
-package model;
+package model.data;
 
+import model.enumerative.DishCategory;
 import model.exception.NotImplementedException;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
-public class Dish implements Serializable {
+public class Dish implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String recipe;
     private Map<Ingredient, Double> ingredients;
-    private List<DishCategory> categories;
+    private Set<DishCategory> categories;
     private Image image;
     private Duration duration;
     private int servings;
@@ -25,7 +24,7 @@ public class Dish implements Serializable {
     public Dish(String name,
                 String recipe,
                 Map<Ingredient, Double> ingredients,
-                List<DishCategory> categories,
+                Set<DishCategory> categories,
                 Image image,
                 Duration duration,
                 int servings) {
@@ -40,7 +39,7 @@ public class Dish implements Serializable {
             ingredients = new HashMap<>();
 
         if (categories == null || categories.isEmpty()) {
-            categories = new ArrayList<>();
+            categories = new HashSet<>();
             categories.add(DishCategory.OTHER);
         }
 
@@ -103,11 +102,20 @@ public class Dish implements Serializable {
         this.favourite = favourite;
     }
 
-    public List<DishCategory> getCategories() {
+    public Set<DishCategory> getCategories() {
         return categories;
     }
 
-    public Map<Ingredient, Double> getIngredients() {
+    public Map<Ingredient, Double> getIngredientsMap() {
         return ingredients;
+    }
+
+    public Set<Ingredient> getIngredientsSet() {
+        return ingredients.keySet();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        throw new NotImplementedException();
     }
 }

@@ -1,4 +1,4 @@
-package model;
+package model.enumerative;
 
 import model.exception.NotImplementedException;
 
