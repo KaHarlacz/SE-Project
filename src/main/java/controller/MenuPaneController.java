@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import model.data.CookBook;
 
 public class MenuPaneController {
 
@@ -34,6 +35,8 @@ public class MenuPaneController {
 
     @FXML
     private Text selectedQuantityText;
+
+    private CookBook cookBook;
 
     public void initialize() {
 

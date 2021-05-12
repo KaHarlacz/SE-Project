@@ -24,7 +24,7 @@ class FavouriteFilterTest {
 
     @BeforeEach
     public void setUp() {
-        filter = new FavouriteFilter();
+        filter = new FavouriteFilter(true);
         mocks = new HashSet<>();
 
         for(int i = 0; i < DISH_NUMBER; i++)
@@ -40,7 +40,22 @@ class FavouriteFilterTest {
     }
 
     @Test
-    public void mixedFavouritesCheckOutputSet() {
+    public void mixedFilterFavourite() {
+        var mockList = List.of(mocks.toArray(Dish[]::new));
+
+        when(mockList.get(0).isFavourite()).thenReturn(false);
+        when(mockList.get(1).isFavourite()).thenReturn(true);
+        when(mockList.get(2).isFavourite()).thenReturn(false);
+        when(mockList.get(3).isFavourite()).thenReturn(true);
+
+        var expected = Set.of(mockList.get(1), mockList.get(3));
+        var filtered = filter.filter(mocks);
+
+        assertEquals(expected, filtered);
+    }
+
+    @Test
+    public void mixedFilterNotFavourite() {
         var mockList = List.of(mocks.toArray(Dish[]::new));
 
         when(mockList.get(0).isFavourite()).thenReturn(false);

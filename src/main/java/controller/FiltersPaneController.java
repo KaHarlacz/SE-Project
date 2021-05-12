@@ -5,6 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import model.data.CookBook;
+import model.data.Ingredient;
+import model.enumerative.DishCategory;
+import model.filter.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class FiltersPaneController {
 
@@ -48,69 +57,170 @@ public class FiltersPaneController {
     private CheckBox otherCheckbox;
 
     @FXML
-    private ListView<?> ingredientsListView;
+    private ListView<String> ingredientsListView;
 
     @FXML
     private Button addFilterIngredientButton;
 
+    private List<CheckBox> favouriteCheckboxes;
+    // It does not include allCategories checkbox
+    private Map<CheckBox, DishCategory> categoriesCheckboxes = new HashMap<>();
 
-    public TextField getNameFilterTextField() {
-        return nameFilterTextField;
+    public void initialize() {
+        wrapCategoriesCheckboxesWithEnums();
+        wrapFavouriteCheckboxesIntoList();
+        setDefaultCheckboxesSelected();
+        setCategoriesCheckboxesOnAction();
+        setFavouriteCheckboxesOnAction();
+        // TODO: setAddFilterIngredientButtonOnAction();
     }
 
-    public CheckBox getAllFavouriteCheckbox() {
-        return allFavouriteCheckbox;
+    // Same filters may be null - if so they will have no
+    // effect on filtered set
+    public List<Filter> getFilters() {
+        return List.of(
+                getNameFilter(),
+                getFavouriteFilter(),
+                getCategoriesFilter(),
+                getIngredientsFilter()
+        );
     }
 
-    public CheckBox getOnlyFavouriteCheckbox() {
-        return onlyFavouriteCheckbox;
+    private void setFavouriteCheckboxesOnAction() {
+        allCategoriesCheckbox.setOnAction(e -> {
+            if(!isAnyCategoryCheckboxSelected() && !allCategoriesCheckbox.isSelected())
+                allCategoriesCheckbox.fire();
+        });
+
+        for (var checkbox : favouriteCheckboxes) {
+            checkbox.setOnAction(e -> {
+                if(checkbox.isSelected())
+                    uncheckOtherFavouriteCheckboxesBut(checkbox);
+                else
+                    ifNoneFavouriteIsSelectedSelectDefault();
+            });
+        }
     }
 
-    public CheckBox getOnlyNotFavouriteCheckbox() {
-        return onlyNotFavouriteCheckbox;
+    private void setCategoriesCheckboxesOnAction() {
+        var checkboxes = categoriesCheckboxes.keySet();
+
+        for (var checkbox : checkboxes) {
+            // This code is called after changing the state of the checkbox
+            checkbox.setOnAction(e -> {
+                if (checkbox.isSelected())
+                    uncheckAllCategoriesCheckbox();
+                else
+                    checkAllCategoriesCheckboxIfNoneIsSelected();
+            });
+        }
     }
 
-    public CheckBox getAllCategoriesCheckbox() {
-        return allCategoriesCheckbox;
+    private Filter getNameFilter() {
+        var filterText = nameFilterTextField.getText();
+        return new NameFilter(filterText);
     }
 
-    public CheckBox getBreakfastCheckbox() {
-        return breakfastCheckbox;
+    private Filter getIngredientsFilter() {
+        var filterIngredients = new HashSet<Ingredient>();
+
+        var items = ingredientsListView.getItems();
+
+        // Null filter will have no effect on filter process
+        if (items.size() == 0)
+            return null;
+
+        for (var ingredientName : items) {
+            filterIngredients.add(new Ingredient(ingredientName));
+        }
+
+        return new IngredientsFilter(filterIngredients);
     }
 
-    public CheckBox getBrunchCheckbox() {
-        return brunchCheckbox;
+    private Filter getCategoriesFilter() {
+        var filterCategories = new HashSet<DishCategory>();
+
+        for (var entry : categoriesCheckboxes.entrySet()) {
+            var checkbox = entry.getKey();
+            var category = entry.getValue();
+
+            if (checkbox.isSelected())
+                filterCategories.add(category);
+        }
+
+        return new CategoriesFilter(filterCategories);
     }
 
-    public CheckBox getDinnerCheckbox() {
-        return dinnerCheckbox;
+    private Filter getFavouriteFilter() {
+        Filter filter = null;
+
+        if (onlyFavouriteCheckbox.isSelected())
+            filter = new FavouriteFilter(true);
+
+        if (onlyNotFavouriteCheckbox.isSelected())
+            filter = new FavouriteFilter(false);
+
+        return filter;
     }
 
-    public CheckBox getDessertCheckbox() {
-        return dessertCheckbox;
+    private void setDefaultCheckboxesSelected() {
+        allCategoriesCheckbox.fire();
+        allFavouriteCheckbox.fire();
     }
 
-    public CheckBox getTeaCheckbox() {
-        return teaCheckbox;
+    private void uncheckAllCategoriesCheckbox() {
+        if (allCategoriesCheckbox.isSelected())
+            allCategoriesCheckbox.fire();
     }
 
-    public CheckBox getSupperCheckbox() {
-        return supperCheckbox;
+    private void checkAllCategoriesCheckboxIfNoneIsSelected() {
+        var isAnySelected = isAnyCategoryCheckboxSelected();
+
+        if (!isAnySelected)
+            allCategoriesCheckbox.fire();
     }
 
-    public CheckBox getSnackCheckbox() {
-        return snackCheckbox;
+    private boolean isAnyCategoryCheckboxSelected() {
+        var checkboxes = categoriesCheckboxes.keySet();
+
+        return checkboxes.stream()
+                .anyMatch(CheckBox::isSelected);
     }
 
-    public CheckBox getOtherCheckbox() {
-        return otherCheckbox;
+    private void uncheckOtherFavouriteCheckboxesBut(CheckBox checkbox) {
+        favouriteCheckboxes.stream()
+                .filter(c -> !c.equals(checkbox))
+                .forEach(this::uncheckIfSelected);
     }
 
-    public ListView<?> getIngredientsListView() {
-        return ingredientsListView;
+    private void ifNoneFavouriteIsSelectedSelectDefault() {
+        if(!onlyNotFavouriteCheckbox.isSelected() && !onlyFavouriteCheckbox.isSelected())
+            allFavouriteCheckbox.fire();
     }
 
-    public Button getAddFilterIngredientButton() {
-        return addFilterIngredientButton;
+    private void uncheckIfSelected(CheckBox checkBox) {
+        if(checkBox.isSelected())
+            checkBox.fire();
+    }
+
+    private void wrapFavouriteCheckboxesIntoList() {
+        favouriteCheckboxes = List.of(
+                allFavouriteCheckbox,
+                onlyFavouriteCheckbox,
+                onlyNotFavouriteCheckbox
+        );
+    }
+
+    private void wrapCategoriesCheckboxesWithEnums() {
+        categoriesCheckboxes = Map.of(
+                breakfastCheckbox, DishCategory.BREAKFAST,
+                brunchCheckbox, DishCategory.BRUNCH,
+                dinnerCheckbox, DishCategory.DINNER,
+                dessertCheckbox, DishCategory.DESSERT,
+                teaCheckbox, DishCategory.TEA,
+                supperCheckbox, DishCategory.SUPPER,
+                snackCheckbox, DishCategory.SNACK,
+                otherCheckbox, DishCategory.OTHER
+        );
     }
 }

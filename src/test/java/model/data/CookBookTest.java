@@ -66,6 +66,39 @@ class CookBookTest {
         assertEquals(expected, actual);
     }
 
+    // Intended behaviour is when filter reference is null it has no effect on
+    // filtered set
+    @Test
+    public void passNullFiltersCheckIfCorrectOutput() {
+        // Adding favourite dishes to cookBook
+        var favouriteDishes = new ArrayList<>(List.of(mock(Dish.class), mock(Dish.class)));
+        book.addDish(favouriteDishes.get(0));
+        book.addDish(favouriteDishes.get(1));
+
+        // Using same dish - it will be only expected one
+        var dishesOfCategory = List.of(favouriteDishes.get(0));
+        book.addDish(dishesOfCategory.get(0));
+
+        // Filter stubs
+        Filter favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
+        Filter categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
+        Filter nullFilter = null;
+
+        // Adding also nulls
+        var filters = new ArrayList<Filter>();
+        filters.add(favouriteFilter);
+        filters.add(nullFilter);
+        filters.add(categoryFilter);
+
+        // Intersection of two sets is expected result
+        favouriteDishes.retainAll(dishesOfCategory);
+
+        var expected = Set.copyOf(favouriteDishes);
+        var actual = book.filterDishesUsing(filters);
+
+        assertEquals(expected, actual);
+    }
+
     @Test
     public void addDishCheckIfAdded() {
         var dishToAdd = mock(Dish.class);

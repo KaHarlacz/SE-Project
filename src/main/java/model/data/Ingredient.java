@@ -10,8 +10,19 @@ public class Ingredient implements Comparable<Ingredient> {
     private String unit;
     private IngredientCategory category;
 
+    public Ingredient(String name, String unit, IngredientCategory category) {
+        this(name, unit);
+        this.category = category;
+    }
+
     public Ingredient(String name, String unit) {
-        throw new NotImplementedException();
+        this.name = name;
+        this.unit = unit;
+    }
+
+    public Ingredient(String name) {
+        this.name = name;
+        this.unit = "other";
     }
 
     public String getUnit() {

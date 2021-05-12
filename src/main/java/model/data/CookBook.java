@@ -25,7 +25,8 @@ public class CookBook {
         var result = dishes;
 
         for (var f : filters) {
-            result = f.filter(result);
+            if(f != null)
+                result = f.filter(result);
         }
 
         return result;
