@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Dish implements Serializable, Comparable {
+public class Dish implements Serializable, Comparable<Dish> {
     private static final long serialVersionUID = 1L;
 
     private String name;
@@ -117,7 +117,7 @@ public class Dish implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        throw new NotImplementedException();
+    public int compareTo(Dish other) {
+        return this.name.compareTo(other.name);
     }
 }

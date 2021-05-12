@@ -3,9 +3,12 @@ package model.data;
 import model.enumerative.IngredientCategory;
 import model.exception.NotImplementedException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Ingredient implements Comparable<Ingredient> {
+public class Ingredient implements Serializable, Comparable<Ingredient> {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private String unit;
     private IngredientCategory category;
@@ -25,33 +28,28 @@ public class Ingredient implements Comparable<Ingredient> {
         this.unit = "other";
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUnit() {
-        throw new NotImplementedException();
+        return unit;
     }
 
     public void setUnit(String unit) {
-        throw new NotImplementedException();
-    }
-
-    public String getName() {
-        throw new NotImplementedException();
-    }
-
-    public void setName(String orange) {
-        throw new NotImplementedException();
+        this.unit = unit;
     }
 
     public IngredientCategory getCategory() {
-        throw new NotImplementedException();
+        return category;
     }
 
     public void setCategory(IngredientCategory category) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public int compareTo(Ingredient o) {
-        throw new NotImplementedException();
+        this.category = category;
     }
 
     @Override
@@ -65,5 +63,10 @@ public class Ingredient implements Comparable<Ingredient> {
     @Override
     public int hashCode() {
         return Objects.hash(name, unit, category);
+    }
+
+    @Override
+    public int compareTo(Ingredient other) {
+        return this.name.compareTo(other.name);
     }
 }

@@ -2,12 +2,15 @@ package model.data;
 
 import model.filter.Filter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CookBook {
+public class CookBook implements Serializable {
+    private final static long serialVersionUID = 1L;
+
     private Set<Dish> dishes;
     private Set<Ingredient> availableIngredients;
 
