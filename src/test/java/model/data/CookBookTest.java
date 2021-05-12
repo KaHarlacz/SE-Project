@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class CookBookTest {
     private CookBook book;
@@ -18,44 +17,67 @@ class CookBookTest {
     @BeforeEach
     public void setUp() {
         // Creation of list of three mock-dishes consisting of one mock-ingredient each
-        var random = new Random();
-
-        dishes = Set.of(mock(Dish.class), mock(Dish.class), mock(Dish.class));
-
-        for (Dish dish : dishes) {
-            // Nonzero quantity
-            var randomQuantity = (random.nextDouble() * 10) + 1;
-            var mockIngredient = mock(Ingredient.class);
-            var mockMap = Map.of(mockIngredient, randomQuantity);
-
-            when(dish.getIngredientsMap()).thenReturn(mockMap);
-        }
+        dishes = new HashSet<>();
+        dishes.addAll(Set.of(mock(Dish.class), mock(Dish.class), mock(Dish.class)));
 
         // Adding dishes to CookBook
         book = new CookBook(dishes);
     }
 
-    // CookBook filter dishes using Filter object so it's enough to check if
-    // filterDishes() returns filtered list
     @Test
-    public void filterDishesReturnFavourite() {
-        var mocks = Set.of(mock(Dish.class), mock(Dish.class));
-        Filter stub = dishes -> mocks;
-        assertEquals(mocks, book.filterDishes(List.of(stub)));
+    public void filterFavouriteDishes() {
+        // Adding favourite dishes to cookBook
+        var favouriteDishes = List.of(mock(Dish.class), mock(Dish.class));
+        book.addDish(favouriteDishes.get(0));
+        book.addDish(favouriteDishes.get(1));
+
+        // Filter stub
+        Filter filter = dishes -> Set.copyOf(favouriteDishes);
+        var filters = List.of(filter);
+
+        var expected = Set.copyOf(favouriteDishes);
+        var actual = book.filterDishesUsing(filters);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void filterDishesUsingTwoFilters() {
+        // Adding favourite dishes to cookBook
+        var favouriteDishes = new ArrayList<>(List.of(mock(Dish.class), mock(Dish.class)));
+        book.addDish(favouriteDishes.get(0));
+        book.addDish(favouriteDishes.get(1));
+
+        // Using same dish - it will be only expected one
+        var dishesOfCategory = List.of(favouriteDishes.get(0));
+        book.addDish(dishesOfCategory.get(0));
+
+        // Filter stubs
+        Filter favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
+        Filter categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
+        var filters = List.of(favouriteFilter, categoryFilter);
+
+        // Intersection of two sets is expected result
+        favouriteDishes.retainAll(dishesOfCategory);
+
+        var expected = Set.copyOf(favouriteDishes);
+        var actual = book.filterDishesUsing(filters);
+
+        assertEquals(expected, actual);
     }
 
     @Test
     public void addDishCheckIfAdded() {
-        var newDish = mock(Dish.class);
-        book.addDish(newDish);
-        assertTrue(book.getDishes().contains(newDish));
+        var dishToAdd = mock(Dish.class);
+        book.addDish(dishToAdd);
+        assertTrue(book.getDishes().contains(dishToAdd));
     }
 
     @Test
     public void tryAddDishAlreadyInCookBook() {
         // Method getRandomDish returns one of dish already in "dishes"
         // so return value should be false
-        var duplicate = getRandomDish(dishes);
+        var duplicate = List.copyOf(dishes).get(0);
         assertFalse(book.addDish(duplicate));
     }
 
@@ -63,27 +85,19 @@ class CookBookTest {
     // on its own create list of available ingredients
     @Test
     public void availableIngredientsCheck() {
-        Set<Ingredient> ingredients = dishes.stream()
+        var expectedIngredients = dishes.stream()
                 .map(Dish::getIngredientsMap)
                 .map(Map::keySet)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
 
-        assertEquals(ingredients, book.getAvailableIngredients());
+        assertEquals(expectedIngredients, book.getAvailableIngredients());
     }
 
     @Test
     public void deleteDishCheckIfDeleted() {
-        var randomDish = getRandomDish(dishes);
-        book.deleteDish(randomDish);
+        var dishToDelete = List.copyOf(dishes).get(0);
+        book.deleteDish(dishToDelete);
         assertEquals(dishes, book.getDishes());
-    }
-
-    private Dish getRandomDish(Set<Dish> dishes) {
-        var random = new Random();
-        var randomIndex = random.nextInt(dishes.size());
-        var dishArray = dishes.toArray(Dish[]::new);
-
-        return dishArray[randomIndex];
     }
 }

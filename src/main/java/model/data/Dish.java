@@ -1,13 +1,15 @@
 package model.data;
 
+import javafx.scene.image.Image;
 import model.enumerative.DishCategory;
 import model.exception.NotImplementedException;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Dish implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
@@ -32,10 +34,10 @@ public class Dish implements Serializable, Comparable {
         if (name.equals(""))
             name = "No name specified";
 
-        if(servings <= 0)
+        if (servings <= 0)
             servings = 1;
 
-        if(ingredients == null || ingredients.isEmpty())
+        if (ingredients == null || ingredients.isEmpty())
             ingredients = new HashMap<>();
 
         if (categories == null || categories.isEmpty()) {
@@ -55,7 +57,7 @@ public class Dish implements Serializable, Comparable {
     public boolean addIngredient(Ingredient ingredient, double quantity) {
         var keySet = ingredients.keySet();
 
-        if(quantity <= 0 || keySet.contains(ingredient))
+        if (quantity <= 0 || keySet.contains(ingredient))
             return false;
 
         ingredients.put(ingredient, quantity);
@@ -66,7 +68,7 @@ public class Dish implements Serializable, Comparable {
     public boolean deleteIngredient(Ingredient ingredient) {
         var keySet = ingredients.keySet();
 
-        if(!keySet.contains(ingredient))
+        if (!keySet.contains(ingredient))
             return false;
 
         ingredients.remove(ingredient);

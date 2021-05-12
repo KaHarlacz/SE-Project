@@ -6,10 +6,10 @@ public enum DishCategory {
     BREAKFAST("Sniadanie"),
     BRUNCH("Drugie śniadanie"),
     DINNER("Obiad"),
+    DESSERT("Deser"),
     TEA("Podwieczorek"),
     SUPPER("Kolacja"),
     SNACK("Przekąska"),
-    DESSERT("Deser"),
     OTHER("Inne");
 
     private final String name;

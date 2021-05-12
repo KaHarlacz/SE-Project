@@ -21,7 +21,7 @@ public class CookBook {
         availableIngredients = extractIngredients(dishes);
     }
 
-    public Set<Dish> filterDishes(List<Filter> filters) {
+    public Set<Dish> filterDishesUsing(List<Filter> filters) {
         var result = dishes;
 
         for (var f : filters) {

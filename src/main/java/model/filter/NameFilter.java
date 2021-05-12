@@ -1,33 +1,33 @@
 package model.filter;
 
 import model.data.Dish;
-import model.exception.NotImplementedException;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class NameFilter implements Filter {
-    private String text;
+    private String filterText;
 
     public NameFilter(String text) {
-        this.text = normalizeString(text);
+        this.filterText = normalizeString(text);
     }
 
     @Override
     public Set<Dish> filter(Set<Dish> dishes) {
         var result = new HashSet<Dish>();
 
-        for (Dish dish : dishes) {
-            var name = dish.getName();
-            var normalizedName = normalizeString(name);
-            if (normalizedName.contains(text))
+        for (var dish : dishes)
+            if (containsFilterText(dish))
                 result.add(dish);
-        }
 
         return result;
+    }
+
+    private boolean containsFilterText(Dish dish) {
+        var name = dish.getName();
+        var normalizedName = normalizeString(name);
+        return normalizedName.contains(filterText);
     }
 
     private String normalizeString(String string) {
