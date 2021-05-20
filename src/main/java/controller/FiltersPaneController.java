@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import model.data.CookBook;
 import model.data.Ingredient;
 import model.enumerative.DishCategory;
 import model.filter.*;
@@ -87,14 +86,9 @@ public class FiltersPaneController {
     }
 
     private void setFavouriteCheckboxesOnAction() {
-        allCategoriesCheckbox.setOnAction(e -> {
-            if(!isAnyCategoryCheckboxSelected() && !allCategoriesCheckbox.isSelected())
-                allCategoriesCheckbox.fire();
-        });
-
         for (var checkbox : favouriteCheckboxes) {
             checkbox.setOnAction(e -> {
-                if(checkbox.isSelected())
+                if (checkbox.isSelected())
                     uncheckOtherFavouriteCheckboxesBut(checkbox);
                 else
                     ifNoneFavouriteIsSelectedSelectDefault();
@@ -102,11 +96,17 @@ public class FiltersPaneController {
         }
     }
 
+    // FIXME: There should not be possibility to check allCategoriesCheckbox when any other is checked
     private void setCategoriesCheckboxesOnAction() {
+        allCategoriesCheckbox.setOnAction(e -> {
+            if (!isAnyCategoryCheckboxSelected())
+                allCategoriesCheckbox.setSelected(false);
+        });
+
         var checkboxes = categoriesCheckboxes.keySet();
 
         for (var checkbox : checkboxes) {
-            // This code is called after changing the state of the checkbox
+            // This code is called after changing state of the checkbox
             checkbox.setOnAction(e -> {
                 if (checkbox.isSelected())
                     uncheckAllCategoriesCheckbox();
@@ -131,7 +131,7 @@ public class FiltersPaneController {
             return null;
 
         for (var ingredientName : items) {
-            filterIngredients.add(new Ingredient(ingredientName));
+            filterIngredients.add(new Ingredient(ingredientName, null, null));
         }
 
         return new IngredientsFilter(filterIngredients);
@@ -194,12 +194,12 @@ public class FiltersPaneController {
     }
 
     private void ifNoneFavouriteIsSelectedSelectDefault() {
-        if(!onlyNotFavouriteCheckbox.isSelected() && !onlyFavouriteCheckbox.isSelected())
+        if (!onlyNotFavouriteCheckbox.isSelected() && !onlyFavouriteCheckbox.isSelected())
             allFavouriteCheckbox.fire();
     }
 
     private void uncheckIfSelected(CheckBox checkBox) {
-        if(checkBox.isSelected())
+        if (checkBox.isSelected())
             checkBox.fire();
     }
 

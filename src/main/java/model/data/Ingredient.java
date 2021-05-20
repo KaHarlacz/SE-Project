@@ -1,7 +1,6 @@
 package model.data;
 
 import model.enumerative.IngredientCategory;
-import model.exception.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,22 +9,13 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     private static final long serialVersionUID = 1L;
 
     private String name;
-    private String unit;
     private IngredientCategory category;
+    private Quantity quantity;
 
-    public Ingredient(String name, String unit, IngredientCategory category) {
-        this(name, unit);
+    public Ingredient(String name, IngredientCategory category, Quantity quantity) {
+        this.name = name;
         this.category = category;
-    }
-
-    public Ingredient(String name, String unit) {
-        this.name = name;
-        this.unit = unit;
-    }
-
-    public Ingredient(String name) {
-        this.name = name;
-        this.unit = "other";
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -36,20 +26,16 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         this.name = name;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public IngredientCategory getCategory() {
         return category;
     }
 
-    public void setCategory(IngredientCategory category) {
-        this.category = category;
+    public Quantity getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Quantity quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -57,12 +43,14 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(name, that.name) && Objects.equals(unit, that.unit) && category == that.category;
+        return Objects.equals(name, that.name)
+                && category == that.category
+                && Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, unit, category);
+        return Objects.hash(name, category, quantity);
     }
 
     @Override

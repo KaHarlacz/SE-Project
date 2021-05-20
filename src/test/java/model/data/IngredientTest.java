@@ -1,31 +1,24 @@
 package model.data;
 
-import model.data.Ingredient;
+import model.enumerative.IngredientCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 public class IngredientTest {
 
     @Test
     public void getIngredientName() {
-        Ingredient ingredientInstance = new Ingredient("jabłko", "kg");
+        Ingredient ingredientInstance = new Ingredient("jabłko", null, mock(Quantity.class));
         ingredientInstance.setName("pomarańcza");
         assertEquals("pomarańcza", ingredientInstance.getName());
     }
 
     @Test
     public void changingIngredientName() {
-        Ingredient ingredientInstance = new Ingredient("jabłko", "kg");
+        Ingredient ingredientInstance = new Ingredient("jabłko", null, mock(Quantity.class));
         ingredientInstance.setName("pomarańcza");
         assertEquals("pomarańcza", ingredientInstance.getName());
-    }
-
-    @Test
-    public void changingUnitName() {
-        Ingredient instance = new Ingredient("jabłko", "kg");
-        instance.setUnit("dekagram");
-        assertEquals("jabłko", instance.getName());
     }
 }

@@ -2,51 +2,68 @@ package model.splitter;
 
 import model.data.Ingredient;
 import model.enumerative.IngredientCategory;
-import model.splitter.CategoriesSplitter;
-import model.splitter.Splitter;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CategoriesSplitterTest {
     private List<Ingredient> ingredients;
-    private IngredientCategory category1;
-    private IngredientCategory category2;
-
+    private List<IngredientCategory> categories;
 
     @BeforeEach
     public void setUp() {
-        for(int i = 0; i < 4; i++)
-            ingredients.add(mock(Ingredient.class));
+        ingredients = List.of(
+                mock(Ingredient.class), mock(Ingredient.class),
+                mock(Ingredient.class), mock(Ingredient.class)
+        );
 
-        category1 = mock(IngredientCategory.class);
-        category2 = mock(IngredientCategory.class);
+        categories = List.of(
+                IngredientCategory.SPICE,
+                IngredientCategory.VEGETABLE,
+                IngredientCategory.FLOUR
+        );
     }
 
     @Test
-    public void regularListSplit() {
-        when(ingredients.get(0).getCategory()).thenReturn(category1);
-        when(ingredients.get(1).getCategory()).thenReturn(category2);
-        when(ingredients.get(2).getCategory()).thenReturn(category1);
-        when(ingredients.get(3).getCategory()).thenReturn(category1);
+    public void splitNotEqualTwoCategoriesIngredientsTwoLists() {
+        when(ingredients.get(0).getCategory()).thenReturn(categories.get(0));
+        when(ingredients.get(1).getCategory()).thenReturn(categories.get(1));
+        when(ingredients.get(2).getCategory()).thenReturn(categories.get(0));
+        when(ingredients.get(3).getCategory()).thenReturn(categories.get(0));
 
-        Map<Ingredient, Double> map = Map.of(
-                ingredients.get(0), 10.,
-                ingredients.get(1), 1.12,
-                ingredients.get(2), 9.43,
-                ingredients.get(3), 0.12
-        );
+        // Expected sets of categories in output maps
+        var zeroCategoryIngredients = Set.of(ingredients.get(0), ingredients.get(2), ingredients.get(3));
+        var firstCategoryIngredients = Set.of(ingredients.get(1));
+        var expectedSets = Set.of(zeroCategoryIngredients, firstCategoryIngredients);
 
-        Splitter splitter = new CategoriesSplitter();
-        var split = splitter.split(map, 2);
-        var map1 = split.get(0);
-        var map2 = split.get(1);
-        assertTrue(
-                (map1.size() == 3 && map2.size() == 1)
-                || (map1.size() == 1 && map2.size() == 3)
-        );
+        // For testing purpose it is better to compare sets of ingredients
+        var split = new CategoriesSplitter().split(ingredients, 2);
+        var actualIngredientsSets = Set.of(Set.copyOf(split.get(0)), Set.copyOf(split.get(1)));
+
+        assertEquals(expectedSets, actualIngredientsSets);
+    }
+
+    @Test
+    public void splitNotEqualThreeCategoriesIngredientsThreeLists() {
+        when(ingredients.get(0).getCategory()).thenReturn(categories.get(1));
+        when(ingredients.get(1).getCategory()).thenReturn(categories.get(0));
+        when(ingredients.get(2).getCategory()).thenReturn(categories.get(2));
+        when(ingredients.get(3).getCategory()).thenReturn(categories.get(0));
+
+        var setOfZeroCategory = Set.of(ingredients.get(1), ingredients.get(3));
+        var setOfFirstCategory = Set.of(ingredients.get(0));
+        var setOfSecondCategory = Set.of(ingredients.get(2));
+        var expectedIngredientsSets = Set.of(setOfZeroCategory, setOfFirstCategory, setOfSecondCategory);
+
+        var split = new CategoriesSplitter().split(ingredients, 3);
+        var actualIngredientsSets = Set.of(Set.copyOf(split.get(0)), Set.copyOf(split.get(1)), Set.copyOf(split.get(2)));
+
+        assertEquals(expectedIngredientsSets, actualIngredientsSets);
     }
 }

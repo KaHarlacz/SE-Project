@@ -2,10 +2,10 @@ package model.files_management;
 
 import model.data.Dish;
 import model.data.ShoppingList;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,8 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class SerialObjectLoaderTest {
-    private final String TEST_PATH = "tmp.obj";
+    private static final String TEST_PATH = "tmp.obj";
     private ObjectLoader loader = new SerialObjectLoader();
+
+    @AfterAll
+    public static void cleanUp() {
+        var file = new File(TEST_PATH);
+        file.delete();
+    }
 
     @Test
     public void loadObjectFromNotExistingFile() {

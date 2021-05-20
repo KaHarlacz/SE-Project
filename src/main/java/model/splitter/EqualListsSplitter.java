@@ -1,14 +1,33 @@
 package model.splitter;
 
 import model.data.Ingredient;
-import model.exception.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class EqualListsSplitter implements Splitter {
     @Override
-    public List<Map<Ingredient, Double>> split(Map<Ingredient, Double> ingredients, int lists) {
-        throw new NotImplementedException();
+    public List<List<Ingredient>> split(List<Ingredient> ingredients, int listsCount) {
+        checkIfValidArguments(ingredients, listsCount);
+        var result = initResultList(listsCount);
+        splitIngredientsBetweenLists(result, ingredients);
+        return result;
+    }
+
+    private void checkIfValidArguments(List<Ingredient> ingredients, int listsCount) {
+        if(ingredients.size() < listsCount)
+            throw new IllegalArgumentException();
+    }
+
+    private void splitIngredientsBetweenLists(List<List<Ingredient>> result, List<Ingredient> ingredients) {
+        for(int i = 0; i < ingredients.size(); i++)
+            result.get(i % result.size()).add(ingredients.get(i));
+    }
+
+    private List<List<Ingredient>> initResultList(int listsCount) {
+        var result = new ArrayList<List<Ingredient>>();
+        for(int i = 0; i < listsCount; i++)
+            result.add(new ArrayList<>());
+        return result;
     }
 }
