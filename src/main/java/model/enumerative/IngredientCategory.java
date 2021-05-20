@@ -16,7 +16,7 @@ public enum IngredientCategory {
     VEGETABLE("Warzywo");
 
     private final String name;
-
+    
     IngredientCategory(String name) {
         this.name = name;
     }

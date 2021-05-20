@@ -1,7 +1,5 @@
 package model.enumerative;
 
-import model.exception.NotImplementedException;
-
 public enum DishCategory {
     BREAKFAST("Sniadanie"),
     BRUNCH("Drugie śniadanie"),
@@ -19,6 +17,6 @@ public enum DishCategory {
     }
 
     public String getName() {
-        throw new NotImplementedException();
+        return this.name;
     }
 }
