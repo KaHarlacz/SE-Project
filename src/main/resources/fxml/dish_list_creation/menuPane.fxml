@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
@@ -16,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="800.0" stylesheets="@../../css/menu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPaneController">
+<BorderPane prefHeight="660.0" prefWidth="800.0" stylesheets="@../../css/menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPaneController">
    <top>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #fbc02d;" BorderPane.alignment="CENTER">
         <items>
           <Button id="to-summary-button" fx:id="toSummaryButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do podsumowania" />
         </items>
@@ -33,7 +31,7 @@
                </content>
           </Tab>
           <Tab text="Filtry">
-             <fx:include source="filtersPane.fxml" fx:id="filtersPane"/>
+             <fx:include fx:id="filtersPane" source="filtersPane.fxml" />
           </Tab>
             <Tab text="Podgląd">
                <content>
@@ -69,16 +67,16 @@
                               <ListView fx:id="ingredientsNeededListView" />
                            </content>
                         </TitledPane>
-                        <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sposób przygotowania" HBox.hgrow="ALWAYS">
+                        <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fff263;" text="Sposób przygotowania" HBox.hgrow="ALWAYS">
                            <content>
-                              <TextArea fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="318.0" promptText="Tutaj powinien być przepis" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
+                              <TextArea fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="318.0" promptText="Tutaj powinien być przepis" style="-fx-background-color: #fff263;" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
                            </content></TitledPane>
                      </children>
                   </HBox>
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #fff263;" VBox.vgrow="ALWAYS">
                     <items>
-                      <Button fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
-                        <Button fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
+                      <Button fx:id="addDishButton" mnemonicParsing="false" style="-fx-background-color: #42a5f5;" text="Dodaj" />
+                        <Button fx:id="deleteDishButton" mnemonicParsing="false" style="-fx-background-color: #42a5f5;" text="Usuń" />
                         <Text id="quantity" fx:id="selectedQuantityText" strokeType="OUTSIDE" strokeWidth="5.0" text="Wybrano: 10" textAlignment="CENTER" />
                     </items>
                   </ToolBar>

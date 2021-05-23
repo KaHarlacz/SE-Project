@@ -1,0 +1,16 @@
+.root{
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
+.button:active {
+    -fx-background: #80d6ff;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #000000;
+    
+}
+
+.check-box:selected .box {
+    -fx-background-color: #80d6ff;
+}

@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FiltersPaneController">
+<VBox alignment="TOP_CENTER" spacing="5.0" stylesheets="@../../css/filters.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FiltersPaneController">
    <children>
-      <VBox id="name-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0">
+      <VBox id="name-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #fff263;">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Nazwa" />
             <TextField id="name-filter-text-field" fx:id="nameFilterTextField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <VBox id="favourite-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0">
+      <VBox id="favourite-filter-box" alignment="TOP_CENTER" prefHeight="86.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #fff263;">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ulubione" />
-            <VBox id="favourite-filter-checkboxes-list" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="50.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Ulubione" />
+            <VBox id="favourite-filter-checkboxes-list" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="68.0" prefWidth="50.0">
                <children>
                   <CheckBox fx:id="allFavouriteCheckbox" mnemonicParsing="false" text="Wszystkie" />
                   <CheckBox fx:id="onlyFavouriteCheckbox" alignment="CENTER" mnemonicParsing="false" text="Tylko ulubione" />
@@ -27,9 +27,9 @@
             </VBox>
          </children>
       </VBox>
-      <VBox id="categories-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0">
+      <VBox id="categories-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #fff263;">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kategorie" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Kategorie" />
             <VBox id="categories-filter-checkboxes-list" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="50.0">
                <children>
                   <CheckBox fx:id="allCategoriesCheckbox" mnemonicParsing="false" text="Wszystkie" />
@@ -45,11 +45,11 @@
             </VBox>
          </children>
       </VBox>
-      <VBox id="ingredients-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0">
+      <VBox id="ingredients-filter-box" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #fff463;">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Składniki" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Składniki" />
             <ListView id="ingredients-filter-list" fx:id="ingredientsListView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="100.0" />
-            <Button fx:id="addFilterIngredientButton" mnemonicParsing="false" text="Dodaj składnik" />
+            <Button fx:id="addFilterIngredientButton" mnemonicParsing="false" style="-fx-background-color: #42a5f5;" text="Dodaj składnik" />
          </children>
       </VBox>
    </children>

@@ -1,3 +1,7 @@
+.root{
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
 .tab-pane:top {
     -fx-border-color: black;
 }
@@ -10,7 +14,7 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-font-weight: bold;
-    -fx-background-color: yellow;
+    -fx-background-color: #42a5f5;
     -fx-border-color: black;
     -fx-font-size: 13;
 }
@@ -24,8 +28,8 @@
     -fx-font-size: 15;
 }
 
-.titled-pane:hover {
-
+.titled-pane > .title {
+    -fx-backgroud-color:  #fbc02d;
 }
 
 #name {
