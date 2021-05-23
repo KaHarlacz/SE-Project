@@ -2,10 +2,7 @@ package model.filter;
 
 import model.data.Dish;
 import model.data.Ingredient;
-import model.enumerative.DishCategory;
-import model.exception.NotImplementedException;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +16,7 @@ public class IngredientsFilter implements Filter {
     @Override
     public Set<Dish> filter(Set<Dish> dishes) {
         return dishes.stream()
-                .filter(dish -> containsAtLeastOneAllowedIngredient(dish.getIngredientsSet()))
+                .filter(dish -> containsAtLeastOneAllowedIngredient(dish.getIngredients()))
                 .collect(Collectors.toSet());
     }
 

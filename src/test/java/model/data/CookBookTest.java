@@ -119,8 +119,7 @@ class CookBookTest {
     @Test
     public void availableIngredientsCheck() {
         var expectedIngredients = dishes.stream()
-                .map(Dish::getIngredientsMap)
-                .map(Map::keySet)
+                .map(Dish::getIngredients)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
 

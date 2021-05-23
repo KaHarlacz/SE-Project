@@ -4,7 +4,6 @@ import model.filter.Filter;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class CookBook implements Serializable {
         var result = dishes;
 
         for (var f : filters) {
-            if(f != null)
+            if (f != null)
                 result = f.filter(result);
         }
 
@@ -55,7 +54,7 @@ public class CookBook implements Serializable {
 
     private Set<Ingredient> extractIngredients(Set<Dish> dishes) {
         return dishes.stream()
-                .map(Dish::getIngredientsSet)
+                .map(Dish::getIngredients)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }

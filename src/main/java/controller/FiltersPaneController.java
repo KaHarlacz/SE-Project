@@ -9,10 +9,8 @@ import model.data.Ingredient;
 import model.enumerative.DishCategory;
 import model.filter.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FiltersPaneController {
 
@@ -85,6 +83,11 @@ public class FiltersPaneController {
         );
     }
 
+    private void setCategoriesCheckboxesOnAction() {
+        setAllCategoriesCheckboxOnAction();
+        setOtherCategoriesCheckboxesOnAction();
+    }
+
     private void setFavouriteCheckboxesOnAction() {
         for (var checkbox : favouriteCheckboxes) {
             checkbox.setOnAction(e -> {
@@ -96,24 +99,30 @@ public class FiltersPaneController {
         }
     }
 
-    // FIXME: There should not be possibility to check allCategoriesCheckbox when any other is checked
-    private void setCategoriesCheckboxesOnAction() {
+    private void setAllCategoriesCheckboxOnAction() {
         allCategoriesCheckbox.setOnAction(e -> {
-            if (!isAnyCategoryCheckboxSelected())
-                allCategoriesCheckbox.setSelected(false);
+            if (allCategoriesCheckbox.isSelected())
+                uncheckAllCategoriesCheckboxesBut(allCategoriesCheckbox);
+            else if (!isAnyCategoryCheckboxSelected())
+                allCategoriesCheckbox.setSelected(true);
         });
+    }
 
-        var checkboxes = categoriesCheckboxes.keySet();
-
-        for (var checkbox : checkboxes) {
-            // This code is called after changing state of the checkbox
+    private void setOtherCategoriesCheckboxesOnAction() {
+        for (var checkbox : categoriesCheckboxesWithoutAllCategoriesCheckbox()) {
             checkbox.setOnAction(e -> {
                 if (checkbox.isSelected())
                     uncheckAllCategoriesCheckbox();
-                else
-                    checkAllCategoriesCheckboxIfNoneIsSelected();
+                else if (!isAnyCategoryCheckboxSelected())
+                    allCategoriesCheckbox.setSelected(true);
             });
         }
+    }
+
+    private Set<CheckBox> categoriesCheckboxesWithoutAllCategoriesCheckbox() {
+        return categoriesCheckboxes.keySet().stream()
+                .filter(chb -> !chb.equals(allCategoriesCheckbox))
+                .collect(Collectors.toSet());
     }
 
     private Filter getNameFilter() {
@@ -123,16 +132,14 @@ public class FiltersPaneController {
 
     private Filter getIngredientsFilter() {
         var filterIngredients = new HashSet<Ingredient>();
-
-        var items = ingredientsListView.getItems();
+        var selectedIngredientsNames = ingredientsListView.getItems();
 
         // Null filter will have no effect on filter process
-        if (items.size() == 0)
+        if (selectedIngredientsNames.size() == 0)
             return null;
 
-        for (var ingredientName : items) {
-            filterIngredients.add(new Ingredient(ingredientName, null, null));
-        }
+        for (var ingredientName : selectedIngredientsNames)
+            filterIngredients.add(new Ingredient(ingredientName));
 
         return new IngredientsFilter(filterIngredients);
     }
@@ -173,24 +180,15 @@ public class FiltersPaneController {
             allCategoriesCheckbox.fire();
     }
 
-    private void checkAllCategoriesCheckboxIfNoneIsSelected() {
-        var isAnySelected = isAnyCategoryCheckboxSelected();
-
-        if (!isAnySelected)
-            allCategoriesCheckbox.fire();
-    }
-
     private boolean isAnyCategoryCheckboxSelected() {
         var checkboxes = categoriesCheckboxes.keySet();
-
-        return checkboxes.stream()
-                .anyMatch(CheckBox::isSelected);
+        return checkboxes.stream().anyMatch(CheckBox::isSelected);
     }
 
     private void uncheckOtherFavouriteCheckboxesBut(CheckBox checkbox) {
         favouriteCheckboxes.stream()
                 .filter(c -> !c.equals(checkbox))
-                .forEach(this::uncheckIfSelected);
+                .forEach(chb -> chb.setSelected(false));
     }
 
     private void ifNoneFavouriteIsSelectedSelectDefault() {
@@ -198,9 +196,9 @@ public class FiltersPaneController {
             allFavouriteCheckbox.fire();
     }
 
-    private void uncheckIfSelected(CheckBox checkBox) {
-        if (checkBox.isSelected())
-            checkBox.fire();
+    private void uncheckAllCategoriesCheckboxesBut(CheckBox checkBox) {
+        categoriesCheckboxes.forEach((chb, c) -> chb.setSelected(false));
+        checkBox.setSelected(true);
     }
 
     private void wrapFavouriteCheckboxesIntoList() {
@@ -213,6 +211,7 @@ public class FiltersPaneController {
 
     private void wrapCategoriesCheckboxesWithEnums() {
         categoriesCheckboxes = Map.of(
+                allCategoriesCheckbox, DishCategory.ALL,
                 breakfastCheckbox, DishCategory.BREAKFAST,
                 brunchCheckbox, DishCategory.BRUNCH,
                 dinnerCheckbox, DishCategory.DINNER,

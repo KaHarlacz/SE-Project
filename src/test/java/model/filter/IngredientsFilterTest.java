@@ -33,9 +33,9 @@ class IngredientsFilterTest {
         var set2 = Set.of(mockIngredients[2], mockIngredients[0], mockIngredients[1]);
         var set3 = Set.of(mockIngredients[1]);
 
-        when(mockDishes[0].getIngredientsSet()).thenReturn(set1);
-        when(mockDishes[1].getIngredientsSet()).thenReturn(set2);
-        when(mockDishes[2].getIngredientsSet()).thenReturn(set3);
+        when(mockDishes[0].getIngredients()).thenReturn(set1);
+        when(mockDishes[1].getIngredients()).thenReturn(set2);
+        when(mockDishes[2].getIngredients()).thenReturn(set3);
     }
 
     @Test

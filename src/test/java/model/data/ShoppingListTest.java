@@ -1,59 +1,93 @@
 package model.data;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.converter.JavaTimeConversionPattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class ShoppingListTest {
-    private ShoppingList list;
-    private Map<Dish, Double> dishes;
-    private Map<Ingredient, Double> ingredients;
+    private ShoppingList shoppingList;
+    private Dish mockDish;
+    private Set<Ingredient> mockIngredients;
 
-    /*
     @BeforeEach
-    public void setUp(){
-        dishes = new HashMap<>();
-        ingredients = new HashMap<>();
-
-        dishes.put(mock(Dish.class), 2.0);
-        dishes.put(mock(Dish.class), 4.0);
-
-        list = new ShoppingList();
-    }*/
-
-    @Test
-    public void addDishCheckIfAdded() {
-        var dishToAdd = mock(Dish.class);
-        list.addDish(dishToAdd, 2);
-        assertTrue(list.getChosenDishes().containsKey(dishToAdd));
+    public void setUp() {
+        shoppingList = new ShoppingList();
+        mockDish = mock(Dish.class);
+        mockIngredients = Set.of(mock(Ingredient.class), mock(Ingredient.class));
     }
 
     @Test
-    public void addIngredientCheckIfAdded() {
-        var ingredientToAdd = mock(Ingredient.class);
-        list.addIngredient(ingredientToAdd, 2);
-        assertTrue(list.getRequiredIngredients().containsKey(ingredientToAdd));      
+    public void addDishIngredientsCheckIfAdded() {
+        when(mockDish.getIngredients()).thenReturn(mockIngredients);
+
+        shoppingList.addIngredientsFrom(mockDish);
+
+        assertEquals(mockIngredients, shoppingList.getIngredients());
+        assertEquals(Map.of(mockDish, 1), shoppingList.getSelectedDishes());
     }
 
     @Test
     public void deleteDishCheckIfDeleted() {
+        var ingredients = List.copyOf(mockIngredients);
+        var quantities = List.of(mock(Quantity.class), mock(Quantity.class));
 
+        when(mockDish.getIngredients()).thenReturn(mockIngredients);
+        when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
+        when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
+        when(quantities.get(0).getValue()).thenReturn(1.);
+        when(quantities.get(1).getValue()).thenReturn(1.);
+
+        shoppingList.addIngredientsFrom(mockDish);
+        shoppingList.deleteIngredientsFrom(mockDish);
+
+        assertEquals(Set.of(), shoppingList.getIngredients());
+        assertEquals(Map.of(), shoppingList.getSelectedDishes());
     }
-
-    
 
     @Test
-    public void deleteIngredientCheckIfDeleted() {
+    public void deleteIngredientCompletelyCheckIfDeleted() {
+        var ingredients = List.copyOf(mockIngredients);
+        var quantities = List.of(mock(Quantity.class), mock(Quantity.class));
 
+        when(mockDish.getIngredients()).thenReturn(mockIngredients);
+        when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
+        when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
+        when(quantities.get(0).getValue()).thenReturn(1.);
+        when(quantities.get(1).getValue()).thenReturn(1.);
+
+        shoppingList.addIngredientsFrom(mockDish);
+        shoppingList.deleteIngredient(ingredients.get(0));
+
+        assertEquals(Set.of(ingredients.get(1)), shoppingList.getIngredients());
     }
+/*
+    @Test
+    public void deleteIngredientNotCompletelyCheckIfNotDeleted() {
+        var ingredients = List.copyOf(mockIngredients);
+        var quantities = List.of(mock(Quantity.class), mock(Quantity.class), mock(Quantity.class));
+        var ingredientToDelete = ingredients.get(0);
 
+        when(mockDish.getIngredients()).thenReturn(mockIngredients);
+        when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
+        when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
+        when(quantities.get(0).getValue()).thenReturn(1.);
+        when(quantities.get(1).getValue()).thenReturn(1.);
+
+        shoppingList.addIngredientsFrom(mockDish);
+        when(ingredientToDelete.getQuantity()).thenReturn(quantities.get(2));
+        when(quantities.get(2).getValue()).thenReturn(0.7);
+
+        shoppingList.deleteIngredient(ingredientToDelete);
+
+        assertEquals(mockIngredients, shoppingList.getIngredients());
+        //shoppingList.getIngredients().
+    }
+ */
 }

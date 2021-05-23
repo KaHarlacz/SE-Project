@@ -1,6 +1,5 @@
 package model.data;
 
-import model.enumerative.IngredientCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

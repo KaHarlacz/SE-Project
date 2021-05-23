@@ -2,13 +2,11 @@ package model.data;
 
 import javafx.scene.image.Image;
 import model.enumerative.DishCategory;
-import model.exception.NotImplementedException;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Dish implements Serializable, Comparable<Dish> {
@@ -16,7 +14,7 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     private String name;
     private String recipe;
-    private Map<Ingredient, Double> ingredients;
+    private Set<Ingredient> ingredients;
     private Set<DishCategory> categories;
     private Image image;
     private Duration duration;
@@ -25,20 +23,20 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public Dish(String name,
                 String recipe,
-                Map<Ingredient, Double> ingredients,
+                Set<Ingredient> ingredients,
                 Set<DishCategory> categories,
                 Image image,
                 Duration duration,
                 int servings) {
 
         if (name.equals(""))
-            name = "No name specified";
+            throw new IllegalArgumentException();
 
         if (servings <= 0)
-            servings = 1;
+            throw new IllegalArgumentException();
 
         if (ingredients == null || ingredients.isEmpty())
-            ingredients = new HashMap<>();
+            throw new IllegalArgumentException();
 
         if (categories == null || categories.isEmpty()) {
             categories = new HashSet<>();
@@ -54,25 +52,17 @@ public class Dish implements Serializable, Comparable<Dish> {
         this.servings = servings;
     }
 
-    public boolean addIngredient(Ingredient ingredient, double quantity) {
-        var keySet = ingredients.keySet();
-
-        if (quantity <= 0 || keySet.contains(ingredient))
+    public boolean addIngredient(Ingredient ingredient) {
+        if (ingredient.getQuantity().getValue() <= 0 || ingredients.contains(ingredient))
             return false;
-
-        ingredients.put(ingredient, quantity);
-
+        ingredients.add(ingredient);
         return true;
     }
 
     public boolean deleteIngredient(Ingredient ingredient) {
-        var keySet = ingredients.keySet();
-
-        if (!keySet.contains(ingredient))
+        if (!ingredients.contains(ingredient))
             return false;
-
         ingredients.remove(ingredient);
-
         return true;
     }
 
@@ -108,12 +98,28 @@ public class Dish implements Serializable, Comparable<Dish> {
         return categories;
     }
 
-    public Map<Ingredient, Double> getIngredientsMap() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public Set<Ingredient> getIngredientsSet() {
-        return ingredients.keySet();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish dish = (Dish) o;
+        return servings == dish.servings
+                && favourite == dish.favourite
+                && Objects.equals(name, dish.name)
+                && Objects.equals(recipe, dish.recipe)
+                && Objects.equals(ingredients, dish.ingredients)
+                && Objects.equals(categories, dish.categories)
+                && Objects.equals(image, dish.image)
+                && Objects.equals(duration, dish.duration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, recipe, ingredients, categories, image, duration, servings, favourite);
     }
 
     @Override

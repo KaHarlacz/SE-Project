@@ -1,6 +1,7 @@
 package model.enumerative;
 
 public enum DishCategory {
+    ALL("Wszystkie"),
     BREAKFAST("Sniadanie"),
     BRUNCH("Drugie śniadanie"),
     DINNER("Obiad"),

@@ -18,6 +18,10 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         this.quantity = quantity;
     }
 
+    public Ingredient(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -37,6 +41,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
+
 
     @Override
     public boolean equals(Object o) {
