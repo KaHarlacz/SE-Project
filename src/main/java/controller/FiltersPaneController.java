@@ -13,49 +13,34 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class FiltersPaneController {
-
     @FXML
     private TextField nameFilterTextField;
-
     @FXML
     private CheckBox allFavouriteCheckbox;
-
     @FXML
     private CheckBox onlyFavouriteCheckbox;
-
     @FXML
     private CheckBox onlyNotFavouriteCheckbox;
-
     @FXML
     private CheckBox allCategoriesCheckbox;
-
     @FXML
     private CheckBox breakfastCheckbox;
-
     @FXML
     private CheckBox brunchCheckbox;
-
     @FXML
     private CheckBox dinnerCheckbox;
-
     @FXML
     private CheckBox dessertCheckbox;
-
     @FXML
     private CheckBox teaCheckbox;
-
     @FXML
     private CheckBox supperCheckbox;
-
     @FXML
     private CheckBox snackCheckbox;
-
     @FXML
     private CheckBox otherCheckbox;
-
     @FXML
     private ListView<String> ingredientsListView;
-
     @FXML
     private Button addFilterIngredientButton;
 

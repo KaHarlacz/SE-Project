@@ -25,8 +25,13 @@ public class Main extends Application {
     }
 
     private void setSwitchingScenes(Stage stage) {
-        mainMenuController.getToLeave().setOnAction(e -> stage.close());
+        mainMenuController.getToLeave().setOnAction(e -> this.exit(stage));
         mainMenuController.getToMenuPane().setOnAction(e -> stage.setScene(new Scene(choosingDishes)));
+    }
+
+    private void exit(Stage stage) {
+        //mainMenuController.exit();
+        choosingDishesController.exit();
     }
 
     private void loadScenes() throws IOException {
@@ -50,5 +55,6 @@ public class Main extends Application {
         loadScenes();
         setSwitchingScenes(stage);
         setStage(stage);
+        stage.setOnCloseRequest(e -> exit(stage));
     }
 }

@@ -1,2 +1,5 @@
-package model.files_management.export;public interface TextFileWriter {
+package model.files_management.export;
+
+public interface TextFileWriter {
+
 }
