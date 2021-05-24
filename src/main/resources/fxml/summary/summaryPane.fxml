@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
+<BorderPane prefHeight="660.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
    <top>
       <HBox prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <ToolBar prefHeight="40.0" prefWidth="625.0" HBox.hgrow="ALWAYS">
                <items>
                   <Region prefHeight="30.0" prefWidth="3.0" />
-                  <Button id="to-summary-button" fx:id="toMainMenuButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do menu głównego" />
+                  <Button id="to-summary-button" fx:id="goBackButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Cofnij" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="158.0" HBox.hgrow="NEVER">
@@ -60,7 +60,7 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Slider fx:id="numberOfListsSlider" layoutX="9.0" layoutY="138.0" prefHeight="42.0" prefWidth="182.0" style="-fx-show-tick-marks: true;" />
+                        <Slider fx:id="numberOfListsSlider" blockIncrement="1.0" layoutX="9.0" layoutY="138.0" majorTickUnit="3.0" max="3.0" min="1.0" minorTickCount="1" prefHeight="42.0" prefWidth="182.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-show-tick-marks: true;" />
                         <Text layoutX="50.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Na ile list podzielić" />
                      </children>
                      <HBox.margin>

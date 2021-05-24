@@ -19,34 +19,15 @@ public class MainMenuPaneController {
     @FXML
     private Button toLeave;
 
-//    @FXML
-//    public void changeViewToEditCookBook() {
-//
-//    }
+    private MainController parent;
 
-//    @FXML
-//    public void changeViewToShoppingList() throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dish_list_creation/choosingDishesPane.fxml"));
-//        Stage stage = (Stage) toMenuPane.getScene().getWindow();
-//        Scene scene = new Scene(loader.load());
-//        stage.setScene(scene);
-//    }
-
-//    @FXML
-//    public void exitProgram() {
-//        Stage stage = (Stage) toLeave.getScene().getWindow();
-//        stage.close();
-//    }
-
-    public Button getToMenuPane() {
-        return toMenuPane;
+    public void init() {
+        toLeave.setOnAction(e -> parent.exit());
+        toCookBookEdit.setOnAction(e -> parent.goToCookBookEdit());
+        toMenuPane.setOnAction(e -> parent.goToChoosingDishes());
     }
 
-    public Button getToCookBookEdit() {
-        return toCookBookEdit;
-    }
-
-    public Button getToLeave() {
-        return toLeave;
+    public void setParent(MainController mainController) {
+        parent = mainController;
     }
 }

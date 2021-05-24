@@ -182,7 +182,7 @@ public class FiltersPaneController {
     }
 
     private void uncheckAllCategoriesCheckboxesBut(CheckBox checkBox) {
-        categoriesCheckboxes.forEach((chb, c) -> chb.setSelected(false));
+        categoriesCheckboxes.forEach((checkBx, category) -> checkBx.setSelected(false));
         checkBox.setSelected(true);
     }
 

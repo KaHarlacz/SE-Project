@@ -6,8 +6,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import model.data.CookBook;
-import model.data.Dish;
-import model.data.Ingredient;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
@@ -35,18 +33,31 @@ public class ChoosingDishesPaneController {
 
     private CookBook cookBook;
 
-    public void initialize() {
+    private MainController parent;
+
+    public void setParent(MainController main) {
+        parent = main;
+    }
+
+    public void init() {
         loadCookBook();
         putDishesOnList();
         setDishListItemsOnAction();
+        setNavigationButtonsOnAction();
+    }
 
+    private void setNavigationButtonsOnAction() {
+        toSummaryButton.setOnAction(e -> parent.goToSummary());
+        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
     }
 
     private void setDishListItemsOnAction() {
         dishesListView.setOnMouseClicked(e -> {
             var item = dishesListView.getSelectionModel().getSelectedItem();
             for (var dish : cookBook.getDishes()) {
-                if(dish.getName().equals(item)) {
+
+                // TODO
+                if (dish.getName().equals(item)) {
                     recipeTextArea.setText(dish.getRecipe());
                 }
             }
@@ -60,19 +71,7 @@ public class ChoosingDishesPaneController {
     private void loadCookBook() {
         var loader = new SerialObjectLoader();
         var loaded = loader.load(Paths.COOK_BOOK_PATH);
-
-        if (loaded.isPresent())
-            cookBook = (CookBook) loaded.get();
-        else
-            cookBook = new CookBook(Set.of(new Dish(
-                    "Zupa pomidorowa",
-                    "Pokrój pomidory",
-                    Set.of(new Ingredient("Pomidor")),
-                    null,
-                    null,
-                    null,
-                    2
-            )));
+        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
     }
 
     public void exit() {

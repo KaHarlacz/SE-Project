@@ -8,7 +8,7 @@ import javafx.scene.control.TitledPane;
 public class SummaryPaneController {
 
     @FXML
-    private Button toMainMenuButton;
+    private Button goBackButton;
 
     @FXML
     private Button saveAllChangesButton;
@@ -31,4 +31,13 @@ public class SummaryPaneController {
     @FXML
     private Button categoriesSplit;
 
+    private MainController parent;
+
+    public void init() {
+        goBackButton.setOnAction(e -> parent.goToChoosingDishes());
+    }
+
+    public void setParent(MainController mainController) {
+        parent = mainController;
+    }
 }

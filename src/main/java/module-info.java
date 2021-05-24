@@ -3,6 +3,6 @@ module ShoppingOrganiser {
     requires javafx.graphics;
     requires javafx.fxml;
 
-    exports app;
+    exports controller;
     opens controller;
 }
