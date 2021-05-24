@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="660.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCookBookPaneController">
+   <top>
+      <HBox prefHeight="38.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <ToolBar prefHeight="40.0" prefWidth="439.0" HBox.hgrow="ALWAYS">
+               <items>
+                  <Region prefHeight="30.0" prefWidth="3.0" />
+                  <Button id="to-summary-button" fx:id="toMainMenuButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do menu głównego" />
+               </items>
+            </ToolBar>
+            <ToolBar prefHeight="40.0" prefWidth="158.0" HBox.hgrow="NEVER">
+               <items>
+                  <Button id="to-summary-button" fx:id="saveAllChangesButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Zapisz wszystkie zmiany" />
+               </items>
+            </ToolBar>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Dania">
+               <content>
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+          <Tab text="Filtry">
+             <fx:include fx:id="filtersPane" source="filtersPane.fxml" />
+          </Tab>
+        </tabs>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TabPane>
+   </left>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fillHeight="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0">
+                     <children>
+                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="220.0" fitWidth="1.0" layoutX="-1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </AnchorPane>
+                        <BorderPane prefHeight="115.0" prefWidth="282.0">
+                           <center>
+                              <Text id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Zupa ogórkowa" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

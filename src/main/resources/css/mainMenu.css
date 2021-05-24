@@ -1,3 +1,7 @@
+.root{
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
 #toMenuPane:hover {
     -fx-opacity: 0.7;
 }
