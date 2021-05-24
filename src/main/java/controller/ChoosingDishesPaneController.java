@@ -19,6 +19,8 @@ public class ChoosingDishesPaneController {
     @FXML
     private Button toSummaryButton;
     @FXML
+    private Button toMainMenuButton;
+    @FXML
     private ListView<String> dishesListView;
     @FXML
     private ListView<String> ingredientsNeededListView;

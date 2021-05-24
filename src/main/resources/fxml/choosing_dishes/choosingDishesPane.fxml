@@ -11,18 +11,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/menu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
-   <top>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button id="to-summary-button" fx:id="toSummaryButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do podsumowania" />
-        </items>
-      </ToolBar>
-   </top>
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/choosingDishes.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
    <left>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -90,7 +84,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #fff263;" VBox.vgrow="ALWAYS">
                     <items>
                       <Button fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
                         <Button fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
@@ -102,4 +96,21 @@
          </center>
       </BorderPane>
    </center>
+   <top>
+      <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <ToolBar prefHeight="38.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <items>
+                <Button fx:id="toMainMenuButton" mnemonicParsing="false" text="Do menu główengo" />
+                  <Region prefHeight="30.0" prefWidth="3.0" />
+              </items>
+            </ToolBar>
+            <ToolBar prefHeight="40.0" prefWidth="150.0" HBox.hgrow="NEVER">
+               <items>
+                  <Button id="to-summary-button" fx:id="toSummaryButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do podsumowania" />
+               </items>
+            </ToolBar>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
