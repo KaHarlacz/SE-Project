@@ -1,0 +1,56 @@
+.tab-pane:top {
+    -fx-border-color: black;
+}
+
+#name-filter-box {
+    -fx-pref-height: 70;
+    -fx-border-width: 0.2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-border-color: black;
+}
+
+#categories-filter-box {
+    -fx-pref-height: 200;
+    -fx-border-width: 0.2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-border-color: black;
+}
+
+#ingredients-filter-box {
+    -fx-pref-height: 210;
+    -fx-border-width: 0.2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-border-color: black;
+}
+
+#favourite-filter-box {
+    -fx-pref-height: 90;
+    -fx-border-width: 0.2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-border-color: black;
+}
+
+#name-filter-text-field {
+    -fx-pref-width: 150;
+}
+
+#categories-filter-checkboxes-list {
+    -fx-pref-width: 120;
+}
+
+#ingredients-filter-checkboxes-list {
+    -fx-pref-width: 120;
+}
+
+#ingredients-filter-list {
+    -fx-pref-width: 150;
+    -fx-pref-height: 150;
+}
+
+#favourite-filter-checkboxes-list {
+    -fx-pref-width: 130;
+}

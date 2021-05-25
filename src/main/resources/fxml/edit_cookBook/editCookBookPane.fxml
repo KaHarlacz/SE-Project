@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,9 +13,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCookBookPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/editCookBook.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCookBookPaneController">
    <top>
       <HBox prefHeight="38.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -35,7 +37,7 @@
    <left>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Dania">
+          <Tab fx:id="dishListView" text="Dania">
                <content>
                   <ListView prefHeight="200.0" prefWidth="200.0" />
                </content>
@@ -44,32 +46,62 @@
              <fx:include fx:id="filtersPane" source="filtersPane.fxml" />
           </Tab>
         </tabs>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
       </TabPane>
    </left>
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox BorderPane.alignment="CENTER">
                <children>
-                  <HBox fillHeight="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0">
+                  <HBox fillHeight="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" VBox.vgrow="ALWAYS">
                      <children>
                         <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
                               <ImageView fitHeight="220.0" fitWidth="1.0" layoutX="-1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </AnchorPane>
-                        <BorderPane prefHeight="115.0" prefWidth="282.0">
+                        <BorderPane prefHeight="115.0" prefWidth="300.0">
                            <center>
-                              <Text id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Zupa ogórkowa" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
+                              <Text id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowa nazwa niesamowitego przepisu" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                            </center>
+                           <bottom>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="System Italic" size="14.0" />
+                                 </font>
+                              </Text>
+                           </bottom>
                         </BorderPane>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="350.0">
+                           <children>
+                              <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Potrzebne składniki" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <content>
+                                    <ListView fx:id="ingredientsNeededListView" editable="true" />
+                                 </content>
+                              </TitledPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="450.0">
+                           <children>
+                              <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sposób przygotowania" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <content>
+                                    <TextArea fx:id="recipeTextArea" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj powinien być przepis" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
+                                 </content>
+                              </TitledPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
+                    <items>
+                        <Button fx:id="confirmChangesButton" mnemonicParsing="false" text="Zapisz" />
+                      <Button fx:id="undoChangesButton" mnemonicParsing="false" text="Cofnij" />
+                    </items>
+                  </ToolBar>
                </children>
             </VBox>
          </center>

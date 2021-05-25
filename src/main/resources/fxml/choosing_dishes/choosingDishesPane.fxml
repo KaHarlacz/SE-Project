@@ -101,7 +101,7 @@
          <children>
             <ToolBar prefHeight="38.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <items>
-                <Button fx:id="toMainMenuButton" mnemonicParsing="false" text="Do menu główengo" />
+                <Button fx:id="toMainMenuButton" mnemonicParsing="false" text="Do menu głównego" />
                   <Region prefHeight="30.0" prefWidth="3.0" />
               </items>
             </ToolBar>

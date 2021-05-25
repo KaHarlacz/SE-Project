@@ -30,6 +30,10 @@ public class ChoosingDishesPaneController {
     private Button deleteDishButton;
     @FXML
     private Text selectedQuantityText;
+    @FXML
+    private Button undoChangesButton;
+    @FXML
+    private Button confirmChangesButton;
 
     private CookBook cookBook;
 
