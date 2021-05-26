@@ -23,10 +23,10 @@ public class CookBook implements Serializable {
         availableIngredients = extractIngredients(dishes);
     }
 
-    public Set<Dish> filterDishesUsing(List<Filter> filters) {
+    public Set<Dish> filterDishesUsing(List<Filter> filterStrategies) {
         var result = dishes;
 
-        for (var f : filters) {
+        for (var f : filterStrategies) {
             if (f != null)
                 result = f.filter(result);
         }

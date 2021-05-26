@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CategoriesSplitter implements Splitter {
+public class CategoriesSplitter implements SplitStrategy {
     @Override
     public List<List<Ingredient>> split(List<Ingredient> ingredients, int listsCount) {
         var ingredientsByCategories = makeListOfIngredientsByCategories(ingredients);

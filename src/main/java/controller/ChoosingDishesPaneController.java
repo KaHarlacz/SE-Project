@@ -3,14 +3,20 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import model.data.CookBook;
+import model.data.Dish;
+import model.data.Ingredient;
+import model.data.ShoppingList;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ChoosingDishesPaneController {
     @FXML
@@ -34,15 +40,14 @@ public class ChoosingDishesPaneController {
     @FXML
     private Text recipeNameText;
     @FXML
-    private Text RecipeDescriptionText;
+    private Text recipeDescriptionText;
     @FXML
     private ImageView recipeImage;
     @FXML
-    private Button undoChangesButton;
-    @FXML
-    private Button confirmChangesButton;
+    private Tab dishesTab;
 
     private CookBook cookBook;
+    private ShoppingList shoppingList = new ShoppingList();
 
     private MainController parent;
 
@@ -52,9 +57,93 @@ public class ChoosingDishesPaneController {
 
     public void init() {
         loadCookBook();
-        putDishesOnList();
-        setDishListItemsOnAction();
+        putDishesOnList(cookBook.getDishes());
+        setDishesListOnAction();
         setNavigationButtonsOnAction();
+        setDishesTabOnAction();
+        setQuantityButtonsOnAction();
+    }
+
+    private void setQuantityButtonsOnAction() {
+        addDishButton.setOnAction(e -> addSelectedDishToShoppingList());
+        deleteDishButton.setOnAction(e -> deleteSelectedDishFromShoppingDish());
+    }
+
+    private void addSelectedDishToShoppingList() {
+        getSelectedDish().ifPresent(dish -> {
+            shoppingList.addIngredientsFrom(dish);
+            showSelectedQuantityOf(dish);
+        });
+    }
+
+    private void deleteSelectedDishFromShoppingDish() {
+        getSelectedDish().ifPresent(dish -> {
+            shoppingList.deleteIngredientsFrom(dish);
+            showSelectedQuantityOf(dish);
+        });
+    }
+
+    private void setDishesTabOnAction() {
+        dishesTab.setOnSelectionChanged(e -> {
+            if (dishesTab.isSelected())
+                putDishesOnList(cookBook.filterDishesUsing(filtersPaneController.getFilters()));
+        });
+    }
+
+    private void showSelectedDish() {
+        var selectedDish = getSelectedDish();
+        selectedDish.ifPresent(this::showDish);
+    }
+
+    private void showDish(Dish dish) {
+        showNameOf(dish);
+        showRecipeOf(dish);
+        showImageOf(dish);
+        showSelectedQuantityOf(dish);
+        showIngredientsOf(dish);
+        showDescriptionOf(dish);
+    }
+
+    private void showDescriptionOf(Dish dish) {
+        // TODO: Create field "description" in dish
+        recipeDescriptionText.setText("");
+    }
+
+    private void showIngredientsOf(Dish dish) {
+        ingredientsNeededListView.getItems().clear();
+        ingredientsNeededListView.getItems().addAll(
+                dish.getIngredients()
+                        .stream()
+                        .map(Ingredient::getName)
+                        .toArray(String[]::new)
+        );
+    }
+
+    private void showSelectedQuantityOf(Dish dish) {
+        var quantity = shoppingList.getSelectedDishes().get(dish);
+        if (quantity == null)
+            quantity = 0;
+        selectedQuantityText.setText("Wybrano: " + quantity.toString() + " ");
+    }
+
+    private void showImageOf(Dish dish) {
+        recipeImage.setImage(dish.getImage());
+    }
+
+    private void showRecipeOf(Dish dish) {
+        recipeTextArea.setText(dish.getRecipe());
+    }
+
+    private void showNameOf(Dish dish) {
+        recipeNameText.setText(dish.getName());
+    }
+
+    private Optional<Dish> getSelectedDish() {
+        var selectedDishName = dishesListView.getSelectionModel().getSelectedItem();
+        return cookBook.getDishes()
+                .stream()
+                .filter(d -> d.getName().equals(selectedDishName))
+                .findFirst();
     }
 
     private void setNavigationButtonsOnAction() {
@@ -62,21 +151,17 @@ public class ChoosingDishesPaneController {
         toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
     }
 
-    private void setDishListItemsOnAction() {
-        dishesListView.setOnMouseClicked(e -> {
-            var item = dishesListView.getSelectionModel().getSelectedItem();
-            for (var dish : cookBook.getDishes()) {
-
-                // TODO
-                if (dish.getName().equals(item)) {
-                    recipeTextArea.setText(dish.getRecipe());
-                }
-            }
-        });
+    private void setDishesListOnAction() {
+        dishesListView.setOnMouseClicked(e -> showSelectedDish());
     }
 
-    private void putDishesOnList() {
-        cookBook.getDishes().forEach(d -> dishesListView.getItems().add(d.getName()));
+    private void putDishesOnList(Set<Dish> dishes) {
+        dishesListView.getItems().clear();
+        dishesListView.getItems().addAll(
+                dishes.stream()
+                        .map(Dish::getName)
+                        .collect(Collectors.toSet())
+        );
     }
 
     private void loadCookBook() {
@@ -86,7 +171,7 @@ public class ChoosingDishesPaneController {
     }
 
     public void exit() {
-        var loader = new SerialObjectLoader();
-        loader.save(cookBook, Paths.COOK_BOOK_PATH);
+//        var loader = new SerialObjectLoader();
+//        loader.save(cookBook, Paths.COOK_BOOK_PATH);
     }
 }

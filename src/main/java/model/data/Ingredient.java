@@ -18,10 +18,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         this.quantity = quantity;
     }
 
-    public Ingredient(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
@@ -42,20 +38,17 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         this.quantity = quantity;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(name, that.name)
-                && category == that.category
-                && Objects.equals(quantity, that.quantity);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, quantity);
+        return Objects.hash(name);
     }
 
     @Override
