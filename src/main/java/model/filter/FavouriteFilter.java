@@ -1,7 +1,6 @@
 package model.filter;
 
 import model.data.Dish;
-import model.exception.NotImplementedException;
 
 import java.util.Set;
 import java.util.stream.Collectors;

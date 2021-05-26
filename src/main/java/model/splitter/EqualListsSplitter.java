@@ -5,7 +5,7 @@ import model.data.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EqualListsSplitter implements Splitter {
+public class EqualListsSplitter implements SplitStrategy {
     @Override
     public List<List<Ingredient>> split(List<Ingredient> ingredients, int listsCount) {
         checkIfValidArguments(ingredients, listsCount);

@@ -11,6 +11,7 @@ import model.filter.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FiltersPaneController {
     @FXML
@@ -60,12 +61,14 @@ public class FiltersPaneController {
     // Same filters may be null - if so they will have no
     // effect on filtered set
     public List<Filter> getFilters() {
-        return List.of(
+        return Stream.of(
                 getNameFilter(),
                 getFavouriteFilter(),
                 getCategoriesFilter(),
                 getIngredientsFilter()
-        );
+        )
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private void setCategoriesCheckboxesOnAction() {
@@ -88,7 +91,7 @@ public class FiltersPaneController {
         allCategoriesCheckbox.setOnAction(e -> {
             if (allCategoriesCheckbox.isSelected())
                 uncheckAllCategoriesCheckboxesBut(allCategoriesCheckbox);
-            else if (!isAnyCategoryCheckboxSelected())
+            else if (isNoneCategoryCheckboxSelected())
                 allCategoriesCheckbox.setSelected(true);
         });
     }
@@ -98,7 +101,7 @@ public class FiltersPaneController {
             checkbox.setOnAction(e -> {
                 if (checkbox.isSelected())
                     uncheckAllCategoriesCheckbox();
-                else if (!isAnyCategoryCheckboxSelected())
+                else if (isNoneCategoryCheckboxSelected())
                     allCategoriesCheckbox.setSelected(true);
             });
         }
@@ -116,20 +119,21 @@ public class FiltersPaneController {
     }
 
     private Filter getIngredientsFilter() {
-        var filterIngredients = new HashSet<Ingredient>();
         var selectedIngredientsNames = ingredientsListView.getItems();
 
         // Null filter will have no effect on filter process
         if (selectedIngredientsNames.size() == 0)
             return null;
 
-        for (var ingredientName : selectedIngredientsNames)
-            filterIngredients.add(new Ingredient(ingredientName));
+        var filterIngredientsNames = new HashSet<>(selectedIngredientsNames);
 
-        return new IngredientsFilter(filterIngredients);
+        return new IngredientsNameFilter(filterIngredientsNames);
     }
 
     private Filter getCategoriesFilter() {
+        if(allCategoriesCheckbox.isSelected())
+            return null;
+
         var filterCategories = new HashSet<DishCategory>();
 
         for (var entry : categoriesCheckboxes.entrySet()) {
@@ -165,9 +169,9 @@ public class FiltersPaneController {
             allCategoriesCheckbox.fire();
     }
 
-    private boolean isAnyCategoryCheckboxSelected() {
+    private boolean isNoneCategoryCheckboxSelected() {
         var checkboxes = categoriesCheckboxes.keySet();
-        return checkboxes.stream().anyMatch(CheckBox::isSelected);
+        return checkboxes.stream().noneMatch(CheckBox::isSelected);
     }
 
     private void uncheckOtherFavouriteCheckboxesBut(CheckBox checkbox) {

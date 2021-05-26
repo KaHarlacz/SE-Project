@@ -70,7 +70,7 @@ public class MainController extends Application {
     }
 
     private void setUpStage() {
-        stage.setOnCloseRequest(e -> exit());
+        stage.setOnCloseRequest(e -> this.exit());
         stage.setTitle("Shopping Organiser");
         stage.setScene(mainMenu);
         stage.show();

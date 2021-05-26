@@ -6,21 +6,21 @@ import model.data.Ingredient;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IngredientsFilter implements Filter {
-    Set<Ingredient> allowedIngredients;
+public class IngredientsNameFilter implements Filter {
+    Set<String> allowedIngredients;
 
-    public IngredientsFilter(Set<Ingredient> ingredients) {
-        this.allowedIngredients = ingredients;
+    public IngredientsNameFilter(Set<String> names) {
+        this.allowedIngredients = names;
     }
 
     @Override
     public Set<Dish> filter(Set<Dish> dishes) {
         return dishes.stream()
-                .filter(dish -> containsAtLeastOneAllowedIngredient(dish.getIngredients()))
+                .filter(dish -> containsAtLeastOneAllowedIngredient(dish.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toSet())))
                 .collect(Collectors.toSet());
     }
 
-    private boolean containsAtLeastOneAllowedIngredient(Set<Ingredient> ingredients) {
+    private boolean containsAtLeastOneAllowedIngredient(Set<String> ingredients) {
         for (var allowed : allowedIngredients) {
             if(ingredients.contains(allowed))
                 return true;

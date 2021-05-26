@@ -4,5 +4,7 @@ module ShoppingOrganiser {
     requires javafx.fxml;
 
     exports controller;
+    exports model.data;
+    exports model.filter;
     opens controller;
 }
