@@ -14,6 +14,7 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     private String name;
     private String recipe;
+    private String description;
     private Set<Ingredient> ingredients;
     private Set<DishCategory> categories;
     private Image image;
@@ -23,6 +24,7 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public Dish(String name,
                 String recipe,
+                String description,
                 Set<Ingredient> ingredients,
                 Set<DishCategory> categories,
                 Image image,
@@ -45,6 +47,7 @@ public class Dish implements Serializable, Comparable<Dish> {
 
         this.name = name;
         this.recipe = recipe;
+        this.description = description;
         this.ingredients = ingredients;
         this.categories = categories;
         this.image = image;
@@ -72,6 +75,10 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public String getRecipe() {
         return recipe;
+    }
+
+    public String getDescription(){
+        return description;
     }
 
     public Image getImage() {
