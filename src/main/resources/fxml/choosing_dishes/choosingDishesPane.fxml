@@ -45,15 +45,15 @@
                      <children>
                         <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="220.0" fitWidth="1.0" layoutX="-1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="recipeImage" fitHeight="220.0" fitWidth="1.0" layoutX="-1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </AnchorPane>
                         <BorderPane prefHeight="115.0" prefWidth="300.0">
                            <center>
-                              <Text id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowa nazwa niesamowitego przepisu" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                              <Text id="name" fx:id="recipeNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowa nazwa niesamowitego przepisu" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                            </center>
                            <bottom>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <Text fx:id="recipeDescriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="System Italic" size="14.0" />
                                  </font>

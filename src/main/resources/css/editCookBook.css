@@ -2,6 +2,10 @@
     -fx-border-color: black;
 }
 
+.root{
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
 #name-filter-box {
     -fx-pref-height: 70;
     -fx-border-width: 0.2;
@@ -53,4 +57,90 @@
 
 #favourite-filter-checkboxes-list {
     -fx-pref-width: 130;
+}
+
+#add-new-dish {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#to-main-menu {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#upper-toolBar {
+    -fx-background-color: #fbc02d;
+}
+
+#upper-toolBar-2 {
+    -fx-background-color: #fbc02d;
+}
+
+#bottom-toolBar {
+    -fx-background-color: #fff263;
+}
+
+#delete-dish {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#undo-changes {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#confirm-changes {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #80d6ff;
+    -fx-border-color: #000000;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-radius: 10 10 0 0;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: #000000;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background {
+    -fx-background-color: #80d6ff;
+}
+
+#dish-recipe-textArea  {
+    -fx-background-color: #ffffff;
+    -fx-border-color: black;
+    -fx-border-radius: 2px;
+}
+
+#needed-ingredient-list {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+    -fx-border-radius: 2px;
 }

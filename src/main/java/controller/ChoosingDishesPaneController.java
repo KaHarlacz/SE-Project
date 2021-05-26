@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import model.data.CookBook;
 import model.files_management.Paths;
@@ -30,6 +31,12 @@ public class ChoosingDishesPaneController {
     private Button deleteDishButton;
     @FXML
     private Text selectedQuantityText;
+    @FXML
+    private Text recipeNameText;
+    @FXML
+    private Text RecipeDescriptionText;
+    @FXML
+    private ImageView recipeImage;
     @FXML
     private Button undoChangesButton;
     @FXML
