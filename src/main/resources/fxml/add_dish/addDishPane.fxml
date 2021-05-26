@@ -14,16 +14,16 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewDishPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewDishPaneController">
    <top>
       <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <ToolBar id="upper-toolBar1" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <items>
                 <Button id="to-edit-CookBook-button" fx:id="toEditCookBook" mnemonicParsing="false" text="Do edycji książki kucharskiej" />
               </items>
             </ToolBar>
-            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+            <ToolBar id="upper-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
               <items>
                 <Button id="save-dish-button" fx:id="saveNewDishButton" mnemonicParsing="false" text="Zapisz nowy przepis" />
               </items>
@@ -44,7 +44,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <bottom>
-            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ToolBar id="bottom-toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
                 <Button id="confirm-changes-button" fx:id="addIngredientsButton" mnemonicParsing="false" text="Dodaj składnik" />
                   <Button id="undo-changes-button" fx:id="undoAddIngredientsButton" mnemonicParsing="false" text="Cofnij dodawanie składnika" />
@@ -110,10 +110,10 @@
                            <children>
                               <TitledPane animated="false" collapsible="false" prefHeight="116.0" prefWidth="238.0" text="Nazwa składnika">
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets left="20.0" right="20.0" top="30.0" />
+                                    <Insets left="20.0" right="20.0" />
                                  </padding>
                                  <content>
                                     <TextArea fx:id="ingredientNameTextField" prefHeight="200.0" prefWidth="200.0" />
@@ -143,7 +143,7 @@
                                     <Insets right="20.0" />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets left="20.0" />
+                                    <Insets bottom="10.0" left="20.0" />
                                  </padding>
                                  <content>
                                     <TextArea fx:id="ingredientUnitTextArea" prefHeight="100.0" prefWidth="200.0" />

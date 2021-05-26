@@ -23,11 +23,6 @@
     -fx-opacity: 0.7;
 }
 
-.titled-pane:expanded .title .text {
-    -fx-font-style: italic;
-    -fx-font-size: 15;
-}
-
 .titled-pane > .title {
     -fx-backgroud-color:  #fbc02d;
 }
@@ -89,4 +84,72 @@
 
 #favourite-filter-checkboxes-list {
     -fx-pref-width: 130;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background {
+    -fx-background-color: #80d6ff;
+}
+
+#to-main-menu {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#remove-dish-from-list {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#add-dish-to-list {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #80d6ff;
+    -fx-border-color: #000000;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-radius: 10 10 0 0;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: #000000;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background {
+    -fx-background-color: #80d6ff;
+}
+
+#upper-toolbar1 {
+    -fx-background-color: #fbc02d;
+}
+
+#upper-toolbar2 {
+    -fx-background-color: #fbc02d;
+}
+
+#needed-ingredient-listView {
+    -fx-background-color: #ffffff;
+    -fx-border-color: black;
+    -fx-border-radius: 2px;
+}
+
+#recipe-textArea {
+    -fx-background-color: #ffffff;
+    -fx-border-color: black;
+    -fx-border-radius: 2px;
 }

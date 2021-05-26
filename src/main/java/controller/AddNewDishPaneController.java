@@ -47,4 +47,13 @@ public class AddNewDishPaneController {
     @FXML
     private TextArea ingredientUnitTextArea;
 
+    private MainController parent;
+
+    public void init() {
+        toEditCookBook.setOnAction(e -> parent.goToCookBookEdit());
+    }
+
+    public void setParent(MainController mainController) {
+        parent = mainController;
+    }
 }

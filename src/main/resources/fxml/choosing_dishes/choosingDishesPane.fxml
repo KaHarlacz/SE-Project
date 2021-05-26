@@ -68,7 +68,7 @@
                            <children>
                               <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Potrzebne składniki" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <content>
-                                    <ListView fx:id="ingredientsNeededListView" />
+                                    <ListView id="needed-ingredient-listView" fx:id="ingredientsNeededListView" />
                                  </content>
                               </TitledPane>
                            </children>
@@ -77,17 +77,17 @@
                            <children>
                               <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sposób przygotowania" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <content>
-                                    <TextArea fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj powinien być przepis" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
+                                    <TextArea id="recipe-textArea" fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj powinien być przepis" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
                                  </content>
                               </TitledPane>
                            </children>
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #fff263;" VBox.vgrow="ALWAYS">
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #fbc02d;" VBox.vgrow="ALWAYS">
                     <items>
-                      <Button fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
-                        <Button fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
+                      <Button id="add-dish-to-list" fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
+                        <Button id="remove-dish-from-list" fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
                         <Text id="quantity" fx:id="selectedQuantityText" strokeType="OUTSIDE" strokeWidth="5.0" text="Wybrano: 10" textAlignment="CENTER" />
                     </items>
                   </ToolBar>
@@ -99,13 +99,13 @@
    <top>
       <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar prefHeight="38.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <ToolBar id="upper-toolbar1" prefHeight="38.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <items>
-                <Button fx:id="toMainMenuButton" mnemonicParsing="false" text="Do menu głównego" />
+                <Button id="to-main-menu" fx:id="toMainMenuButton" mnemonicParsing="false" text="Do menu głównego" />
                   <Region prefHeight="30.0" prefWidth="3.0" />
               </items>
             </ToolBar>
-            <ToolBar prefHeight="40.0" prefWidth="150.0" HBox.hgrow="NEVER">
+            <ToolBar id="upper-toolbar2" prefHeight="40.0" prefWidth="150.0" HBox.hgrow="NEVER">
                <items>
                   <Button id="to-summary-button" fx:id="toSummaryButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do podsumowania" />
                </items>
