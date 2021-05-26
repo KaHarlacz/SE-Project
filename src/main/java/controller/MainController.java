@@ -14,11 +14,14 @@ public class MainController extends Application {
     private Scene choosingDishes;
     private Scene summary;
     private Scene cookBookEdit;
+    private Scene addNewDish;
 
     // Children controllers
     private MainMenuPaneController mainMenuController;
     private ChoosingDishesPaneController choosingDishesController;
     private SummaryPaneController summaryController;
+    private EditCookBookPaneController editCookBookController;
+    private AddNewDishPaneController addNewDishController;
 
     public static void main(String[] args) {
         launch();
@@ -36,6 +39,8 @@ public class MainController extends Application {
         loadMainMenu();
         loadChoosingDishes();
         loadSummary();
+        loadAddNewDish();
+        loadEditCookBook();
     }
 
     private void setSwitchingScenes() {
@@ -59,6 +64,10 @@ public class MainController extends Application {
         setScene(choosingDishes);
     }
 
+    public void goToAddNewDish() {
+        setScene(addNewDish);
+    }
+
     private void setScene(Scene scene) {
         stage.setScene(scene);
     }
@@ -80,12 +89,16 @@ public class MainController extends Application {
         mainMenuController.init();
         choosingDishesController.init();
         summaryController.init();
+        editCookBookController.init();
+        addNewDishController.init();
     }
 
     private void setControllersParent() {
         mainMenuController.setParent(this);
         choosingDishesController.setParent(this);
         summaryController.setParent(this);
+        editCookBookController.setParent(this);
+        addNewDishController.setParent(this);
     }
 
     private void loadSummary() throws IOException {
@@ -104,5 +117,17 @@ public class MainController extends Application {
         var mainMenuLoader = new FXMLLoader(getClass().getResource("/fxml/main_menu/mainMenuPane.fxml"));
         mainMenu = new Scene(mainMenuLoader.load());
         mainMenuController = mainMenuLoader.getController();
+    }
+
+    private void loadEditCookBook() throws IOException {
+        var editCookBookLoader = new FXMLLoader(getClass().getResource("/fxml/edit_cookBook/editCookBookPane.fxml"));
+        cookBookEdit = new Scene(editCookBookLoader.load());
+        editCookBookController = editCookBookLoader.getController();
+    }
+
+    private void loadAddNewDish() throws IOException {
+        var addNewDishLoader = new FXMLLoader(getClass().getResource("/fxml/add_dish/addDishPane.fxml"));
+        addNewDish = new Scene(addNewDishLoader.load());
+        addNewDishController = addNewDishLoader.getController();
     }
 }

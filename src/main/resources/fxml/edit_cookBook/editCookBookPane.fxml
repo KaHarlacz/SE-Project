@@ -35,9 +35,9 @@
    <left>
       <TabPane id="tab-pane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab id="dishes-tab" fx:id="dishListView" text="Dania">
+          <Tab id="dishes-tab" text="Dania">
                <content>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="dishListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
             </Tab>
           <Tab text="Filtry">

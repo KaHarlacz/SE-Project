@@ -38,5 +38,38 @@ public class EditCookBookPaneController {
     @FXML
     private TextArea recipTextArea;
 
+    private CookBook cookBook;
+
+    private MainController parent;
+
+    public void setParent(MainController main){
+        parent = main;
+    }
+
+    public void init() {
+        loadCookBook();
+        putDishesOnList();
+        setNavigationButtonsOnAction();
+    }
+
+    private void setNavigationButtonsOnAction() {
+        addNewDishButton.setOnAction(e -> parent.goToAddNewDish());
+        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+    }
+
+    private void putDishesOnList() {
+        //cookBook.getDishes().forEach(d -> dishListView.getItems().add(d.getName()));
+    }
+
+    private void loadCookBook() {
+        var loader = new SerialObjectLoader();
+        var loaded = loader.load(Paths.COOK_BOOK_PATH);
+        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
+    }
+
+    public void exit() {
+        var loader = new SerialObjectLoader();
+        loader.save(cookBook, Paths.COOK_BOOK_PATH);
+    }
 
 }
