@@ -50,9 +50,15 @@ public class ChoosingDishesPaneController {
     private Tab dishesTab;
     @FXML
     private ListView<String> previewDishesListView;
+    @FXML
+    private Text numberOfServingsText;
+    @FXML
+    private Text neededTimeText;
+    @FXML
+    private Tab previewTab;
 
-    private CookBook cookBook;
     private ShoppingList shoppingList = ShoppingList.getInstance();
+    private CookBook cookBook;
 
     private MainController parent;
 
@@ -63,7 +69,7 @@ public class ChoosingDishesPaneController {
         setNavigationButtonsOnAction();
         setDishesTabOnAction();
         setQuantityButtonsOnAction();
-        setPreviewOnAction();
+        setPreviewTabOnAction();
         setFavouriteButtonOnAction();
     }
 
@@ -75,6 +81,16 @@ public class ChoosingDishesPaneController {
         showIngredientsOf(dish);
         showDescriptionOf(dish);
         showFavouriteStatusOf(dish);
+        showServingsOf(dish);
+        showDurationOf(dish);
+    }
+
+    private void showDurationOf(Dish dish) {
+        numberOfServingsText.setText("Liczba porcji: " + dish.getServings());
+    }
+
+    private void showServingsOf(Dish dish) {
+        neededTimeText.setText("Czas przygotowania: " + dish.getDuration().toMinutes() + " min");
     }
 
     private void showIngredientsOf(Dish dish) {
@@ -147,7 +163,16 @@ public class ChoosingDishesPaneController {
     private void setDishesListOnAction() {
         dishesListView.setOnMouseClicked(e -> showSelectedDish());
     }
-    private void setPreviewOnAction() {
+
+    private void setPreviewTabOnAction() {
+        previewTab.setOnSelectionChanged(e -> {
+            if (previewTab.isSelected())
+                showPreviewOfSelectedDishes();
+        });
+    }
+
+    private void showPreviewOfSelectedDishes() {
+        previewDishesListView.getItems().clear();
         previewDishesListView.getItems().addAll(dishesNamesWithSelectedQuantities());
     }
 
@@ -199,7 +224,7 @@ public class ChoosingDishesPaneController {
     }
 
     private void showNameOf(Dish dish) {
-        recipeNameText.setText(dish.getName());
+        recipeNameText.setText(dish.toString());
     }
 
     public void setParent(MainController main) {

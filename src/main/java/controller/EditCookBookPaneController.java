@@ -1,13 +1,9 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import javafx.scene.control.TextField;
+import model.builder.DishBuilderImpl;
 import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
@@ -15,6 +11,7 @@ import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,6 +61,69 @@ public class EditCookBookPaneController {
         setNavigationButtonsOnAction();
         setDishesTabOnAction();
         setFavouriteButtonOnAction();
+        setUndoChangesButtonOnAction();
+        setDeleteDishButtonOnAction();
+        setConfirmButtonOnAction();
+    }
+
+    private void setConfirmButtonOnAction() {
+        confirmChangesButton.setOnAction(e -> {
+            var modifiedDish = createDishFromInputData();
+            var selectedDish = getSelectedDish();
+            selectedDish.ifPresent(cookBook::deleteDish);
+            modifiedDish.ifPresent(cookBook::addDish);
+        });
+    }
+
+    private void setDeleteDishButtonOnAction() {
+        deleteDishButton.setOnAction(e -> {
+            var selectedDish = getSelectedDish();
+            selectedDish.ifPresent(cookBook::deleteDish);
+        });
+    }
+
+    private void setUndoChangesButtonOnAction() {
+        undoChangesButton.setOnAction(e ->
+            getSelectedDish().ifPresent(this::showDish)
+        );
+    }
+
+    private Optional<Dish> createDishFromInputData() {
+        // TODO: Way to add categories and image needed
+        var builder = DishBuilderImpl.builder()
+                .withName(dishNameText.getText())
+                .withDescription(dishDescriptionText.getText())
+                .withIngredients(getInputIngredients())
+                .withRecipe(recipeTextArea.getText());
+
+        getInputDuration().ifPresent(builder::withDuration);
+        getInputServings().ifPresent(builder::withServings);
+
+        return Optional.of(builder.get());
+    }
+
+    private Optional<Integer> getInputServings() {
+        return Optional.of(Integer.parseInt(numberOfServingsTextField.getText()));
+    }
+
+    private Optional<Duration> getInputDuration() {
+        return Optional.of(Duration.ofMinutes(Long.parseLong(neededTimeTextField.getText())));
+    }
+
+    private Set<Ingredient> getInputIngredients() {
+        var result = new HashSet<Ingredient>();
+        var optionals = ingredientsNeededListView.getItems()
+                .stream()
+                .map(this::getIngredientFromName)
+                .collect(Collectors.toSet());
+        optionals.forEach(optional -> optional.ifPresent(result::add));
+        return result;
+    }
+
+    private Optional<Ingredient> getIngredientFromName(String name) {
+        return cookBook.getAvailableIngredients().stream()
+                .filter(ingredient -> ingredient.getName().equals(name))
+                .findFirst();
     }
 
     private void showDish(Dish dish) {

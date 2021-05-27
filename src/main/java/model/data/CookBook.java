@@ -43,13 +43,8 @@ public class CookBook implements Serializable {
         return true;
     }
 
-    public boolean deleteDish(Dish dish) {
-        if (!dishes.contains(dish))
-            return false;
-
+    public void deleteDish(Dish dish) {
         dishes.remove(dish);
-
-        return true;
     }
 
     private Set<Ingredient> extractIngredients(Set<Dish> dishes) {

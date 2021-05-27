@@ -73,12 +73,24 @@ public class Dish implements Serializable, Comparable<Dish> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getRecipe() {
         return recipe;
     }
 
-    public String getDescription(){
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
+    }
+
+    public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Image getImage() {
@@ -93,28 +105,16 @@ public class Dish implements Serializable, Comparable<Dish> {
         return servings;
     }
 
-    public int getNumberOfSerivngs() {
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public int getNumberOfServings() {
         return servings;
     }
 
     public long getNeededTime() {
         return duration.toMinutes();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
-    }
-
-    public void setServings(int servings){
-        this.servings = servings;
     }
 
     public void setNeededTime(Duration duration) {
@@ -160,5 +160,14 @@ public class Dish implements Serializable, Comparable<Dish> {
     @Override
     public int compareTo(Dish other) {
         return this.name.compareTo(other.name);
+    }
+
+    @Override
+    public String toString() {
+        var string = name;
+        // TODO: Adding star to name
+        //if(isFavourite())
+        //    string += " " + "*"; //"\uF60B";
+        return string;
     }
 }
