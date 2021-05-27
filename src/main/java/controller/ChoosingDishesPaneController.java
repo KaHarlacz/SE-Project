@@ -37,6 +37,8 @@ public class ChoosingDishesPaneController {
     @FXML
     private Button deleteDishButton;
     @FXML
+    private Button isFavouriteButton;
+    @FXML
     private Text selectedQuantityText;
     @FXML
     private Text recipeNameText;
@@ -62,6 +64,7 @@ public class ChoosingDishesPaneController {
         setDishesTabOnAction();
         setQuantityButtonsOnAction();
         setPreviewOnAction();
+        setIsFavouriteButtonOnAction();
     }
 
     private void setPreviewOnAction() {
@@ -74,6 +77,10 @@ public class ChoosingDishesPaneController {
                 .stream()
                 .map(e -> e.getKey().getName() + " (" + e.getValue() + ")")
                 .collect(Collectors.toList());
+    }
+
+    private void setIsFavouriteButtonOnAction(){
+        isFavouriteButton.setOnAction(e -> changeIsFavouriteStatus());
     }
 
     private void setQuantityButtonsOnAction() {
@@ -89,6 +96,16 @@ public class ChoosingDishesPaneController {
             shoppingList.addIngredientsFrom(dish);
             showSelectedQuantityOf(dish);
             System.out.println("Po: " + shoppingList.getIngredients());
+        });
+    }
+
+    private void changeIsFavouriteStatus() {
+        getSelectedDish().ifPresent(dish -> {
+            if(!dish.isFavourite())
+                dish.setFavourite(true);
+            else
+                dish.setFavourite(false);
+            showIsFavouriteStatus(dish);
         });
     }
 
@@ -118,11 +135,11 @@ public class ChoosingDishesPaneController {
         showSelectedQuantityOf(dish);
         showIngredientsOf(dish);
         showDescriptionOf(dish);
+        showIsFavouriteStatus(dish);
     }
 
     private void showDescriptionOf(Dish dish) {
-        // TODO: Create field "description" in dish
-        recipeDescriptionText.setText("");
+        recipeDescriptionText.setText(dish.getDescription());
     }
 
     private void showIngredientsOf(Dish dish) {
@@ -152,6 +169,15 @@ public class ChoosingDishesPaneController {
 
     private void showNameOf(Dish dish) {
         recipeNameText.setText(dish.getName());
+    }
+
+    private void showIsFavouriteStatus(Dish dish){
+        if(!dish.isFavourite()){
+            isFavouriteButton.setText("Dodaj do ulubionych");
+        }
+        else{
+            isFavouriteButton.setText("Usuń z ulubionych");
+        }
     }
 
     private Optional<Dish> getSelectedDish() {

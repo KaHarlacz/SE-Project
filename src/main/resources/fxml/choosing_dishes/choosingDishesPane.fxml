@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/choosingDishes.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
+<BorderPane minHeight="660.0" minWidth="900.0" stylesheets="@../../css/choosingDishes.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
    <left>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -84,13 +84,23 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #fbc02d;" VBox.vgrow="ALWAYS">
-                    <items>
-                      <Button id="add-dish-to-list" fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
-                        <Button id="remove-dish-from-list" fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
-                        <Text id="quantity" fx:id="selectedQuantityText" strokeType="OUTSIDE" strokeWidth="5.0" text="Wybrano: 10" textAlignment="CENTER" />
-                    </items>
-                  </ToolBar>
+                  <HBox prefHeight="33.0" prefWidth="700.0">
+                     <children>
+                        <ToolBar id="bottom-toolBar1" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                          <items>
+                            <Button id="is-favourite-button" fx:id="isFavouriteButton" mnemonicParsing="false" text="Ulubiony" />
+                              <Region prefHeight="30.0" prefWidth="200.0" />
+                          </items>
+                        </ToolBar>
+                        <ToolBar id="bottom-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="222.0" HBox.hgrow="NEVER">
+                          <items>
+                            <Button id="add-dish-to-list" fx:id="addDishButton" mnemonicParsing="false" text="Dodaj" />
+                              <Button id="remove-dish-from-list" fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń" />
+                              <Text id="quantity" fx:id="selectedQuantityText" strokeType="OUTSIDE" strokeWidth="5.0" text="Wybrano: 10" textAlignment="CENTER" />
+                          </items>
+                        </ToolBar>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </center>

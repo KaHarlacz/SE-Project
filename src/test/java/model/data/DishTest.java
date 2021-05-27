@@ -33,6 +33,25 @@ class DishTest {
 //        dish = new Dish("Zupa z gwoździa", null, new HashSet<>(), null, null, null, 1);
 //        assertTrue(dish.getIngredients().isEmpty());
 //    }
+    
+    @BeforeEach
+    public void setUp() {
+        ingredients = new Ingredient[]{mock(Ingredient.class), mock(Ingredient.class)};
+        ingredientsSet = Set.of(ingredients[0], ingredients[1]);
+        dish = new Dish("Zupa ogórkowa", "Przypal wodę", "", ingredientsSet, null, null, null, 1);
+    }
+
+    @Test
+    public void passEmptyStringNameConstructor() {
+        dish = new Dish("", null, "", ingredientsSet, null, null, null, 1);
+        assertEquals("No name specified", dish.getName());
+    }
+
+    @Test
+    public void passEmptyIngredientsMapConstructor() {
+        dish = new Dish("Zupa z gwoździa", null, "", new HashSet<>(), null, null, null, 1);
+        assertTrue(dish.getIngredients().isEmpty());
+    }
 
 //    @Test
 //    public void passNullCategoriesCheckIfSetOther() {

@@ -1,3 +1,7 @@
+.root{
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
 .titled-pane > .title {
     -fx-background-color: #80d6ff;
     -fx-border-color: #000000;
@@ -32,6 +36,20 @@
     -fx-background-color: #fbc02d;
 }
 
+#middle-toolBar {
+    -fx-background-color: #fbc02d;
+}
+
+#niddle-toolBarText {
+    -fx-font-style: italic;
+}
+
 #bottom-toolBar {
     -fx-background-color: #fbc02d;
+}
+
+#tabPane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: black;
+    -fx-border-radius: 2px;
 }
