@@ -7,12 +7,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
 import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,9 +41,13 @@ public class EditCookBookPaneController {
     @FXML
     private ListView<String> ingredientsNeededListView;
     @FXML
-    private Text dishDescriptionText;
+    private TextField dishDescriptionText;
     @FXML
-    private Text dishNameText;
+    private TextField dishNameText;
+    @FXML
+    private TextField neededTimeTextField;
+    @FXML
+    private TextField numberOfSerivingsTextField;
     @FXML
     private TextArea recipeTextArea;
     @FXML

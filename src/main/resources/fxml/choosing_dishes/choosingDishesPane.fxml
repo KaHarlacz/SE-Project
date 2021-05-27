@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -48,16 +49,38 @@
                               <ImageView fx:id="recipeImage" fitHeight="220.0" fitWidth="1.0" layoutX="-1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </AnchorPane>
-                        <BorderPane prefHeight="115.0" prefWidth="300.0">
-                           <center>
+                        <BorderPane prefHeight="160.0" prefWidth="300.0">
+                           <top>
                               <Text id="name" fx:id="recipeNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowa nazwa niesamowitego przepisu" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+<<<<<<< HEAD
                            </center>
                            <bottom>
                               <Text fx:id="recipeDescriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" wrappingWidth="280.0" BorderPane.alignment="CENTER">
+=======
+                           </top>
+                           <center>
+                              <Text fx:id="recipeDescriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" BorderPane.alignment="CENTER">
+>>>>>>> 67c1036ea3552272b669f4faa9a424b879591ca3
                                  <font>
                                     <Font name="System Italic" size="14.0" />
                                  </font>
                               </Text>
+                           </center>
+                           <bottom>
+                              <HBox prefHeight="34.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="106.0">
+                                       <children>
+                                          <Text fx:id="numberOfServingsText" layoutX="14.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość porcji: " />
+                                       </children>
+                                    </Pane>
+                                    <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="31.0" prefWidth="149.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="neededTimeText" layoutX="11.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Czas przygotowania: " />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </HBox>
                            </bottom>
                         </BorderPane>
                      </children>

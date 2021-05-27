@@ -146,8 +146,8 @@ public class ChoosingDishesPaneController {
 
     private void setDishesListOnAction() {
         dishesListView.setOnMouseClicked(e -> showSelectedDish());
-    }
 
+    }
     private void setPreviewOnAction() {
         previewDishesListView.getItems().addAll(dishesNamesWithSelectedQuantities());
     }

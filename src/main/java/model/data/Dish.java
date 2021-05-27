@@ -93,6 +93,34 @@ public class Dish implements Serializable, Comparable<Dish> {
         return servings;
     }
 
+    public int getNumberOfSerivngs() {
+        return servings;
+    }
+
+    public long getNeededTime() {
+        return duration.toMinutes();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
+    }
+
+    public void setServings(int servings){
+        this.servings = servings;
+    }
+
+    public void setNeededTime(Duration duration) {
+        this.duration = duration;
+    }
+
     public boolean isFavourite() {
         return favourite;
     }
