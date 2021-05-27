@@ -36,6 +36,8 @@ public class ChoosingDishesPaneController {
     @FXML
     private Button deleteDishButton;
     @FXML
+    private Button isFavouriteButton;
+    @FXML
     private Text selectedQuantityText;
     @FXML
     private Text recipeNameText;
@@ -62,6 +64,11 @@ public class ChoosingDishesPaneController {
         setNavigationButtonsOnAction();
         setDishesTabOnAction();
         setQuantityButtonsOnAction();
+        setIsFavouriteButtonOnAction();
+    }
+
+    private void setIsFavouriteButtonOnAction(){
+        isFavouriteButton.setOnAction(e -> changeIsFavouriteStatus());
     }
 
     private void setQuantityButtonsOnAction() {
@@ -73,6 +80,16 @@ public class ChoosingDishesPaneController {
         getSelectedDish().ifPresent(dish -> {
             shoppingList.addIngredientsFrom(dish);
             showSelectedQuantityOf(dish);
+        });
+    }
+
+    private void changeIsFavouriteStatus() {
+        getSelectedDish().ifPresent(dish -> {
+            if(!dish.isFavourite())
+                dish.setFavourite(true);
+            else
+                dish.setFavourite(false);
+            showIsFavouriteStatus(dish);
         });
     }
 
@@ -102,11 +119,11 @@ public class ChoosingDishesPaneController {
         showSelectedQuantityOf(dish);
         showIngredientsOf(dish);
         showDescriptionOf(dish);
+        showIsFavouriteStatus(dish);
     }
 
     private void showDescriptionOf(Dish dish) {
-        // TODO: Create field "description" in dish
-        recipeDescriptionText.setText("");
+        recipeDescriptionText.setText(dish.getDescription());
     }
 
     private void showIngredientsOf(Dish dish) {
@@ -136,6 +153,15 @@ public class ChoosingDishesPaneController {
 
     private void showNameOf(Dish dish) {
         recipeNameText.setText(dish.getName());
+    }
+
+    private void showIsFavouriteStatus(Dish dish){
+        if(!dish.isFavourite()){
+            isFavouriteButton.setText("Dodaj do ulubionych");
+        }
+        else{
+            isFavouriteButton.setText("Usuń z ulubionych");
+        }
     }
 
     private Optional<Dish> getSelectedDish() {

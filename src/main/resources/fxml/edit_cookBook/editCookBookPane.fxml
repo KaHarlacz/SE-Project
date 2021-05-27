@@ -11,13 +11,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/editCookBook.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCookBookPaneController">
+<BorderPane minHeight="660.0" minWidth="900.0" stylesheets="@../../css/editCookBook.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCookBookPaneController">
    <top>
-      <HBox prefHeight="38.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <ToolBar id="upper-toolBar" prefHeight="40.0" prefWidth="761.0" HBox.hgrow="ALWAYS">
                <items>
@@ -35,7 +36,7 @@
    <left>
       <TabPane id="tab-pane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab id="dishes-tab" text="Dania">
+          <Tab id="dishes-tab" fx:id="dishesTab" text="Dania">
                <content>
                   <ListView fx:id="dishListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
@@ -94,13 +95,23 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <ToolBar id="bottom-toolBar" nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
-                    <items>
-                        <Button id="confirm-changes" fx:id="confirmChangesButton" mnemonicParsing="false" text="Zapisz" />
-                      <Button id="undo-changes" fx:id="undoChangesButton" mnemonicParsing="false" text="Cofnij" />
-                        <Button id="delete-dish" fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń przepis" />
-                    </items>
-                  </ToolBar>
+                  <HBox prefHeight="33.0" prefWidth="700.0">
+                     <children>
+                        <ToolBar id="bottom-toolBar1" prefHeight="40.0" prefWidth="463.0" HBox.hgrow="ALWAYS">
+                          <items>
+                            <Button id="is-favourite-button" fx:id="isFavouriteButton" mnemonicParsing="false" text="Ulubiony" />
+                              <Region prefHeight="30.0" prefWidth="200.0" />
+                          </items>
+                        </ToolBar>
+                        <ToolBar id="bottom-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="239.0" HBox.hgrow="NEVER">
+                           <items>
+                              <Button id="confirm-changes" fx:id="confirmChangesButton" mnemonicParsing="false" text="Zapisz" />
+                            <Button id="undo-changes" fx:id="undoChangesButton" mnemonicParsing="false" text="Cofnij" />
+                              <Button id="delete-dish" fx:id="deleteDishButton" mnemonicParsing="false" text="Usuń przepis" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </center>

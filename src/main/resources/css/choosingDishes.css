@@ -153,3 +153,20 @@
     -fx-border-color: black;
     -fx-border-radius: 2px;
 }
+
+#is-favourite-button {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-weight: bold;
+    -fx-background-color: #42a5f5;
+    -fx-border-color: black;
+    -fx-font-size: 13;
+}
+
+#bottom-toolBar1 {
+    -fx-background-color: #fbc02d;
+}
+
+#bottom-toolBar2 {
+    -fx-background-color: #fbc02d;
+}

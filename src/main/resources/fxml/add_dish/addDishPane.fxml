@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewDishPaneController">
    <top>
@@ -32,7 +33,7 @@
       </HBox>
    </top>
    <left>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Dodane składniki">
                <content>
@@ -54,7 +55,7 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="521.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="310.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Region prefHeight="233.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
                         <VBox prefHeight="261.0" prefWidth="277.0" HBox.hgrow="ALWAYS">
@@ -69,7 +70,7 @@
                               </TitledPane>
                               <TitledPane animated="false" collapsible="false" prefHeight="105.0" prefWidth="263.0" text="Opis przepisu">
                                  <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    <Insets bottom="20.0" left="20.0" right="20.0" />
                                  </padding>
                                  <content>
                                     <TextArea fx:id="dishDescriptionTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
@@ -103,7 +104,16 @@
                         <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="479.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="39.0" prefWidth="700.0">
+                     <children>
+                        <ToolBar id="middle-toolBar" prefHeight="25.0" prefWidth="700.0" HBox.hgrow="ALWAYS">
+                           <items>
+                              <Text id="middle-toolBarText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Wprowadź kolejne składniki " />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="270.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Region prefHeight="384.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
                         <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
@@ -113,7 +123,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets left="20.0" right="20.0" />
+                                    <Insets bottom="20.0" left="20.0" right="20.0" />
                                  </padding>
                                  <content>
                                     <TextArea fx:id="ingredientNameTextField" prefHeight="200.0" prefWidth="200.0" />
@@ -127,31 +137,33 @@
                                     <Insets left="20.0" right="20.0" />
                                  </VBox.margin>
                               </TitledPane>
-                              <TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="200.0" text="Ilość składnika">
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <TitledPane animated="false" collapsible="false" prefHeight="115.0" prefWidth="246.0" text="Ilość składnika">
                                  <padding>
-                                    <Insets left="20.0" />
+                                    <Insets bottom="20.0" left="20.0" />
                                  </padding>
                                  <VBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets right="20.0" top="10.0" />
                                  </VBox.margin>
                                  <content>
-                                    <TextArea fx:id="ingredientQuantityTextArea" prefHeight="200.0" prefWidth="200.0" />
+                                    <TextArea fx:id="ingredientQuantityTextArea" prefHeight="63.0" prefWidth="224.0" />
                                  </content>
                               </TitledPane>
-                              <TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="229.0" text="Jednostka składnika">
+                              <TitledPane animated="false" collapsible="false" prefHeight="89.0" prefWidth="246.0" text="Jednostka składnika">
                                  <VBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets bottom="25.0" right="20.0" />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets bottom="10.0" left="20.0" />
+                                    <Insets bottom="20.0" left="20.0" />
                                  </padding>
                                  <content>
                                     <TextArea fx:id="ingredientUnitTextArea" prefHeight="100.0" prefWidth="200.0" />
                                  </content>
                               </TitledPane>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="320.0" prefWidth="276.0" spacing="40.0" HBox.hgrow="ALWAYS" />
+                           </children></VBox>
                         <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
