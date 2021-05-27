@@ -1,5 +1,7 @@
 package model.data;
 
+import model.splitter.SplitStrategy;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -9,18 +11,27 @@ public class ShoppingList implements Serializable {
     private Map<Dish, Integer> selectedDishes = new HashMap<>();
     private Map<Ingredient, Quantity> ingredients = new HashMap<>();
 
-    public ShoppingList() { }
+    private static ShoppingList instance;
+
+    private ShoppingList() {}
+
+    public static ShoppingList getInstance() {
+        if(instance == null)
+            instance = new ShoppingList();
+
+        return instance;
+    }
 
     public Map<Dish, Integer> getSelectedDishes() {
         return selectedDishes;
     }
 
     public Set<Ingredient> getIngredients() {
-        return ingredients.keySet();
+        return getIngredientsWithSetQuantities();
     }
 
     public void addIngredientsFrom(Dish dish) {
-        addDishToSelected(dish);
+        addToSelected(dish);
         dish.getIngredients().forEach(this::addIngredient);
     }
 
@@ -40,7 +51,7 @@ public class ShoppingList implements Serializable {
         }
     }
 
-    private void addDishToSelected(Dish dish) {
+    private void addToSelected(Dish dish) {
         if(selectedDishes.containsKey(dish)) {
             var scaleFactor = selectedDishes.get(dish);
             selectedDishes.put(dish, scaleFactor + 1);
@@ -52,9 +63,10 @@ public class ShoppingList implements Serializable {
     public void addIngredient(Ingredient ingredient) {
         if(ingredients.containsKey(ingredient)) {
             var currentQuantity = ingredients.get(ingredient);
+            System.out.println("Aktualna ilość: " + currentQuantity);
             currentQuantity.addValue(ingredient.getQuantity());
         } else {
-            ingredients.put(ingredient, ingredient.getQuantity());
+            ingredients.put(ingredient, new Quantity(ingredient.getQuantity().getValue(), ingredient.getQuantity().getUnit()));
         }
     }
 
@@ -67,5 +79,16 @@ public class ShoppingList implements Serializable {
             else
                 currentQuantity.subtractValue(ingredient.getQuantity().getValue());
         }
+    }
+
+    private Set<Ingredient> getIngredientsWithSetQuantities() {
+        var copyIngredients= new HashSet<Ingredient>();
+        ingredients.keySet().forEach(i -> copyIngredients.add(Ingredient.copyOf(i)));
+        copyIngredients.forEach(i -> i.setQuantity(ingredients.get(i)));
+        return copyIngredients;
+    }
+
+    public List<List<Ingredient>> splitIngredientsUsing(SplitStrategy splitter, int count) {
+        return splitter.split(List.copyOf(getIngredientsWithSetQuantities()), count);
     }
 }
