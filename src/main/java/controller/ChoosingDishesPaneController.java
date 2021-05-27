@@ -44,6 +44,10 @@ public class ChoosingDishesPaneController {
     @FXML
     private Text recipeDescriptionText;
     @FXML
+    private Text neededTimeText;
+    @FXML
+    private Text numberOfServingsText;
+    @FXML
     private ImageView recipeImage;
     @FXML
     private Tab dishesTab;
@@ -120,6 +124,8 @@ public class ChoosingDishesPaneController {
         showIngredientsOf(dish);
         showDescriptionOf(dish);
         showIsFavouriteStatus(dish);
+        showNumberOfServings(dish);
+        showNeededTime(dish);
     }
 
     private void showDescriptionOf(Dish dish) {
@@ -162,6 +168,14 @@ public class ChoosingDishesPaneController {
         else{
             isFavouriteButton.setText("Usuń z ulubionych");
         }
+    }
+
+    private void showNumberOfServings(Dish dish){
+        numberOfServingsText.setText("Ilość porcji: "+dish.getNumberOfSerivngs());
+    }
+
+    private void showNeededTime(Dish dish) {
+        neededTimeText.setText("Czas przygotowania: "+dish.getNeededTime());
     }
 
     private Optional<Dish> getSelectedDish() {

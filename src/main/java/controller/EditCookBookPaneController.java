@@ -7,12 +7,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
 import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,9 +41,13 @@ public class EditCookBookPaneController {
     @FXML
     private ListView<String> ingredientsNeededListView;
     @FXML
-    private Text dishDescriptionText;
+    private TextField dishDescriptionText;
     @FXML
-    private Text dishNameText;
+    private TextField dishNameText;
+    @FXML
+    private TextField neededTimeTextField;
+    @FXML
+    private TextField numberOfSerivingsTextField;
     @FXML
     private TextArea recipeTextArea;
     @FXML
@@ -87,6 +93,8 @@ public class EditCookBookPaneController {
         showIngredientsOf(dish);
         showDescriptionOf(dish);
         showIsFavouriteStatus(dish);
+        showNumberOfServings(dish);
+        showNeededTime(dish);
     }
 
     private void showNameOf(Dish dish) {
@@ -115,13 +123,21 @@ public class EditCookBookPaneController {
         dishDescriptionText.setText(dish.getDescription());
     }
 
-    private void showIsFavouriteStatus(Dish dish){
+    private void showIsFavouriteStatus(Dish dish) {
         if(!dish.isFavourite()){
             isFavouriteButton.setText("Dodaj do ulubionych");
         }
         else{
             isFavouriteButton.setText("Usuń z ulubionych");
         }
+    }
+
+    private void showNumberOfServings(Dish dish) {
+        numberOfSerivingsTextField.setText(Integer.toString(dish.getNumberOfSerivngs()));
+    }
+
+    private void showNeededTime(Dish dish) {
+        neededTimeTextField.setText(Long.toString(dish.getNeededTime()));
     }
 
     private Optional<Dish> getSelectedDish() {
@@ -171,4 +187,53 @@ public class EditCookBookPaneController {
         loader.save(cookBook, Paths.COOK_BOOK_PATH);
     }
 
+    public String getTextFromDishNameText(){
+        return dishNameText.getText();
+    }
+
+    public String getTextFromDescriptionText() {
+        return dishDescriptionText.getText();
+    }
+
+    public String getTextFromRecipeTextArea() {
+        return recipeTextArea.getText();
+    }
+
+    public long getNeededTimeFromTextField() {
+        return Integer.valueOf(neededTimeTextField.getText());
+    }
+
+    public int getNumberOfServings() {
+        return Integer.valueOf(numberOfSerivingsTextField.getText());
+    }
+
+    public void setConfirmChangesButtonOnAction() {
+        confirmChangesButton.setOnAction(e -> {
+                getSelectedDish().ifPresent(dish -> setUserChanges(dish));
+            });
+    }
+
+    public void setUserChanges(Dish dish){
+        dish.setName(getTextFromDishNameText());
+        dish.setDescription(getTextFromDescriptionText());
+        dish.setRecipe(getTextFromRecipeTextArea());
+        dish.setServings(getNumberOfServings());
+        dish.setNeededTime(Duration.ofMinutes(getNeededTimeFromTextField()));
+    }
+
+    public void setUndoChangesButtonOnAction() {
+        undoChangesButton.setOnAction(e -> {
+            getSelectedDish().ifPresent(dish -> showDish(dish));
+        });
+    }
+
+    public void setDeleteDishButtonOnAction() {
+        deleteDishButton.setOnAction(e -> {
+            getSelectedDish().ifPresent(dish -> deleteDishFromCookBook(dish));
+        });
+    }
+
+    public void deleteDishFromCookBook(Dish dish) {
+        cookBook.deleteDish(dish);
+    }
 }

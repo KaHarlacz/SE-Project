@@ -9,21 +9,20 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/summary.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
    <top>
       <HBox prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="625.0" HBox.hgrow="ALWAYS">
+            <ToolBar id="upper-toolBar1" prefHeight="40.0" prefWidth="625.0" HBox.hgrow="ALWAYS">
                <items>
                   <Region prefHeight="30.0" prefWidth="3.0" />
                   <Button id="to-summary-button" fx:id="goBackButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do menu głównego" />
                </items>
             </ToolBar>
-            <ToolBar prefHeight="40.0" prefWidth="158.0" HBox.hgrow="NEVER">
+            <ToolBar id="upper-toolBar2" prefHeight="43.0" prefWidth="169.0" HBox.hgrow="NEVER">
                <items>
                   <Button id="to-summary-button" fx:id="saveAllChangesButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Wyeksportuj do pliku" />
                </items>
@@ -34,18 +33,18 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <HBox alignment="CENTER" prefHeight="349.0" prefWidth="800.0" spacing="40.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="383.0" prefWidth="900.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane fx:id="resultListA" animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
+                  <TitledPane fx:id="resultListA" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
                      <content>
                         <ListView prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
-                  <TitledPane fx:id="resultListB" animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
+                  <TitledPane fx:id="resultListB" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
                      <content>
                         <ListView prefHeight="274.0" prefWidth="228.0" />
                      </content></TitledPane>
-                  <TitledPane fx:id="resultListC" animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
+                  <TitledPane fx:id="resultListC" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
                      <content>
                         <ListView prefHeight="274.0" prefWidth="228.0" />
                      </content>
@@ -54,31 +53,32 @@
             </HBox>
          </center>
          <bottom>
-            <Region prefHeight="115.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+            <Region prefHeight="16.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
          </bottom>
          <top>
-            <HBox alignment="CENTER" prefHeight="180.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="189.0" prefWidth="900.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Slider fx:id="numberOfListsSlider" blockIncrement="1.0" layoutX="9.0" layoutY="110.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="42.0" prefWidth="182.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-show-tick-marks: true;" />
-                        <Text layoutX="50.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Na ile list podzielić" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Pane>
+                  <TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <Slider fx:id="numberOfListsSlider" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="42.0" prefWidth="182.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-show-tick-marks: true;" />
+                     </content>
+                     <graphic>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Na ile list podzielić" />
+                     </graphic>
+                  </TitledPane>
                   <Region prefHeight="180.0" prefWidth="131.0" HBox.hgrow="NEVER" />
-                  <Pane prefHeight="180.0" prefWidth="260.0">
-                     <children>
-                        <Text layoutX="56.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="W jaki sposób podzielić listy" />
-                        <ChoiceBox fx:id="splitterTypeChoiceBox" layoutX="26.0" layoutY="122.0" prefHeight="25.0" prefWidth="209.0" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Pane>
+                  <TitledPane animated="false" collapsible="false" prefHeight="197.0" prefWidth="228.0">
+                     <content>
+                        <ChoiceBox fx:id="splitterTypeChoiceBox" prefHeight="35.0" prefWidth="189.0" />
+                     </content>
+                     <graphic>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="W jaki sposób podzielić listy" />
+                     </graphic>
+                  </TitledPane>
                </children>
+               <BorderPane.margin>
+                  <Insets top="20.0" />
+               </BorderPane.margin>
             </HBox>
          </top>
       </BorderPane>
