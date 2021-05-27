@@ -28,15 +28,15 @@ public class EditCookBookPaneController {
     @FXML
     private ImageView dishImage;
     @FXML
-    private ListView<?> dishListView;
+    private ListView<String> dishListView;
     @FXML
-    private ListView<?> ingredientsNeededListView;
+    private ListView<String> ingredientsNeededListView;
     @FXML
     private Text dishDescriptionText;
     @FXML
     private Text dishNameText;
     @FXML
-    private TextArea recipTextArea;
+    private TextArea recipeTextArea;
 
     private CookBook cookBook;
 

@@ -30,7 +30,7 @@
           </Tab>
             <Tab text="Podgląd">
                <content>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="previewDishesListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
             </Tab>
         </tabs>
@@ -77,7 +77,7 @@
                            <children>
                               <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sposób przygotowania" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <content>
-                                    <TextArea id="recipe-textArea" fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj powinien być przepis" text="Zanim zaczniesz:&#10;&#10;      - Przygotuj 2 garnki oraz patelnię&#10;&#10;1. Posiekaj cebulę w kostkę&#10;2. Zagotuj wodę" />
+                                    <TextArea id="recipe-textArea" fx:id="recipeTextArea" editable="false" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj pojawi się przepis" wrapText="true" />
                                  </content>
                               </TitledPane>
                            </children>

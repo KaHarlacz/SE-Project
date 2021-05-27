@@ -14,6 +14,7 @@ import model.data.ShoppingList;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,15 +46,13 @@ public class ChoosingDishesPaneController {
     private ImageView recipeImage;
     @FXML
     private Tab dishesTab;
+    @FXML
+    private ListView<String> previewDishesListView;
 
     private CookBook cookBook;
-    private ShoppingList shoppingList = new ShoppingList();
+    private ShoppingList shoppingList = ShoppingList.getInstance();
 
     private MainController parent;
-
-    public void setParent(MainController main) {
-        parent = main;
-    }
 
     public void init() {
         loadCookBook();
@@ -62,6 +61,19 @@ public class ChoosingDishesPaneController {
         setNavigationButtonsOnAction();
         setDishesTabOnAction();
         setQuantityButtonsOnAction();
+        setPreviewOnAction();
+    }
+
+    private void setPreviewOnAction() {
+        previewDishesListView.getItems().addAll(dishesNamesWithSelectedQuantities());
+    }
+
+    private List<String> dishesNamesWithSelectedQuantities() {
+        return shoppingList.getSelectedDishes()
+                .entrySet()
+                .stream()
+                .map(e -> e.getKey().getName() + " (" + e.getValue() + ")")
+                .collect(Collectors.toList());
     }
 
     private void setQuantityButtonsOnAction() {
@@ -71,8 +83,12 @@ public class ChoosingDishesPaneController {
 
     private void addSelectedDishToShoppingList() {
         getSelectedDish().ifPresent(dish -> {
+            System.out.println("Przed: " + shoppingList.getIngredients());
+            System.out.println("Składniki: ");
+            dish.getIngredients().forEach(System.out::println);
             shoppingList.addIngredientsFrom(dish);
             showSelectedQuantityOf(dish);
+            System.out.println("Po: " + shoppingList.getIngredients());
         });
     }
 
@@ -111,11 +127,11 @@ public class ChoosingDishesPaneController {
 
     private void showIngredientsOf(Dish dish) {
         ingredientsNeededListView.getItems().clear();
-        ingredientsNeededListView.getItems().addAll(
-                dish.getIngredients()
-                        .stream()
-                        .map(Ingredient::getName)
-                        .toArray(String[]::new)
+        ingredientsNeededListView.getItems().addAll(dish
+                .getIngredients()
+                .stream()
+                .map(Ingredient::toString)
+                .toArray(String[]::new)
         );
     }
 
@@ -168,6 +184,10 @@ public class ChoosingDishesPaneController {
         var loader = new SerialObjectLoader();
         var loaded = loader.load(Paths.COOK_BOOK_PATH);
         cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
+    }
+
+    public void setParent(MainController main) {
+        parent = main;
     }
 
     public void exit() {

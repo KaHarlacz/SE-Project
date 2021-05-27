@@ -1,6 +1,10 @@
 package model.data;
 
-public class Quantity {
+import java.io.Serializable;
+
+public class Quantity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private double value;
     private final String unit;
 
@@ -15,6 +19,11 @@ public class Quantity {
         this.unit = unit;
     }
 
+    //TODO: Impl
+    public static Quantity copyOf(Quantity quantity) {
+        return new Quantity(quantity.getValue(), quantity.getUnit());
+    }
+
     public void multiplyValueBy(double factor) {
         if(factor <= 0)
             throw new IllegalArgumentException();
@@ -27,7 +36,7 @@ public class Quantity {
     }
 
     public void addValue(Quantity quantity) {
-        if(!this.unit.equals(quantity.unit))
+        if(!this.unit.equals(quantity.getUnit()))
             throw new IllegalArgumentException();
         this.value += quantity.getValue();
     }
@@ -38,5 +47,10 @@ public class Quantity {
 
     public String getUnit() {
         return unit;
+    }
+
+    @Override
+    public String toString() {
+        return value + " " + unit;
     }
 }

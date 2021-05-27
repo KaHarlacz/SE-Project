@@ -55,4 +55,15 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     public int compareTo(Ingredient other) {
         return this.name.compareTo(other.name);
     }
+
+    @Override
+    public String toString() {
+        return this.getName() + " : "
+                + this.getQuantity().getValue() + " "
+                + this.getQuantity().getUnit();
+    }
+
+    public static Ingredient copyOf(Ingredient ingredient) {
+        return new Ingredient(ingredient.getName(), ingredient.getCategory(), Quantity.copyOf(ingredient.getQuantity()));
+    }
 }
