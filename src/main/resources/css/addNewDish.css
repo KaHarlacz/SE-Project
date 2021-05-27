@@ -28,6 +28,10 @@
     -fx-font-size: 13;
 }
 
+.button:hover {
+    -fx-opacity: 0.7;
+}
+
 #upper-toolBar1 {
     -fx-background-color: #fbc02d;
 }

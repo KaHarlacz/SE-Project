@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
@@ -35,7 +36,7 @@
    <left>
       <TabPane id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Dodane składniki">
+          <Tab fx:id="addedIngredientsTab" text="Dodane składniki">
                <content>
                   <ListView fx:id="addedIngredientsListView" prefHeight="200.0" prefWidth="200.0" />
                </content></Tab>
@@ -55,7 +56,7 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="310.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="390.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Region prefHeight="233.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
                         <VBox prefHeight="261.0" prefWidth="277.0" HBox.hgrow="ALWAYS">
@@ -84,11 +85,29 @@
                                     <Insets left="20.0" right="20.0" />
                                  </VBox.margin>
                               </TitledPane>
+                              <HBox alignment="CENTER" prefHeight="34.0" prefWidth="256.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="neededTmeTextField" alignment="CENTER" prefHeight="25.0" prefWidth="159.0" promptText="Czas przygotowania w minutach" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="44.0" prefWidth="256.0">
+                                 <children>
+                                    <TextField fx:id="numberOfServingsTextField" alignment="CENTER" prefHeight="25.0" prefWidth="158.0" promptText="Liczba porcji" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                         <VBox prefHeight="261.0" prefWidth="321.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <TitledPane animated="false" collapsible="false" prefHeight="304.0" prefWidth="294.0" text="Sposób przygotowania" VBox.vgrow="ALWAYS">
+                              <TitledPane animated="false" collapsible="false" prefHeight="341.0" prefWidth="301.0" text="Sposób przygotowania" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -96,7 +115,7 @@
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                                  <content>
-                                    <TextArea fx:id="recipeTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                                    <TextArea fx:id="recipeTextField" prefHeight="256.0" prefWidth="259.0" wrapText="true" />
                                  </content>
                               </TitledPane>
                            </children>
@@ -143,18 +162,18 @@
                            <children>
                               <TitledPane animated="false" collapsible="false" prefHeight="115.0" prefWidth="246.0" text="Ilość składnika">
                                  <padding>
-                                    <Insets bottom="20.0" left="20.0" />
+                                    <Insets bottom="5.0" left="20.0" />
                                  </padding>
                                  <VBox.margin>
                                     <Insets right="20.0" top="10.0" />
                                  </VBox.margin>
                                  <content>
-                                    <TextArea fx:id="ingredientQuantityTextArea" prefHeight="63.0" prefWidth="224.0" />
+                                    <TextArea fx:id="ingredientQuantityTextArea" prefHeight="64.0" prefWidth="224.0" />
                                  </content>
                               </TitledPane>
-                              <TitledPane animated="false" collapsible="false" prefHeight="89.0" prefWidth="246.0" text="Jednostka składnika">
+                              <TitledPane animated="false" collapsible="false" prefHeight="75.0" prefWidth="246.0" text="Jednostka składnika">
                                  <VBox.margin>
-                                    <Insets bottom="25.0" right="20.0" />
+                                    <Insets right="20.0" />
                                  </VBox.margin>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" />

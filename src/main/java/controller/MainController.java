@@ -54,6 +54,7 @@ public class MainController extends Application {
 
     public void goToSummary() {
         setScene(summary);
+        summaryController.showIngredientsLists();
     }
 
     public void goToCookBookEdit() {
@@ -73,8 +74,7 @@ public class MainController extends Application {
     }
 
     public void exit() {
-        choosingDishesController.exit();
-        // TODO
+        editCookBookController.exit();
         stage.close();
     }
 

@@ -24,7 +24,7 @@
             </ToolBar>
             <ToolBar id="upper-toolBar2" prefHeight="43.0" prefWidth="169.0" HBox.hgrow="NEVER">
                <items>
-                  <Button id="to-summary-button" fx:id="saveAllChangesButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Wyeksportuj do pliku" />
+                  <Button id="to-summary-button" fx:id="exportButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Wyeksportuj do pliku" />
                </items>
             </ToolBar>
          </children>
@@ -35,18 +35,18 @@
          <center>
             <HBox alignment="CENTER" prefHeight="383.0" prefWidth="900.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane fx:id="resultListA" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
+                  <TitledPane animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
                      <content>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="firstResultListView" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
-                  <TitledPane fx:id="resultListB" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
+                  <TitledPane animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
                      <content>
-                        <ListView prefHeight="274.0" prefWidth="228.0" />
+                        <ListView fx:id="secondResultListView" prefHeight="274.0" prefWidth="228.0" />
                      </content></TitledPane>
-                  <TitledPane fx:id="resultListC" animated="false" collapsible="false" prefHeight="345.0" prefWidth="220.0">
+                  <TitledPane animated="false" collapsible="false" prefHeight="300.0" prefWidth="220.0">
                      <content>
-                        <ListView prefHeight="274.0" prefWidth="228.0" />
+                        <ListView fx:id="thirdResultListView" prefHeight="274.0" prefWidth="228.0" />
                      </content>
                   </TitledPane>
                </children>
