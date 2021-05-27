@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.css.converter.StringConverter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -96,7 +95,7 @@ public class AddNewDishPaneController {
             Set.of(getDishCategoryFromChoiceBox()),
             null,
             Duration.ofMinutes(getNeededTimeFromTextField()),
-            getNumberOfSerivngsFromTextField()
+            getNumberOfServingsFromTextField()
         );
         cookBook.addDish(newDish);
     }
@@ -127,11 +126,11 @@ public class AddNewDishPaneController {
     }
 
     public int getNeededTimeFromTextField() {
-        return Integer.valueOf(neededTimeTextField.getText());
+        return Integer.parseInt(neededTimeTextField.getText());
     }
 
-    public int getNumberOfSerivngsFromTextField() {
-        return Integer.valueOf(numberOfServingsTextField.getText());
+    public int getNumberOfServingsFromTextField() {
+        return Integer.parseInt(numberOfServingsTextField.getText());
     }
 
     public String getIngredientNameFromTextField() {
@@ -143,7 +142,7 @@ public class AddNewDishPaneController {
     }
 
     public double getIngredientQuantityFromTextField() {
-        return Integer.valueOf(ingredientQuantityTextArea.getText());
+        return Integer.parseInt(ingredientQuantityTextArea.getText());
     }
 
     public String getIngredientUnitFromTextAreaField() {

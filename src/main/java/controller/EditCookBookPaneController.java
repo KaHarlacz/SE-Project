@@ -47,7 +47,7 @@ public class EditCookBookPaneController {
     @FXML
     private TextField neededTimeTextField;
     @FXML
-    private TextField numberOfSerivingsTextField;
+    private TextField numberOfServingsTextField;
     @FXML
     private TextArea recipeTextArea;
     @FXML
