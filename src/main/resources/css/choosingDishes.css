@@ -6,6 +6,10 @@
     -fx-border-color: black;
 }
 
+.button:hover {
+    -fx-opacity: 0.7;
+}
+
 #quantity {
     -fx-font-size: 15;
 }

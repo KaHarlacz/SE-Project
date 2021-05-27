@@ -6,6 +6,10 @@
     -fx-font-family: 'Roboto', sans-serif;
 }
 
+.button:hover {
+    -fx-opacity: 0.7;
+}
+
 #name-filter-box {
     -fx-pref-height: 70;
     -fx-border-width: 0.2;

@@ -14,3 +14,7 @@
 .check-box:selected .box {
     -fx-background-color: #80d6ff;
 }
+
+.button:hover {
+    -fx-opacity: 0.7;
+}
