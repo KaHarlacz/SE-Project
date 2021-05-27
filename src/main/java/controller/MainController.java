@@ -54,7 +54,7 @@ public class MainController extends Application {
 
     public void goToSummary() {
         setScene(summary);
-        summaryController.showIngredientsLists();
+        summaryController.showIngredientLists();
     }
 
     public void goToCookBookEdit() {

@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane minHeight="660.0" minWidth="900.0" stylesheets="@../../css/choosingDishes.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
+<BorderPane minHeight="660.0" minWidth="900.0" stylesheets="@../../css/choosingDishes.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChoosingDishesPaneController">
    <left>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -53,7 +53,7 @@
                               <Text id="name" fx:id="recipeNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowa nazwa niesamowitego przepisu" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                            </center>
                            <bottom>
-                              <Text fx:id="recipeDescriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <Text fx:id="recipeDescriptionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Przykładowy podpis pod przepisem" textAlignment="CENTER" wrappingWidth="280.0" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="System Italic" size="14.0" />
                                  </font>

@@ -88,7 +88,7 @@ public class ShoppingList implements Serializable {
         return copyIngredients;
     }
 
-    public List<List<Ingredient>> splitIngredientsUsing(SplitStrategy splitter, int count) {
+    public List<List<Ingredient>> splitIngredientListUsing(SplitStrategy splitter, int count) {
         return splitter.split(List.copyOf(getIngredientsWithSetQuantities()), count);
     }
 }

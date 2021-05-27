@@ -40,36 +40,90 @@ public class SummaryPaneController {
     private List<ListView<String>> listViews;
 
     public void init() {
-        goBackButton.setOnAction(e -> parent.goToChoosingDishes());
-        setSliderOnAction();
         wrapListViewsIntoOneList();
+        setGoBackButtonOnAction();
+        setSliderOnAction();
         setUpSplitOptions();
         setUpExportButton();
     }
 
+    private void setUpSplitOptions() {
+        addSplitOptionsToChoiceBox();
+        setDefaultSplitOption();
+        setSplitOptionsOnAction();
+    }
+
+    protected void showIngredientLists() {
+        chosenSplitOption().ifPresent(this::applySplit);
+    }
+
+    private void applySplit(SplitOption option) {
+        var splitStrategy = option.getStrategy();
+        var splitCount = (int) numberOfListsSlider.getValue();
+        var split = shoppingList.splitIngredientListUsing(splitStrategy, splitCount);
+
+        for (int i = 0; i < splitCount; i++)
+            showIngredientsOnList(listViews.get(i), split.get(i));
+
+        for (int i = splitCount; i < LIST_VIEWS; i++)
+            clearListView(listViews.get(i));
+    }
+
+    private void showIngredientsOnList(ListView<String> listView, List<Ingredient> ingredients) {
+        clearListView(listView);
+        addIngredientsToListView(listView, ingredients);
+    }
+
     private void setUpExportButton() {
         exportButton.setOnAction(e -> {
-            export();
+            exportIngredientList();
             parent.goToMainMenu();
         });
     }
 
-    private void export() {
-        var exportStringBuilder = new ExportStringBuilder();
-        for (int i = 0; i < numberOfListsSlider.getValue(); i++) {
-            var currentList = listViews.get(i);
-            currentList.getItems().forEach(exportStringBuilder::addIngredient);
-            exportStringBuilder.nextList();
-        }
-        new TXTExporter(Paths.EXPORT_PATH).export(exportStringBuilder.get());
+    private void setGoBackButtonOnAction() {
+        goBackButton.setOnAction(e -> parent.goToChoosingDishes());
     }
 
-    private void setUpSplitOptions() {
-        Arrays.stream(SplitOption.values())
-                .forEach(splitOption -> splitterTypeChoiceBox.getItems().add(splitOption.getDescription()));
+    private void exportIngredientList() {
+        new TXTExporter(Paths.EXPORT_PATH).export(buildExportString());
+    }
 
+    private String buildExportString() {
+        var exportStringBuilder = new ExportStringBuilder().appendHeader();
+        for (int i = 0; i < numberOfListsSlider.getValue(); i++) {
+            listViews.get(i).getItems().forEach(exportStringBuilder::nextIngredient);
+            exportStringBuilder.nextList();
+        }
+        return exportStringBuilder.get();
+    }
+
+    private void addIngredientsToListView(ListView<String> listView, List<Ingredient> ingredients) {
+        listView.getItems().addAll(ingredients
+                .stream()
+                .map(Ingredient::toString)
+                .collect(Collectors.toSet())
+        );
+    }
+
+    private void clearListView(ListView<String> listView) {
+        listView.getItems().clear();
+    }
+
+    private void setSplitOptionsOnAction() {
+        splitterTypeChoiceBox.setOnAction(e -> showIngredientLists());
+    }
+
+    private void setDefaultSplitOption() {
         splitterTypeChoiceBox.setValue(SplitOption.values()[0].getDescription());
-        splitterTypeChoiceBox.setOnAction(e -> showIngredientsLists());
+    }
+
+    private void addSplitOptionsToChoiceBox() {
+        Arrays.stream(SplitOption.values()).forEach(this::addSplitOptionToChoiceBox);
+    }
+
+    private void addSplitOptionToChoiceBox(SplitOption splitOption) {
+        splitterTypeChoiceBox.getItems().add(splitOption.getDescription());
     }
 
     private void wrapListViewsIntoOneList() {
@@ -77,34 +131,7 @@ public class SummaryPaneController {
     }
 
     private void setSliderOnAction() {
-        // TODO: Throws exceptions, doesn't work!!
-        numberOfListsSlider.setOnMouseReleased(e -> showIngredientsLists());
-    }
-
-    protected void showIngredientsLists() {
-        var splitOption = chosenSplitOption();
-        splitOption.ifPresent(this::applySplitOption);
-    }
-
-    private void applySplitOption(SplitOption option) {
-        var splitStrategy = option.getStrategy();
-        var splitCount = (int) numberOfListsSlider.getValue();
-        var split = shoppingList.splitIngredientsUsing(splitStrategy, splitCount);
-
-        for (int i = 0; i < splitCount; i++)
-            showIngredientsOnList(listViews.get(i), split.get(i));
-
-        for (int i = splitCount; i < LIST_VIEWS; i++)
-            listViews.get(i).getItems().clear();
-    }
-
-    private void showIngredientsOnList(ListView<String> listView, List<Ingredient> ingredients) {
-        listView.getItems().clear();
-        listView.getItems().addAll(ingredients
-                .stream()
-                .map(Ingredient::toString)
-                .collect(Collectors.toSet())
-        );
+        numberOfListsSlider.setOnMouseReleased(e -> showIngredientLists());
     }
 
     private Optional<SplitOption> chosenSplitOption() {

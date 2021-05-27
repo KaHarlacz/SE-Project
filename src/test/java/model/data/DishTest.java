@@ -33,7 +33,7 @@ class DishTest {
 //        dish = new Dish("Zupa z gwoździa", null, new HashSet<>(), null, null, null, 1);
 //        assertTrue(dish.getIngredients().isEmpty());
 //    }
-    
+
     @BeforeEach
     public void setUp() {
         ingredients = new Ingredient[]{mock(Ingredient.class), mock(Ingredient.class)};
