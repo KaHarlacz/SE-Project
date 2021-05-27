@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/summary.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
    <top>
       <HBox prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>

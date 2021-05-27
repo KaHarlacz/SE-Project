@@ -45,10 +45,6 @@ public class ChoosingDishesPaneController {
     @FXML
     private Text recipeDescriptionText;
     @FXML
-    private Text neededTimeText;
-    @FXML
-    private Text numberOfServingsText;
-    @FXML
     private ImageView recipeImage;
     @FXML
     private Tab dishesTab;
@@ -83,7 +79,7 @@ public class ChoosingDishesPaneController {
                 .collect(Collectors.toList());
     }
 
-    private void setIsFavouriteButtonOnAction(){
+    private void setIsFavouriteButtonOnAction() {
         isFavouriteButton.setOnAction(e -> changeIsFavouriteStatus());
     }
 
@@ -93,7 +89,7 @@ public class ChoosingDishesPaneController {
     }
 
     private void addSelectedDishToShoppingList() {
-        getSelectedDish().ifPresent(dish -> {
+        selectedDish().ifPresent(dish -> {
             System.out.println("Przed: " + shoppingList.getIngredients());
             System.out.println("Składniki: ");
             dish.getIngredients().forEach(System.out::println);
@@ -104,17 +100,17 @@ public class ChoosingDishesPaneController {
     }
 
     private void changeIsFavouriteStatus() {
-        getSelectedDish().ifPresent(dish -> {
-            if(!dish.isFavourite())
+        selectedDish().ifPresent(dish -> {
+            if (!dish.isFavourite())
                 dish.setFavourite(true);
             else
                 dish.setFavourite(false);
-            showIsFavouriteStatus(dish);
+            showFavouriteStatusOf(dish);
         });
     }
 
     private void deleteSelectedDishFromShoppingDish() {
-        getSelectedDish().ifPresent(dish -> {
+        selectedDish().ifPresent(dish -> {
             shoppingList.deleteIngredientsFrom(dish);
             showSelectedQuantityOf(dish);
         });
@@ -128,8 +124,7 @@ public class ChoosingDishesPaneController {
     }
 
     private void showSelectedDish() {
-        var selectedDish = getSelectedDish();
-        selectedDish.ifPresent(this::showDish);
+        selectedDish().ifPresent(this::showDish);
     }
 
     private void showDish(Dish dish) {
@@ -139,13 +134,7 @@ public class ChoosingDishesPaneController {
         showSelectedQuantityOf(dish);
         showIngredientsOf(dish);
         showDescriptionOf(dish);
-        showIsFavouriteStatus(dish);
-        showNumberOfServings(dish);
-        showNeededTime(dish);
-    }
-
-    private void showDescriptionOf(Dish dish) {
-        recipeDescriptionText.setText(dish.getDescription());
+        showFavouriteStatusOf(dish);
     }
 
     private void showIngredientsOf(Dish dish) {
@@ -165,6 +154,10 @@ public class ChoosingDishesPaneController {
         selectedQuantityText.setText("Wybrano: " + quantity.toString() + " ");
     }
 
+    private void showDescriptionOf(Dish dish) {
+        recipeDescriptionText.setText(dish.getDescription());
+    }
+
     private void showImageOf(Dish dish) {
         recipeImage.setImage(dish.getImage());
     }
@@ -177,24 +170,14 @@ public class ChoosingDishesPaneController {
         recipeNameText.setText(dish.getName());
     }
 
-    private void showIsFavouriteStatus(Dish dish){
-        if(!dish.isFavourite()){
+    private void showFavouriteStatusOf(Dish dish) {
+        if (!dish.isFavourite())
             isFavouriteButton.setText("Dodaj do ulubionych");
-        }
-        else{
+        else
             isFavouriteButton.setText("Usuń z ulubionych");
-        }
     }
 
-    private void showNumberOfServings(Dish dish){
-        numberOfServingsText.setText("Ilość porcji: "+dish.getNumberOfSerivngs());
-    }
-
-    private void showNeededTime(Dish dish) {
-        neededTimeText.setText("Czas przygotowania: "+dish.getNeededTime());
-    }
-
-    private Optional<Dish> getSelectedDish() {
+    private Optional<Dish> selectedDish() {
         var selectedDishName = dishesListView.getSelectionModel().getSelectedItem();
         return cookBook.getDishes()
                 .stream()
@@ -220,18 +203,14 @@ public class ChoosingDishesPaneController {
         );
     }
 
-    private void loadCookBook() {
-        var loader = new SerialObjectLoader();
-        var loaded = loader.load(Paths.COOK_BOOK_PATH);
-        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
-    }
 
     public void setParent(MainController main) {
         parent = main;
     }
 
-    public void exit() {
-//        var loader = new SerialObjectLoader();
-//        loader.save(cookBook, Paths.COOK_BOOK_PATH);
+    private void loadCookBook() {
+        var loader = new SerialObjectLoader();
+        var loaded = loader.load(Paths.COOK_BOOK_PATH);
+        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
     }
 }
