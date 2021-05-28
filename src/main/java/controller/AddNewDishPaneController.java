@@ -19,6 +19,7 @@ import model.enumerative.IngredientCategory;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.stream.Collectors;
 
@@ -58,15 +59,14 @@ public class AddNewDishPaneController {
     private TextArea ingredientUnitTextArea;
 
     private MainController parent;
+    private MainMenuPaneController mainMenuPaneController;
     private CookBook cookBook;
     private Set<Ingredient> IngredientsOfNewDish;
 
 
     public void init() {
-        toEditCookBook.setOnAction(e -> {
-            parent.goToCookBookEdit();
-            addNewDish();
-        });
+        setToEditCookBookButtonOnAction();
+        setSaveNewDishButtonOnAction();
         loadCookBook();
         IngredientsOfNewDish = new HashSet<>();
         populateIngredientCategoryChoiceBox();
@@ -78,21 +78,35 @@ public class AddNewDishPaneController {
         parent = mainController;
     }
 
+    public void setToEditCookBookButtonOnAction() {
+        toEditCookBook.setOnAction(e -> parent.goToCookBookEdit());
+    }
+
     public void setSaveNewDishButtonOnAction() {
-        saveNewDishButton.setOnAction(e -> addNewDish());
+        saveNewDishButton.setOnAction(e -> {
+            try{
+                addNewDish();
+                parent.goToMainMenu();
+                mainMenuPaneController.displaySuccessfulAddOfNewDish();
+            } catch (IOException f){
+                f.printStackTrace();;
+            }
+            
+        });
     }
 
     public void setAddIngredientButtonOnAction() {
         addIngredientsButton.setOnAction(e -> addIngredient());
     }
 
-    public void addNewDish(){
+    public void addNewDish() throws IOException{
         Dish newDish = new Dish(
             getDishNameFromTextField(),
             getRecipeFromTextField(),
             getDishDescriptionFromTextField(),
             IngredientsOfNewDish,
             Set.of(getDishCategoryFromChoiceBox()),
+            "",
             null,
             Duration.ofMinutes(getNeededTimeFromTextField()),
             getNumberOfServingsFromTextField()

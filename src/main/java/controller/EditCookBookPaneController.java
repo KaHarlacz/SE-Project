@@ -10,6 +10,7 @@ import model.data.Ingredient;
 import model.files_management.Paths;
 import model.files_management.SerialObjectLoader;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Optional;
@@ -54,7 +55,7 @@ public class EditCookBookPaneController {
 
     private MainController parent;
 
-    public void init() {
+    public void init() throws IOException {
         loadCookBook();
         putDishesOnList(cookBook.getDishes());
         setDishesListOnAction();
@@ -66,12 +67,15 @@ public class EditCookBookPaneController {
         setConfirmButtonOnAction();
     }
 
-    private void setConfirmButtonOnAction() {
-        confirmChangesButton.setOnAction(e -> {
-            var modifiedDish = createDishFromInputData();
-            var selectedDish = getSelectedDish();
-            selectedDish.ifPresent(cookBook::deleteDish);
-            modifiedDish.ifPresent(cookBook::addDish);
+    private void setConfirmButtonOnAction() throws IOException {
+        confirmChangesButton.setOnAction(e -> { try {
+                var modifiedDish = createDishFromInputData();
+                var selectedDish = getSelectedDish();
+                selectedDish.ifPresent(cookBook::deleteDish);
+                modifiedDish.ifPresent(cookBook::addDish);
+            } catch (IOException f){
+                f.printStackTrace();
+            }
         });
     }
 
@@ -88,7 +92,7 @@ public class EditCookBookPaneController {
         );
     }
 
-    private Optional<Dish> createDishFromInputData() {
+    private Optional<Dish> createDishFromInputData() throws IOException {
         // TODO: Way to add categories and image needed
         var builder = DishBuilderImpl.builder()
                 .withName(dishNameText.getText())

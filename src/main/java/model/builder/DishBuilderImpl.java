@@ -5,6 +5,8 @@ import model.data.Dish;
 import model.data.Ingredient;
 import model.enumerative.DishCategory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class DishBuilderImpl implements DishBuilder {
     private String description;
     private Set<Ingredient> ingredients;
     private Set<DishCategory> categories;
+    private String imagePath;
     private Image image;
     private Duration duration;
     private int servings = 1;
@@ -54,6 +57,12 @@ public class DishBuilderImpl implements DishBuilder {
     }
 
     @Override
+    public DishBuilder withImagePath(String imagePath) {
+        this.imagePath = imagePath;
+        return this;
+    }
+
+    @Override
     public DishBuilder withImage(Image image) {
         this.image = image;
         return this;
@@ -78,7 +87,7 @@ public class DishBuilderImpl implements DishBuilder {
     }
 
     @Override
-    public Dish get() {
+    public Dish get() throws IOException {
         if(name.isEmpty())
             throw new IllegalArgumentException("Name cannot be empty");
         if(recipe.isEmpty())
@@ -86,6 +95,6 @@ public class DishBuilderImpl implements DishBuilder {
         if(ingredients == null || ingredients.isEmpty())
             throw new IllegalArgumentException("Ingredients list cannot be empty");
 
-        return new Dish(name, recipe, description, ingredients, categories, image, duration, servings);
+        return new Dish(name, recipe, description, ingredients, categories, imagePath, new Image(new FileInputStream(imagePath)), duration, servings);
     }
 }

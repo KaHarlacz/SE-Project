@@ -5,6 +5,7 @@ import model.data.Dish;
 import model.data.Ingredient;
 import model.enumerative.DishCategory;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ public interface DishBuilder {
 
     DishBuilder withCategories(Set<DishCategory> categories);
 
+    DishBuilder withImagePath(String imagePath);
+
     DishBuilder withImage(Image image);
 
     DishBuilder withDuration(Duration duration);
@@ -27,5 +30,5 @@ public interface DishBuilder {
 
     DishBuilder asFavourite(boolean favourite);
 
-    Dish get();
+    Dish get() throws IOException;
 }

@@ -36,6 +36,7 @@ public class SummaryPaneController {
     private ChoiceBox<String> splitterTypeChoiceBox;
 
     private MainController parent;
+    private MainMenuPaneController mainMenuPaneController;
     private ShoppingList shoppingList = ShoppingList.getInstance();
     private List<ListView<String>> listViews;
 
@@ -78,6 +79,7 @@ public class SummaryPaneController {
         exportButton.setOnAction(e -> {
             exportIngredientList();
             parent.goToMainMenu();
+            mainMenuPaneController.displaySuccessfulShoppingListExport();
         });
     }
 

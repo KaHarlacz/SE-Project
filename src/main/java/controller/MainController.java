@@ -43,7 +43,7 @@ public class MainController extends Application {
         loadEditCookBook();
     }
 
-    private void setSwitchingScenes() {
+    private void setSwitchingScenes() throws IOException {
         setControllersParent();
         initControllers();
     }
@@ -85,7 +85,7 @@ public class MainController extends Application {
         stage.show();
     }
 
-    private void initControllers() {
+    private void initControllers() throws IOException {
         mainMenuController.init();
         choosingDishesController.init();
         summaryController.init();

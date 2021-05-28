@@ -3,6 +3,9 @@ package model.data;
 import javafx.scene.image.Image;
 import model.enumerative.DishCategory;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.HashSet;
@@ -17,6 +20,7 @@ public class Dish implements Serializable, Comparable<Dish> {
     private String description;
     private Set<Ingredient> ingredients;
     private Set<DishCategory> categories;
+    private String imagePath;
     private Image image;
     private Duration duration;
     private int servings;
@@ -27,9 +31,10 @@ public class Dish implements Serializable, Comparable<Dish> {
                 String description,
                 Set<Ingredient> ingredients,
                 Set<DishCategory> categories,
+                String imagePath,
                 Image image,
                 Duration duration,
-                int servings) {
+                int servings) throws IOException {
 
         if (name.equals(""))
             throw new IllegalArgumentException();
@@ -50,7 +55,8 @@ public class Dish implements Serializable, Comparable<Dish> {
         this.description = description;
         this.ingredients = ingredients;
         this.categories = categories;
-        this.image = image;
+        this.imagePath = imagePath;
+        this.image =  new Image(new FileInputStream(imagePath));
         this.duration = duration;
         this.servings = servings;
     }

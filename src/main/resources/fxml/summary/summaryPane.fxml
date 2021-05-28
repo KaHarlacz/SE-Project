@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/summary.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/summary.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SummaryPaneController">
    <top>
       <HBox prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,7 +22,7 @@
                   <Button id="to-summary-button" fx:id="goBackButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Do tworzenia listy" />
                </items>
             </ToolBar>
-            <ToolBar id="upper-toolBar2" prefHeight="43.0" prefWidth="169.0" HBox.hgrow="NEVER">
+            <ToolBar id="upper-toolBar2" prefHeight="71.0" prefWidth="169.0" HBox.hgrow="NEVER">
                <items>
                   <Button id="to-summary-button" fx:id="exportButton" alignment="TOP_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" text="Wyeksportuj do pliku" />
                </items>
