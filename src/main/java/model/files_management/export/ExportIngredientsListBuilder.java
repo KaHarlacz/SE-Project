@@ -2,10 +2,10 @@ package model.files_management.export;
 
 import java.time.LocalDate;
 
-public class ExportStringBuilder {
+public class ExportIngredientsListBuilder {
     private StringBuilder result = new StringBuilder();
 
-    public ExportStringBuilder appendHeader() {
+    public ExportIngredientsListBuilder appendHeader() {
         result.append("Lista zakupów ")
                 .append(LocalDate.now())
                 .append("\n")
@@ -14,13 +14,13 @@ public class ExportStringBuilder {
         return this;
     }
 
-    public ExportStringBuilder nextIngredient(String ingredient) {
+    public ExportIngredientsListBuilder appendIngredient(String ingredient) {
         result.append(ingredient)
                 .append("\n");
         return this;
     }
 
-    public ExportStringBuilder nextList() {
+    public ExportIngredientsListBuilder nextList() {
         result.append("\n")
                 .append("============================")
                 .append("\n\n");

@@ -30,21 +30,7 @@ public class Dish implements Serializable, Comparable<Dish> {
                 Image image,
                 Duration duration,
                 int servings) {
-
-        if (name.equals(""))
-            throw new IllegalArgumentException();
-
-        if (servings <= 0)
-            throw new IllegalArgumentException();
-
-        if (ingredients == null || ingredients.isEmpty())
-            throw new IllegalArgumentException();
-
-        if (categories == null || categories.isEmpty()) {
-            categories = new HashSet<>();
-            categories.add(DishCategory.OTHER);
-        }
-
+        validData(name, servings, ingredients, categories);
         this.name = name;
         this.recipe = recipe;
         this.description = description;
@@ -169,5 +155,21 @@ public class Dish implements Serializable, Comparable<Dish> {
         //if(isFavourite())
         //    string += " " + "*"; //"\uF60B";
         return string;
+    }
+
+    private void validData(String name, int servings, Set<Ingredient> ingredients, Set<DishCategory> categories) {
+        if (name.equals(""))
+            throw new IllegalArgumentException();
+
+        if (servings <= 0)
+            throw new IllegalArgumentException();
+
+        if (ingredients == null || ingredients.isEmpty())
+            throw new IllegalArgumentException();
+
+        if (categories == null || categories.isEmpty()) {
+            categories = new HashSet<>();
+            categories.add(DishCategory.OTHER);
+        }
     }
 }

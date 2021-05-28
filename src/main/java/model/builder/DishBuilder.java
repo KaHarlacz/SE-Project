@@ -29,5 +29,5 @@ public interface DishBuilder {
 
     DishBuilder asFavourite(boolean favourite);
 
-    Dish get();
+    Dish build();
 }

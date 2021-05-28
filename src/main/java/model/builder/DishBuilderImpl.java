@@ -90,7 +90,7 @@ public class DishBuilderImpl implements DishBuilder {
     }
 
     @Override
-    public Dish get() {
+    public Dish build() {
         if(name.isEmpty())
             throw new IllegalArgumentException("Name cannot be empty");
         if(recipe.isEmpty())

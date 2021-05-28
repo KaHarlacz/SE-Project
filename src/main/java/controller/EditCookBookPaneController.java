@@ -8,9 +8,9 @@ import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
 import model.files_management.Paths;
-import model.files_management.SerialObjectLoader;
+import model.files_management.export.SerializableObjectsExporter;
+import model.files_management.load.SerializableObjectsLoader;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Optional;
@@ -72,7 +72,8 @@ public class EditCookBookPaneController {
     }
 
     public void exit() {
-        new SerialObjectLoader().save(cookBook, Paths.COOK_BOOK_PATH);
+        new SerializableObjectsExporter<CookBook>(Paths.COOK_BOOK_PATH)
+                .export(cookBook);
     }
 
     private void setConfirmButtonOnAction() {
@@ -85,9 +86,8 @@ public class EditCookBookPaneController {
     }
 
     private void loadCookBook() {
-        var loader = new SerialObjectLoader();
-        var loaded = loader.load(Paths.COOK_BOOK_PATH);
-        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
+        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
+        loader.load().ifPresent(loaded -> cookBook = loaded);
     }
 
     private void putDishesOnList(Set<Dish> dishes) {
@@ -110,7 +110,7 @@ public class EditCookBookPaneController {
         getInputDuration().ifPresent(builder::withDuration);
         getInputServings().ifPresent(builder::withServings);
 
-        return Optional.of(builder.get());
+        return Optional.of(builder.build());
     }
 
     private void setDeleteDishButtonOnAction() {

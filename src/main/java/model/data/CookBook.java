@@ -4,11 +4,12 @@ import model.filter.Filter;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CookBook implements Serializable {
-    private final static long serialVersionUID = 1L;
+    private final static long serialVersionUID = 100L;
 
     private Set<Dish> dishes;
     private Set<Ingredient> availableIngredients;
@@ -30,6 +31,8 @@ public class CookBook implements Serializable {
             if (f != null)
                 result = f.filter(result);
         }
+
+
 
         return result;
     }
@@ -60,5 +63,19 @@ public class CookBook implements Serializable {
 
     public Set<Ingredient> getAvailableIngredients() {
         return availableIngredients;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CookBook cookBook = (CookBook) o;
+        return Objects.equals(dishes, cookBook.dishes)
+                && Objects.equals(availableIngredients, cookBook.availableIngredients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dishes, availableIngredients);
     }
 }

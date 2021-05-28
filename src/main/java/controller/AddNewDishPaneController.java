@@ -1,26 +1,20 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tab;
-import model.files_management.Paths;
-import model.files_management.SerialObjectLoader;
-
+import javafx.scene.control.*;
+import model.builder.DishBuilderImpl;
 import model.data.CookBook;
-import model.data.Dish;
 import model.data.Ingredient;
 import model.data.Quantity;
 import model.enumerative.DishCategory;
 import model.enumerative.IngredientCategory;
+import model.files_management.Paths;
+import model.files_management.load.SerializableObjectsLoader;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AddNewDishPaneController {
@@ -61,14 +55,14 @@ public class AddNewDishPaneController {
     private CookBook cookBook;
     private MainController parent;
     private MainMenuPaneController mainMenuPaneController;
-    private Set<Ingredient> IngredientsOfNewDish;
+    private Set<Ingredient> ingredientsOfNewDish;
 
     // Methods for controller set up 
     public void init() {
         setToEditCookBookButtonOnAction();
         setSaveNewDishButtonOnAction();
         loadCookBook();
-        IngredientsOfNewDish = new HashSet<>();
+        ingredientsOfNewDish = new HashSet<>();
         populateIngredientCategoryChoiceBox();
         populateDishCategoryChoiceBox();
         setIngredientsOfNewDishTabOnAction();
@@ -79,9 +73,8 @@ public class AddNewDishPaneController {
     }
 
     private void loadCookBook() {
-        var loader = new SerialObjectLoader();
-        var loaded = loader.load(Paths.COOK_BOOK_PATH);
-        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
+        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
+        loader.load().ifPresent(loaded -> cookBook = loaded);
     }
 
     public void populateIngredientCategoryChoiceBox() {
@@ -99,14 +92,14 @@ public class AddNewDishPaneController {
 
     public void setSaveNewDishButtonOnAction() {
         saveNewDishButton.setOnAction(e -> {
-            try{
+            try {
                 addNewDishToCookBook();
                 parent.goToMainMenu();
                 mainMenuPaneController.displaySuccessfulAddOfNewDish();
-            } catch (IOException f){
-                f.printStackTrace();;
+            } catch (IOException f) {
+                f.printStackTrace();
             }
-            
+
         });
     }
 
@@ -114,52 +107,50 @@ public class AddNewDishPaneController {
         addIngredientsButton.setOnAction(e -> addIngredientToListOfIngredientToAdd());
     }
 
-    public void addNewDishToCookBook() throws IOException{
-        Dish newDish = new Dish(
-            getDishNameFromTextField(),
-            getRecipeFromTextField(),
-            getDishDescriptionFromTextField(),
-            IngredientsOfNewDish,
-            Set.of(getDishCategoryFromChoiceBox()),
-            "",
-            null,
-            Duration.ofMinutes(getNeededTimeFromTextField()),
-            getNumberOfServingsFromTextField()
+    public void addNewDishToCookBook() {
+        cookBook.addDish(DishBuilderImpl.builder()
+                .withName(inputName())
+                .withRecipe(inputRecipe())
+                .withDescription(inputDescription())
+                .withIngredients(ingredientsOfNewDish)
+                .withCategories(Set.of(inputCategory()))
+                .withDuration(Duration.ofMinutes(inputTime()))
+                .withServings(inputServings())
+                .build()
         );
-        cookBook.addDish(newDish);
     }
 
     public void addIngredientToListOfIngredientToAdd() {
-        IngredientsOfNewDish.add(new Ingredient(
-            getIngredientNameFromTextField(),
-            getIngredientCategoryFromChoiceBox(),
-            new Quantity(getIngredientQuantityFromTextField(), getIngredientUnitFromTextAreaField())
+        ingredientsOfNewDish.add(new Ingredient(
+                getIngredientNameFromTextField(),
+                getIngredientCategoryFromChoiceBox(),
+                new Quantity(getIngredientQuantityFromTextField(), getIngredientUnitFromTextAreaField())
         ));
         setIngredientTextFieldsToEmpty();
     }
 
     // Methods for get dish data 
-    public String getDishNameFromTextField() {
+    public String inputName() {
         return dishNameTextField.getText();
     }
 
-    public String getDishDescriptionFromTextField() {
+    public String inputDescription() {
         return dishDescriptionTextField.getText();
     }
 
-    public String getRecipeFromTextField() {
+    public String inputRecipe() {
         return recipeTextField.getText();
     }
 
-    public DishCategory getDishCategoryFromChoiceBox() {
+    public DishCategory inputCategory() {
         return dishCategoryChoiceBox.getValue();
     }
 
-    public int getNeededTimeFromTextField() {
+    public int inputTime() {
         return Integer.parseInt(neededTimeTextField.getText());
     }
 
-    public int getNumberOfServingsFromTextField() {
+    public int inputServings() {
         return Integer.parseInt(numberOfServingsTextField.getText());
     }
 
@@ -199,7 +190,7 @@ public class AddNewDishPaneController {
     private void setIngredientsOfNewDishTabOnAction() {
         addedIngredientsTab.setOnSelectionChanged(e -> {
             if (addedIngredientsTab.isSelected())
-                putIngredientsOnList(IngredientsOfNewDish);
+                putIngredientsOnList(ingredientsOfNewDish);
         });
     }
 }

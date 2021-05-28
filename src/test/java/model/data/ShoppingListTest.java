@@ -25,12 +25,12 @@ class ShoppingListTest {
     @Test
     public void addDishIngredientsCheckIfAdded() {
         when(mockDish.getIngredients()).thenReturn(mockIngredients);
-        for (Ingredient mockIngredient : mockIngredients) {
+        mockIngredients.forEach(mockIngredient -> {
             var mockQuantity = mock(Quantity.class);
             when(mockIngredient.getQuantity()).thenReturn(mockQuantity);
             when(mockQuantity.getUnit()).thenReturn("szt");
             when(mockQuantity.getValue()).thenReturn(1.);
-        }
+        });
 
         shoppingList.addIngredientsFrom(mockDish);
 
@@ -92,7 +92,6 @@ class ShoppingListTest {
         assertEquals(Set.of(ingredients.get(1)), shoppingList.getIngredients());
     }
 
-/*
     @Test
     public void deleteIngredientNotCompletelyCheckIfNotDeleted() {
         var ingredients = List.copyOf(mockIngredients);
@@ -114,5 +113,4 @@ class ShoppingListTest {
         assertEquals(mockIngredients, shoppingList.getIngredients());
         //shoppingList.getIngredients().
     }
- */
 }

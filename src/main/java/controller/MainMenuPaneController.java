@@ -15,7 +15,7 @@ public class MainMenuPaneController {
     @FXML
     private Button toMenuPane;
     @FXML
-    private Text messegePromptText;
+    private Text messagePromptText;
 
     private MainController parent;
 
@@ -34,10 +34,10 @@ public class MainMenuPaneController {
     }
 
     public void displaySuccessfulShoppingListExport() {
-        messegePromptText.setText("Pomyślnie wyeksportowano listę zakupów!");
+        messagePromptText.setText("Pomyślnie wyeksportowano listę zakupów!");
     }
 
     public void displaySuccessfulAddOfNewDish() throws IOException {
-        messegePromptText.setText("Pomyślenie dodano nowy przepis!");
+        messagePromptText.setText("Pomyślenie dodano nowy przepis!");
     }
 }

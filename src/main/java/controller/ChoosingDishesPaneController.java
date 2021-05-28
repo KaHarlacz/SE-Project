@@ -12,7 +12,7 @@ import model.data.Dish;
 import model.data.Ingredient;
 import model.data.ShoppingList;
 import model.files_management.Paths;
-import model.files_management.SerialObjectLoader;
+import model.files_management.load.SerializableObjectsLoader;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,8 +61,7 @@ public class ChoosingDishesPaneController {
     private MainController parent;
     private ShoppingList shoppingList = ShoppingList.getInstance();
 
-    // Method for controller set up 
-
+    // Method for controller set up
     public void init() {
         loadCookBook();
         putDishesOnList(cookBook.getDishes());
@@ -74,18 +73,11 @@ public class ChoosingDishesPaneController {
         setFavouriteButtonOnAction();
     }
 
-    private void loadCookBook() {
-        var loader = new SerialObjectLoader();
-        var loaded = loader.load(Paths.COOK_BOOK_PATH);
-        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
-    }
-
     public void setParent(MainController main) {
         parent = main;
     }
 
     // Methods for display dish data
-
     private void showDish(Dish dish) {
         showNameOf(dish);
         showRecipeOf(dish);
@@ -147,7 +139,6 @@ public class ChoosingDishesPaneController {
     }
 
     // Methods for button functionality
-
     private void setFavouriteButtonOnAction() {
         isFavouriteButton.setOnAction(e -> changeFavouriteStatus());
     }
@@ -185,7 +176,6 @@ public class ChoosingDishesPaneController {
     }
 
     // Method for tab functionality
-
     private void setDishesTabOnAction() {
         dishesTab.setOnSelectionChanged(e -> {
             if (dishesTab.isSelected())
@@ -236,5 +226,10 @@ public class ChoosingDishesPaneController {
 
     private void setDishesListOnAction() {
         dishesListView.setOnMouseClicked(e -> showSelectedDish());
+    }
+
+    private void loadCookBook() {
+        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
+        loader.load().ifPresent(loaded -> cookBook = loaded);
     }
 }

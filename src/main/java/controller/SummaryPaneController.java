@@ -9,7 +9,7 @@ import model.data.Ingredient;
 import model.data.ShoppingList;
 import model.enumerative.SplitOption;
 import model.files_management.Paths;
-import model.files_management.export.ExportStringBuilder;
+import model.files_management.export.ExportIngredientsListBuilder;
 import model.files_management.export.TXTExporter;
 
 import java.util.Arrays;
@@ -112,7 +112,10 @@ public class SummaryPaneController {
 
     //Methods for choicebox functionality
     private void setSplitOptionsOnAction() {
-        splitterTypeChoiceBox.setOnAction(e -> showIngredientLists());
+        splitterTypeChoiceBox.setOnAction(e -> {
+            chosenSplitOption().ifPresent(option -> splitterTypeChoiceBox.setValue(option.getDescription()));
+            showIngredientLists();
+        });
     }
 
     private void setDefaultSplitOption() {
@@ -130,15 +133,16 @@ public class SummaryPaneController {
     private Optional<SplitOption> chosenSplitOption() {
         return SplitOption.fromDescription(splitterTypeChoiceBox.getValue());
     }
+
     //Methods for export functionality
     private void exportIngredientList() {
         new TXTExporter(Paths.EXPORT_PATH).export(buildExportString());
     }
 
     private String buildExportString() {
-        var exportStringBuilder = new ExportStringBuilder().appendHeader();
+        var exportStringBuilder = new ExportIngredientsListBuilder().appendHeader();
         for (int i = 0; i < numberOfListsSlider.getValue(); i++) {
-            listViews.get(i).getItems().forEach(exportStringBuilder::nextIngredient);
+            listViews.get(i).getItems().forEach(exportStringBuilder::appendIngredient);
             exportStringBuilder.nextList();
         }
         return exportStringBuilder.get();

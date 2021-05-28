@@ -3,7 +3,6 @@ package model.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,55 +15,28 @@ class DishTest {
     private Set<Ingredient> ingredientsSet;
 
     // TODO: Rewrite these tests
-//    @BeforeEach
-//    public void setUp() {
-//        ingredients = new Ingredient[]{mock(Ingredient.class), mock(Ingredient.class)};
-//        ingredientsSet = Set.of(ingredients[0], ingredients[1]);
-//        dish = new Dish("Zupa ogórkowa", "Przypal wodę", ingredientsSet, null, null, null, 1);
-//    }
-//
-//    @Test
-//    public void passEmptyStringNameConstructor() {
-//        dish = new Dish("", null, ingredientsSet, null, null, null, 1);
-//        assertEquals("No name specified", dish.getName());
-//    }
-//
-//    @Test
-//    public void passEmptyIngredientsMapConstructor() {
-//        dish = new Dish("Zupa z gwoździa", null, new HashSet<>(), null, null, null, 1);
-//        assertTrue(dish.getIngredients().isEmpty());
-//    }
-
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
         ingredients = new Ingredient[]{mock(Ingredient.class), mock(Ingredient.class)};
         ingredientsSet = Set.of(ingredients[0], ingredients[1]);
-        dish = new Dish("Zupa ogórkowa", "Przypal wodę", "", ingredientsSet, null, "", null, null, 1);
+        dish = new Dish("Zupa ogórkowa", "Przypal wodę", "Jakiś tam przepis", ingredientsSet, null, null, null, 1);
     }
 
     @Test
-    public void passEmptyStringNameConstructor() throws IOException {
-        dish = new Dish("", null, "", ingredientsSet, null, "",  null, null, 1);
-        assertEquals("No name specified", dish.getName());
+    public void passEmptyStringNameConstructor() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Dish("", "Coś tam zrób", "ABC", ingredientsSet, null, null, null, 1)
+        );
     }
 
     @Test
-    public void passEmptyIngredientsMapConstructor() throws IOException{
-        dish = new Dish("Zupa z gwoździa", null, "", new HashSet<>(), null, "",  null, null, 1);
-        assertTrue(dish.getIngredients().isEmpty());
+    public void passEmptyIngredientsMapConstructor() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Dish("Zupa z gwoździa", "ABC", "ABC", new HashSet<>(), null, null, null, 1)
+        );
     }
-
-//    @Test
-//    public void passNullCategoriesCheckIfSetOther() {
-//        dish = new Dish("Zupa z gwoździa", null, ingredientQuantityMap, null, null, null, 1);
-//        assertEquals(DishCategory.OTHER, dish.getCategories().get(0));
-//    }
-//
-//    @Test
-//    public void passEmptyCategoriesCheckIfSetOther() {
-//        dish = new Dish("Zupa z gwoździa", null, ingredientQuantityMap, new HashSet<>(), null, null, 1);
-//        assertEquals(DishCategory.OTHER, dish.getCategories());
-//    }
 
     @Test
     public void addNegativeIngredientQuantity() {
@@ -101,7 +73,12 @@ class DishTest {
 
     @Test
     public void tryAddAlreadyExistingIngredient() {
+        var quantity = mock(Quantity.class);
         when(ingredients[1].compareTo(any())).thenReturn(0);
+        when(ingredients[1].getQuantity()).thenReturn(quantity);
+        when(quantity.getValue()).thenReturn(1.);
+
+        // This ingredient is already added
         assertFalse(dish.addIngredient(ingredients[1]));
     }
 
