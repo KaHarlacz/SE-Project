@@ -121,7 +121,6 @@ public class AddNewDishPaneController {
             getDishDescriptionFromTextField(),
             IngredientsOfNewDish,
             Set.of(getDishCategoryFromChoiceBox()),
-            "",
             null,
             Duration.ofMinutes(getNeededTimeFromTextField()),
             getNumberOfServingsFromTextField()
