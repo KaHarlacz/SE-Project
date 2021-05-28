@@ -13,8 +13,7 @@ class DishTest {
     private Dish dish;
     private Ingredient[] ingredients;
     private Set<Ingredient> ingredientsSet;
-
-    // TODO: Rewrite these tests
+    
     @BeforeEach
     public void setUp() {
         ingredients = new Ingredient[]{mock(Ingredient.class), mock(Ingredient.class)};

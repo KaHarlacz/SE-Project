@@ -55,14 +55,13 @@ public class AddNewDishPaneController {
     private CookBook cookBook;
     private MainController parent;
     private MainMenuPaneController mainMenuPaneController;
-    private Set<Ingredient> ingredientsOfNewDish;
+    private Set<Ingredient> ingredientsOfNewDish = new HashSet<>();
 
     // Methods for controller set up 
     public void init() {
         setToEditCookBookButtonOnAction();
         setSaveNewDishButtonOnAction();
         loadCookBook();
-        ingredientsOfNewDish = new HashSet<>();
         populateIngredientCategoryChoiceBox();
         populateDishCategoryChoiceBox();
         setIngredientsOfNewDishTabOnAction();
