@@ -66,6 +66,14 @@ public class EditCookBookPaneController {
         setConfirmButtonOnAction();
     }
 
+    public void setParent(MainController main) {
+        parent = main;
+    }
+
+    public void exit() {
+        new SerialObjectLoader().save(cookBook, Paths.COOK_BOOK_PATH);
+    }
+
     private void setConfirmButtonOnAction() {
         confirmChangesButton.setOnAction(e -> {
             var modifiedDish = createDishFromInputData();
@@ -84,7 +92,7 @@ public class EditCookBookPaneController {
 
     private void setUndoChangesButtonOnAction() {
         undoChangesButton.setOnAction(e ->
-            getSelectedDish().ifPresent(this::showDish)
+                getSelectedDish().ifPresent(this::showDish)
         );
     }
 
@@ -211,10 +219,6 @@ public class EditCookBookPaneController {
         cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
     }
 
-    public void exit() {
-        new SerialObjectLoader().save(cookBook, Paths.COOK_BOOK_PATH);
-    }
-
     private void showNameOf(Dish dish) {
         dishNameText.setText(dish.getName());
     }
@@ -227,7 +231,4 @@ public class EditCookBookPaneController {
         dishImage.setImage(dish.getImage());
     }
 
-    public void setParent(MainController main) {
-        parent = main;
-    }
 }
