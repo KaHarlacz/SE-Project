@@ -8,13 +8,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainController extends Application {
-
-    private Stage stage;
-    private Scene mainMenu;
-    private Scene choosingDishes;
-    private Scene summary;
-    private Scene cookBookEdit;
+    
     private Scene addNewDish;
+    private Scene choosingDishes;
+    private Scene cookBookEdit;
+    private Scene mainMenu;
+    private Scene summary;
+    private Stage stage;
 
     // Children controllers
     private MainMenuPaneController mainMenuController;
@@ -43,34 +43,9 @@ public class MainController extends Application {
         loadEditCookBook();
     }
 
-    private void setSwitchingScenes() {
+    private void setSwitchingScenes() throws IOException {
         setControllersParent();
         initControllers();
-    }
-
-    public void goToMainMenu() {
-        setScene(mainMenu);
-    }
-
-    public void goToSummary() {
-        setScene(summary);
-        summaryController.showIngredientLists();
-    }
-
-    public void goToCookBookEdit() {
-        setScene(cookBookEdit);
-    }
-
-    public void goToChoosingDishes() {
-        setScene(choosingDishes);
-    }
-
-    public void goToAddNewDish() {
-        setScene(addNewDish);
-    }
-
-    private void setScene(Scene scene) {
-        stage.setScene(scene);
     }
 
     public void exit() {
@@ -85,7 +60,7 @@ public class MainController extends Application {
         stage.show();
     }
 
-    private void initControllers() {
+    private void initControllers() throws IOException {
         mainMenuController.init();
         choosingDishesController.init();
         summaryController.init();
@@ -101,6 +76,7 @@ public class MainController extends Application {
         addNewDishController.setParent(this);
     }
 
+    //Methods for loading scenes
     private void loadSummary() throws IOException {
         var summaryLoader = new FXMLLoader(getClass().getResource("/fxml/summary/summaryPane.fxml"));
         summary = new Scene(summaryLoader.load());
@@ -129,5 +105,31 @@ public class MainController extends Application {
         var addNewDishLoader = new FXMLLoader(getClass().getResource("/fxml/add_dish/addDishPane.fxml"));
         addNewDish = new Scene(addNewDishLoader.load());
         addNewDishController = addNewDishLoader.getController();
+    }
+
+    //Methods for changing scenes
+    private void setScene(Scene scene) {
+        stage.setScene(scene);
+    }
+
+    public void goToMainMenu() {
+        setScene(mainMenu);
+    }
+
+    public void goToSummary() {
+        setScene(summary);
+        summaryController.showIngredientLists();
+    }
+
+    public void goToCookBookEdit() {
+        setScene(cookBookEdit);
+    }
+
+    public void goToChoosingDishes() {
+        setScene(choosingDishes);
+    }
+
+    public void goToAddNewDish() {
+        setScene(addNewDish);
     }
 }

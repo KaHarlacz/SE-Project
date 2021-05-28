@@ -21,6 +21,8 @@ public interface DishBuilder {
 
     DishBuilder withImage(Image image);
 
+    DishBuilder withImage(String imagePath);
+
     DishBuilder withDuration(Duration duration);
 
     DishBuilder withServings(int servings);

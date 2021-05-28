@@ -5,6 +5,8 @@ import model.data.Dish;
 import model.data.Ingredient;
 import model.enumerative.DishCategory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
 
@@ -50,6 +52,16 @@ public class DishBuilderImpl implements DishBuilder {
     @Override
     public DishBuilder withCategories(Set<DishCategory> categories) {
         this.categories = categories;
+        return this;
+    }
+
+    @Override
+    public DishBuilder withImage(String imagePath) {
+        try {
+            this.image = new Image(new FileInputStream(imagePath));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Cannot load dish image");
+        }
         return this;
     }
 
