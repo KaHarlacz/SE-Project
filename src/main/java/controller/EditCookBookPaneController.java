@@ -19,25 +19,29 @@ import java.util.stream.Collectors;
 
 public class EditCookBookPaneController {
     @FXML
-    private FiltersPaneController filtersPaneController;
+    private Button addNewDishButton;
     @FXML
     private Button confirmChangesButton;
+    @FXML
+    private Button deleteDishButton;
+    @FXML
+    private Button isFavouriteButton;
     @FXML
     private Button toMainMenuButton;
     @FXML
     private Button undoChangesButton;
     @FXML
-    private Button deleteDishButton;
-    @FXML
-    private Button addNewDishButton;
-    @FXML
-    private Button isFavouriteButton;
+    private FiltersPaneController filtersPaneController;
     @FXML
     private ImageView dishImage;
     @FXML
     private ListView<String> dishListView;
     @FXML
     private ListView<String> ingredientsNeededListView;
+    @FXML
+    private Tab dishesTab;
+    @FXML
+    private TextArea recipeTextArea;
     @FXML
     private TextField dishDescriptionText;
     @FXML
@@ -46,15 +50,11 @@ public class EditCookBookPaneController {
     private TextField neededTimeTextField;
     @FXML
     private TextField numberOfServingsTextField;
-    @FXML
-    private TextArea recipeTextArea;
-    @FXML
-    private Tab dishesTab;
 
     private CookBook cookBook;
-
     private MainController parent;
 
+    // Methods for controller set up
     public void init() throws IOException {
         loadCookBook();
         putDishesOnList(cookBook.getDishes());
@@ -67,6 +67,30 @@ public class EditCookBookPaneController {
         setConfirmButtonOnAction();
     }
 
+    private void loadCookBook() {
+        var loader = new SerialObjectLoader();
+        var loaded = loader.load(Paths.COOK_BOOK_PATH);
+        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
+    }
+
+    public void exit() {
+        new SerialObjectLoader().save(cookBook, Paths.COOK_BOOK_PATH);
+    }
+
+    private void putDishesOnList(Set<Dish> dishes) {
+        dishListView.getItems().clear();
+        dishListView.getItems().addAll(
+                dishes.stream()
+                        .map(Dish::getName)
+                        .collect(Collectors.toSet())
+        );
+    }
+
+    public void setParent(MainController main) {
+        parent = main;
+    }
+
+    // Methods for button functionality
     private void setConfirmButtonOnAction() throws IOException {
         confirmChangesButton.setOnAction(e -> { try {
                 var modifiedDish = createDishFromInputData();
@@ -77,19 +101,6 @@ public class EditCookBookPaneController {
                 f.printStackTrace();
             }
         });
-    }
-
-    private void setDeleteDishButtonOnAction() {
-        deleteDishButton.setOnAction(e -> {
-            var selectedDish = getSelectedDish();
-            selectedDish.ifPresent(cookBook::deleteDish);
-        });
-    }
-
-    private void setUndoChangesButtonOnAction() {
-        undoChangesButton.setOnAction(e ->
-            getSelectedDish().ifPresent(this::showDish)
-        );
     }
 
     private Optional<Dish> createDishFromInputData() throws IOException {
@@ -106,6 +117,92 @@ public class EditCookBookPaneController {
         return Optional.of(builder.get());
     }
 
+    private void setDeleteDishButtonOnAction() {
+        deleteDishButton.setOnAction(e -> {
+            var selectedDish = getSelectedDish();
+            selectedDish.ifPresent(cookBook::deleteDish);
+        });
+    }
+
+    private void setUndoChangesButtonOnAction() {
+        undoChangesButton.setOnAction(e ->
+            getSelectedDish().ifPresent(this::showDish)
+        );
+    }
+
+    private void setFavouriteButtonOnAction() {
+        isFavouriteButton.setOnAction(e -> changeFavouriteStatus());
+    }
+
+    private void changeFavouriteStatus() {
+        getSelectedDish().ifPresent(dish -> {
+            dish.setFavourite(!dish.isFavourite());
+            showFavouriteStatus(dish);
+        });
+    }
+
+    private void setNavigationButtonsOnAction() {
+        addNewDishButton.setOnAction(e -> parent.goToAddNewDish());
+        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+    }
+
+    // Methods for display dish data
+    private void showDish(Dish dish) {
+        showNameOf(dish);
+        showRecipeOf(dish);
+        showImageOf(dish);
+        showIngredientsOf(dish);
+        showDescriptionOf(dish);
+        showFavouriteStatus(dish);
+    }
+
+    private void showIngredientsOf(Dish dish) {
+        ingredientsNeededListView.getItems().clear();
+        ingredientsNeededListView.getItems().addAll(
+                dish.getIngredients()
+                        .stream()
+                        .map(Ingredient::getName)
+                        .toArray(String[]::new)
+        );
+    }
+
+    private void showNameOf(Dish dish) {
+        dishNameText.setText(dish.getName());
+    }
+
+    private void showRecipeOf(Dish dish) {
+        recipeTextArea.setText(dish.getRecipe());
+    }
+
+    private void showImageOf(Dish dish) {
+        dishImage.setImage(dish.getImage());
+    }
+
+    private void showDescriptionOf(Dish dish) {
+        dishDescriptionText.setText(dish.getDescription());
+    }
+    
+    private void showFavouriteStatus(Dish dish) {
+        if (!dish.isFavourite()) {
+            isFavouriteButton.setText("Dodaj do ulubionych");
+        } else {
+            isFavouriteButton.setText("Usuń z ulubionych");
+        }
+    }
+
+    private void showSelectedDish() {
+        getSelectedDish().ifPresent(this::showDish);
+    }
+
+    private Optional<Dish> getSelectedDish() {
+        var selectedDishName = dishListView.getSelectionModel().getSelectedItem();
+        return cookBook.getDishes()
+                .stream()
+                .filter(d -> d.getName().equals(selectedDishName))
+                .findFirst();
+    }
+
+    // Methods to get new data of dish
     private Optional<Integer> getInputServings() {
         return Optional.of(Integer.parseInt(numberOfServingsTextField.getText()));
     }
@@ -130,26 +227,9 @@ public class EditCookBookPaneController {
                 .findFirst();
     }
 
-    private void showDish(Dish dish) {
-        showNameOf(dish);
-        showRecipeOf(dish);
-        showImageOf(dish);
-        showIngredientsOf(dish);
-        showDescriptionOf(dish);
-        showFavouriteStatus(dish);
-    }
-
+    // Methods for tabPane functionality
     private void setDishesListOnAction() {
         dishListView.setOnMouseClicked(e -> showSelectedDish());
-    }
-
-    private void setFavouriteButtonOnAction() {
-        isFavouriteButton.setOnAction(e -> changeFavouriteStatus());
-    }
-
-    private void setNavigationButtonsOnAction() {
-        addNewDishButton.setOnAction(e -> parent.goToAddNewDish());
-        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
     }
 
     private void setDishesTabOnAction() {
@@ -157,81 +237,5 @@ public class EditCookBookPaneController {
             if (dishesTab.isSelected())
                 putDishesOnList(cookBook.filterDishesUsing(filtersPaneController.getFilters()));
         });
-    }
-
-    private void showIngredientsOf(Dish dish) {
-        ingredientsNeededListView.getItems().clear();
-        ingredientsNeededListView.getItems().addAll(
-                dish.getIngredients()
-                        .stream()
-                        .map(Ingredient::getName)
-                        .toArray(String[]::new)
-        );
-    }
-
-    private void changeFavouriteStatus() {
-        getSelectedDish().ifPresent(dish -> {
-            dish.setFavourite(!dish.isFavourite());
-            showFavouriteStatus(dish);
-        });
-    }
-
-    private void showFavouriteStatus(Dish dish) {
-        if (!dish.isFavourite()) {
-            isFavouriteButton.setText("Dodaj do ulubionych");
-        } else {
-            isFavouriteButton.setText("Usuń z ulubionych");
-        }
-    }
-
-    private void showSelectedDish() {
-        getSelectedDish().ifPresent(this::showDish);
-    }
-
-    private void showDescriptionOf(Dish dish) {
-        dishDescriptionText.setText(dish.getDescription());
-    }
-
-    private Optional<Dish> getSelectedDish() {
-        var selectedDishName = dishListView.getSelectionModel().getSelectedItem();
-        return cookBook.getDishes()
-                .stream()
-                .filter(d -> d.getName().equals(selectedDishName))
-                .findFirst();
-    }
-
-    private void putDishesOnList(Set<Dish> dishes) {
-        dishListView.getItems().clear();
-        dishListView.getItems().addAll(
-                dishes.stream()
-                        .map(Dish::getName)
-                        .collect(Collectors.toSet())
-        );
-    }
-
-    private void loadCookBook() {
-        var loader = new SerialObjectLoader();
-        var loaded = loader.load(Paths.COOK_BOOK_PATH);
-        cookBook = loaded.map(o -> (CookBook) o).orElseGet(() -> new CookBook(Set.of()));
-    }
-
-    public void exit() {
-        new SerialObjectLoader().save(cookBook, Paths.COOK_BOOK_PATH);
-    }
-
-    private void showNameOf(Dish dish) {
-        dishNameText.setText(dish.getName());
-    }
-
-    private void showRecipeOf(Dish dish) {
-        recipeTextArea.setText(dish.getRecipe());
-    }
-
-    private void showImageOf(Dish dish) {
-        dishImage.setImage(dish.getImage());
-    }
-
-    public void setParent(MainController main) {
-        parent = main;
     }
 }

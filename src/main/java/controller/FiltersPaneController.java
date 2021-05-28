@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class FiltersPaneController {
     @FXML
-    private TextField nameFilterTextField;
+    private Button addFilterIngredientButton;
     @FXML
     private CheckBox allFavouriteCheckbox;
     @FXML
@@ -43,7 +43,7 @@ public class FiltersPaneController {
     @FXML
     private ListView<String> ingredientsListView;
     @FXML
-    private Button addFilterIngredientButton;
+    private TextField nameFilterTextField;
 
     private List<CheckBox> favouriteCheckboxes;
     // It does not include allCategories checkbox
