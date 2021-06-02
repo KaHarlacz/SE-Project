@@ -1,6 +1,6 @@
 package model.data;
 
-import model.filter.Filter;
+import filter.DishesFilterStrategy;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CookBook implements Serializable {
-    private final static long serialVersionUID = 100L;
+    private final static long serialVersionUID = 1L;
 
     private Set<Dish> dishes;
     private Set<Ingredient> availableIngredients;
@@ -24,7 +24,7 @@ public class CookBook implements Serializable {
         availableIngredients = extractIngredients(dishes);
     }
 
-    public Set<Dish> filterDishesUsing(List<Filter> filterStrategies) {
+    public Set<Dish> filterDishesUsing(List<DishesFilterStrategy> filterStrategies) {
         var result = dishes;
 
         for (var f : filterStrategies) {

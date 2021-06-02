@@ -1,11 +1,13 @@
 package model.data;
 
+import lombok.Builder;
 import model.enumerative.IngredientCategory;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Ingredient implements Serializable, Comparable<Ingredient> {
+@Builder
+public class Ingredient implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
@@ -22,10 +24,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public IngredientCategory getCategory() {
         return category;
     }
@@ -34,8 +32,16 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         return quantity;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
+    }
+
+    public static Ingredient copyOf(Ingredient ingredient) {
+        return new Ingredient(ingredient.getName(), ingredient.getCategory(), Quantity.copyOf(ingredient.getQuantity()));
     }
 
     @Override
@@ -43,27 +49,19 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(name, that.name) && category == that.category && Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, category, quantity);
     }
 
-    @Override
-    public int compareTo(Ingredient other) {
-        return this.name.compareTo(other.name);
-    }
 
     @Override
     public String toString() {
         return this.getName() + " : "
                 + this.getQuantity().getValue() + " "
                 + this.getQuantity().getUnit();
-    }
-
-    public static Ingredient copyOf(Ingredient ingredient) {
-        return new Ingredient(ingredient.getName(), ingredient.getCategory(), Quantity.copyOf(ingredient.getQuantity()));
     }
 }

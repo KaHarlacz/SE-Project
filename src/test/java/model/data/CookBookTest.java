@@ -1,6 +1,6 @@
 package model.data;
 
-import model.filter.Filter;
+import filter.DishesFilterStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ class CookBookTest {
         book.addDish(favouriteDishes.get(1));
 
         // Filter stub
-        Filter filter = dishes -> Set.copyOf(favouriteDishes);
+        DishesFilterStrategy filter = dishes -> Set.copyOf(favouriteDishes);
         var filters = List.of(filter);
 
         var expected = Set.copyOf(favouriteDishes);
@@ -53,8 +53,8 @@ class CookBookTest {
         book.addDish(dishesOfCategory.get(0));
 
         // Filter stubs
-        Filter favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
-        Filter categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
+        DishesFilterStrategy favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
+        DishesFilterStrategy categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
         var filters = List.of(favouriteFilter, categoryFilter);
 
         // Intersection of two sets is expected result
@@ -80,12 +80,12 @@ class CookBookTest {
         book.addDish(dishesOfCategory.get(0));
 
         // Filter stubs
-        Filter favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
-        Filter categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
-        Filter nullFilter = null;
+        DishesFilterStrategy favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
+        DishesFilterStrategy categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
+        DishesFilterStrategy nullFilter = null;
 
         // Adding also nulls
-        var filters = new ArrayList<Filter>();
+        var filters = new ArrayList<DishesFilterStrategy>();
         filters.add(favouriteFilter);
         filters.add(nullFilter);
         filters.add(categoryFilter);

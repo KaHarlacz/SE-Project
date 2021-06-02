@@ -5,9 +5,7 @@ import model.enumerative.DishCategory;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Dish implements Serializable, Comparable<Dish> {
     private static final long serialVersionUID = 1L;
@@ -30,19 +28,26 @@ public class Dish implements Serializable, Comparable<Dish> {
                 Image image,
                 Duration duration,
                 int servings) {
-        validData(name, servings, ingredients, categories);
+        validData(name, servings, ingredients);
         this.name = name;
         this.recipe = recipe;
         this.description = description;
-        this.ingredients = ingredients;
-        this.categories = categories;
+        // new sets to make sure they will be mutable
+        this.ingredients = new HashSet<>(ingredients);
+        this.categories = getValidCategories(categories);
         this.image = image;
         this.duration = duration;
         this.servings = servings;
     }
 
+    private Set<DishCategory> getValidCategories(Set<DishCategory> categories) {
+        if(categories == null || categories.isEmpty())
+            return categories;
+        return new HashSet<>(List.of(DishCategory.OTHER));
+    }
+
     public boolean addIngredient(Ingredient ingredient) {
-        if (ingredient.getQuantity().getValue() <= 0 || ingredients.contains(ingredient))
+        if (ingredients.contains(ingredient) || ingredient.getQuantity().getValue() <= 0)
             return false;
         ingredients.add(ingredient);
         return true;
@@ -151,13 +156,12 @@ public class Dish implements Serializable, Comparable<Dish> {
     @Override
     public String toString() {
         var string = name;
-        // TODO: Adding star to name
-        //if(isFavourite())
-        //    string += " " + "*"; //"\uF60B";
+        if(isFavourite())
+            string += " " + "*";
         return string;
     }
 
-    private void validData(String name, int servings, Set<Ingredient> ingredients, Set<DishCategory> categories) {
+    private void validData(String name, int servings, Set<Ingredient> ingredients) {
         if (name.equals(""))
             throw new IllegalArgumentException();
 
@@ -166,10 +170,5 @@ public class Dish implements Serializable, Comparable<Dish> {
 
         if (ingredients == null || ingredients.isEmpty())
             throw new IllegalArgumentException();
-
-        if (categories == null || categories.isEmpty()) {
-            categories = new HashSet<>();
-            categories.add(DishCategory.OTHER);
-        }
     }
 }

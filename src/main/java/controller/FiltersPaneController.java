@@ -5,9 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import model.data.Ingredient;
 import model.enumerative.DishCategory;
-import model.filter.*;
+import filter.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,16 +57,16 @@ public class FiltersPaneController {
         // TODO: setAddFilterIngredientButtonOnAction();
     }
 
-    // Same filters may be null - if so they will have no
-    // effect on filtered set
-    public List<Filter> getFilters() {
+    // Same filters may be null
+    public List<DishesFilterStrategy> getFilters() {
         return Stream.of(
                 getNameFilter(),
                 getFavouriteFilter(),
                 getCategoriesFilter(),
                 getIngredientsFilter()
         )
-                .filter(Objects::nonNull)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
@@ -113,26 +112,25 @@ public class FiltersPaneController {
                 .collect(Collectors.toSet());
     }
 
-    private Filter getNameFilter() {
+    private Optional<DishesFilterStrategy> getNameFilter() {
         var filterText = nameFilterTextField.getText();
-        return new NameFilter(filterText);
+        return Optional.of(new NameFilter(filterText));
     }
 
-    private Filter getIngredientsFilter() {
+    private Optional<DishesFilterStrategy> getIngredientsFilter() {
         var selectedIngredientsNames = ingredientsListView.getItems();
 
-        // Null filter will have no effect on filter process
         if (selectedIngredientsNames.size() == 0)
-            return null;
+            return Optional.empty();
 
         var filterIngredientsNames = new HashSet<>(selectedIngredientsNames);
 
-        return new IngredientsNameFilter(filterIngredientsNames);
+        return Optional.of(new IngredientsFilter(filterIngredientsNames));
     }
 
-    private Filter getCategoriesFilter() {
-        if(allCategoriesCheckbox.isSelected())
-            return null;
+    private Optional<DishesFilterStrategy> getCategoriesFilter() {
+        if (allCategoriesCheckbox.isSelected())
+            return Optional.empty();
 
         var filterCategories = new HashSet<DishCategory>();
 
@@ -144,19 +142,17 @@ public class FiltersPaneController {
                 filterCategories.add(category);
         }
 
-        return new CategoriesFilter(filterCategories);
+        return Optional.of(new CategoriesFilter(filterCategories));
     }
 
-    private Filter getFavouriteFilter() {
-        Filter filter = null;
-
+    private Optional<DishesFilterStrategy> getFavouriteFilter() {
         if (onlyFavouriteCheckbox.isSelected())
-            filter = new FavouriteFilter(true);
+            return Optional.of(new FavouriteFilter(true));
 
         if (onlyNotFavouriteCheckbox.isSelected())
-            filter = new FavouriteFilter(false);
+            return Optional.of(new FavouriteFilter(false));
 
-        return filter;
+        return Optional.empty();
     }
 
     private void setDefaultCheckboxesSelected() {

@@ -35,9 +35,15 @@ public class Quantity implements Serializable {
         this.value -= val;
     }
 
-    public void addValue(Quantity quantity) {
+    public void subtract(Quantity quantity) {
         if(!this.unit.equals(quantity.getUnit()))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Quantity units don't match");
+        this.value -= quantity.getValue();
+    }
+
+    public void add(Quantity quantity) {
+        if(!this.unit.equals(quantity.getUnit()))
+            throw new IllegalArgumentException("Quantity units don't match");
         this.value += quantity.getValue();
     }
 

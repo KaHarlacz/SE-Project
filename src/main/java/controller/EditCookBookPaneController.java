@@ -7,9 +7,9 @@ import model.builder.DishBuilderImpl;
 import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
-import model.files_management.Paths;
-import model.files_management.export.SerializableObjectsExporter;
-import model.files_management.load.SerializableObjectsLoader;
+import files_management.Paths;
+import files_management.export.SerializableObjectsExporter;
+import files_management.load.SerializableObjectsLoader;
 
 import java.time.Duration;
 import java.util.HashSet;

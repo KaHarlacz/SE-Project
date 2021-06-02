@@ -37,7 +37,7 @@ public class MainMenuPaneController {
         messagePromptText.setText("Pomyślnie wyeksportowano listę zakupów!");
     }
 
-    public void displaySuccessfulAddOfNewDish() throws IOException {
+    public void displaySuccessfulAddOfNewDish() {
         messagePromptText.setText("Pomyślenie dodano nowy przepis!");
     }
 }

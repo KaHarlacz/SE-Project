@@ -11,8 +11,8 @@ import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
 import model.data.ShoppingList;
-import model.files_management.Paths;
-import model.files_management.load.SerializableObjectsLoader;
+import files_management.Paths;
+import files_management.load.SerializableObjectsLoader;
 
 import java.util.List;
 import java.util.Optional;
@@ -103,7 +103,7 @@ public class ChoosingDishesPaneController {
     }
 
     private void showSelectedQuantityOf(Dish dish) {
-        var quantity = shoppingList.getSelectedDishes().get(dish);
+        var quantity = shoppingList.getSelectedDishesWithTimesSelected().get(dish);
         if (quantity == null)
             quantity = 0;
         selectedQuantityText.setText("Wybrano: " + quantity.toString() + " ");
@@ -157,7 +157,6 @@ public class ChoosingDishesPaneController {
 
     private void addSelectedDishToShoppingList() {
         selectedDish().ifPresent(dish -> {
-            dish.getIngredients().forEach(System.out::println);
             shoppingList.addIngredientsFrom(dish);
             showSelectedQuantityOf(dish);
         });
@@ -205,7 +204,7 @@ public class ChoosingDishesPaneController {
     }
 
     private List<String> dishesNamesWithSelectedQuantities() {
-        return shoppingList.getSelectedDishes()
+        return shoppingList.getSelectedDishesWithTimesSelected()
                 .entrySet()
                 .stream()
                 .map(e -> e.getKey().getName() + " (" + e.getValue() + ")")

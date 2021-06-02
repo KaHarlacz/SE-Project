@@ -2,115 +2,128 @@ package model.data;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import splitter.SplitStrategy;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ShoppingListTest {
     private ShoppingList shoppingList;
-    private Dish mockDish;
-    private Set<Ingredient> mockIngredients;
+    private Dish dish;
+    private List<Ingredient> ingredients;
 
-    @BeforeEach
-    public void setUp() {
-        shoppingList = ShoppingList.getInstance();
-        mockDish = mock(Dish.class);
-        mockIngredients = Set.of(mock(Ingredient.class), mock(Ingredient.class));
-    }
-
-    @Test
-    public void addDishIngredientsCheckIfAdded() {
-        when(mockDish.getIngredients()).thenReturn(mockIngredients);
-        mockIngredients.forEach(mockIngredient -> {
-            var mockQuantity = mock(Quantity.class);
-            when(mockIngredient.getQuantity()).thenReturn(mockQuantity);
-            when(mockQuantity.getUnit()).thenReturn("szt");
-            when(mockQuantity.getValue()).thenReturn(1.);
-        });
-
-        shoppingList.addIngredientsFrom(mockDish);
-
-        assertEquals(mockIngredients, shoppingList.getIngredients());
-        assertEquals(Map.of(mockDish, 1), shoppingList.getSelectedDishes());
-    }
-
-    @Test
-    public void addDishIngredientsTwiceCheckIfAdded() {
-        when(mockDish.getIngredients()).thenReturn(mockIngredients);
-        for (var mockIngredient : mockIngredients) {
-            var mockQuantity = mock(Quantity.class);
-            when(mockIngredient.getQuantity()).thenReturn(mockQuantity);
-            when(mockQuantity.getUnit()).thenReturn("szt");
-            when(mockQuantity.getValue()).thenReturn(1.);
-        }
-
-        shoppingList.addIngredientsFrom(mockDish);
-        shoppingList.addIngredientsFrom(mockDish);
-
-        assertEquals(mockIngredients, shoppingList.getIngredients());
-        assertEquals(Map.of(mockDish, 2), shoppingList.getSelectedDishes());
-    }
-
-    @Test
-    public void deleteDishCheckIfDeleted() {
-        var ingredients = List.copyOf(mockIngredients);
+    private static List<Ingredient> getSetUpIngredients() {
+        var ingredients = List.of(mock(Ingredient.class), mock(Ingredient.class));
         var quantities = List.of(mock(Quantity.class), mock(Quantity.class));
-
-        when(mockDish.getIngredients()).thenReturn(mockIngredients);
         when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
         when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
+        when(ingredients.get(0).getName()).thenReturn("ABC");
+        when(ingredients.get(1).getName()).thenReturn("DEF");
         when(quantities.get(0).getValue()).thenReturn(1.);
         when(quantities.get(0).getUnit()).thenReturn("szt");
         when(quantities.get(1).getValue()).thenReturn(1.);
         when(quantities.get(1).getUnit()).thenReturn("szt");
+        return ingredients;
+    }
 
-        shoppingList.addIngredientsFrom(mockDish);
-        shoppingList.deleteIngredientsFrom(mockDish);
+    @BeforeEach
+    public void setUp() {
+        shoppingList = ShoppingList.getInstance();
+        shoppingList.clear();
+        dish = mock(Dish.class);
+        ingredients = getSetUpIngredients();
+        when(dish.getIngredients()).thenReturn(Set.copyOf(ingredients));
+    }
+
+    @Test
+    public void addDishCheckIfAdded() {
+        shoppingList.addIngredientsFrom(dish);
+        var addedIngredients = new ArrayList<>(shoppingList.getIngredients());
+        addedIngredients.sort(Comparator.comparing(Ingredient::getName));
+
+        assertEquals(Map.of(dish, 1), shoppingList.getSelectedDishesWithTimesSelected());
+        assertEquals(ingredients.get(0).getName(), addedIngredients.get(0).getName());
+        assertEquals(ingredients.get(1).getName(), addedIngredients.get(1).getName());
+        assertEquals(ingredients.get(0).getQuantity().getValue(), addedIngredients.get(0).getQuantity().getValue());
+        assertEquals(ingredients.get(1).getQuantity().getValue(), addedIngredients.get(1).getQuantity().getValue());
+        assertEquals(ingredients.get(0).getQuantity().getUnit(), addedIngredients.get(0).getQuantity().getUnit());
+        assertEquals(ingredients.get(1).getQuantity().getUnit(), addedIngredients.get(1).getQuantity().getUnit());
+    }
+
+    @Test
+    public void addDishIngredientsFewTimesCheckIfAdded() {
+        final var ADD_COUNT = 3;
+
+        for (int i = 0; i < ADD_COUNT; i++)
+            shoppingList.addIngredientsFrom(dish);
+
+        var addedIngredients = new ArrayList<>(shoppingList.getIngredients());
+        addedIngredients.sort(Comparator.comparing(Ingredient::getName));
+
+        assertEquals(Map.of(dish, ADD_COUNT), shoppingList.getSelectedDishesWithTimesSelected());
+        assertEquals(ingredients.get(0).getName(), addedIngredients.get(0).getName());
+        assertEquals(ingredients.get(1).getName(), addedIngredients.get(1).getName());
+        assertEquals(ADD_COUNT * ingredients.get(0).getQuantity().getValue(), addedIngredients.get(0).getQuantity().getValue());
+        assertEquals(ADD_COUNT * ingredients.get(1).getQuantity().getValue(), addedIngredients.get(1).getQuantity().getValue());
+        assertEquals(ingredients.get(0).getQuantity().getUnit(), addedIngredients.get(0).getQuantity().getUnit());
+        assertEquals(ingredients.get(1).getQuantity().getUnit(), addedIngredients.get(1).getQuantity().getUnit());
+    }
+
+    @Test
+    public void deleteDishCheckIfDeleted() {
+        shoppingList.addIngredientsFrom(dish);
+        shoppingList.deleteIngredientsFrom(dish);
 
         assertEquals(Set.of(), shoppingList.getIngredients());
-        assertEquals(Map.of(), shoppingList.getSelectedDishes());
+        assertEquals(Map.of(), shoppingList.getSelectedDishesWithTimesSelected());
     }
 
     @Test
     public void deleteIngredientCompletelyCheckIfDeleted() {
-        var ingredients = List.copyOf(mockIngredients);
-        var quantities = List.of(mock(Quantity.class), mock(Quantity.class));
+        final var ADD_COUNT = 3;
 
-        when(mockDish.getIngredients()).thenReturn(mockIngredients);
-        when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
-        when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
-        when(quantities.get(0).getValue()).thenReturn(1.);
-        when(quantities.get(1).getValue()).thenReturn(1.);
+        for (int i = 0; i < ADD_COUNT; i++)
+            shoppingList.addIngredientsFrom(dish);
 
-        shoppingList.addIngredientsFrom(mockDish);
-        shoppingList.deleteIngredient(ingredients.get(0));
+        for(int i = 0; i < ADD_COUNT; i++)
+            shoppingList.deleteIngredientsFrom(dish);
 
-        assertEquals(Set.of(ingredients.get(1)), shoppingList.getIngredients());
+        assertEquals(Set.of(), shoppingList.getIngredients());
+        assertEquals(Map.of(), shoppingList.getSelectedDishesWithTimesSelected());
     }
 
     @Test
     public void deleteIngredientNotCompletelyCheckIfNotDeleted() {
-        var ingredients = List.copyOf(mockIngredients);
-        var quantities = List.of(mock(Quantity.class), mock(Quantity.class), mock(Quantity.class));
-        var ingredientToDelete = ingredients.get(0);
+        final var ADD_COUNT = 3;
+        final var DELETE_COUNT = 2;
 
-        when(mockDish.getIngredients()).thenReturn(mockIngredients);
-        when(ingredients.get(0).getQuantity()).thenReturn(quantities.get(0));
-        when(ingredients.get(1).getQuantity()).thenReturn(quantities.get(1));
-        when(quantities.get(0).getValue()).thenReturn(1.);
-        when(quantities.get(1).getValue()).thenReturn(1.);
+        for (int i = 0; i < ADD_COUNT; i++)
+            shoppingList.addIngredientsFrom(dish);
 
-        shoppingList.addIngredientsFrom(mockDish);
-        when(ingredientToDelete.getQuantity()).thenReturn(quantities.get(2));
-        when(quantities.get(2).getValue()).thenReturn(0.7);
+        for(int i = 0; i < DELETE_COUNT; i++)
+            shoppingList.deleteIngredientsFrom(dish);
 
-        shoppingList.deleteIngredient(ingredientToDelete);
+        var addedIngredients = new ArrayList<>(shoppingList.getIngredients());
+        addedIngredients.sort(Comparator.comparing(Ingredient::getName));
 
-        assertEquals(mockIngredients, shoppingList.getIngredients());
-        //shoppingList.getIngredients().
+        assertEquals(Map.of(dish, (ADD_COUNT - DELETE_COUNT)), shoppingList.getSelectedDishesWithTimesSelected());
+        assertEquals(ingredients.get(0).getName(), addedIngredients.get(0).getName());
+        assertEquals(ingredients.get(1).getName(), addedIngredients.get(1).getName());
+        assertEquals((ADD_COUNT - DELETE_COUNT) * ingredients.get(0).getQuantity().getValue(), addedIngredients.get(0).getQuantity().getValue());
+        assertEquals((ADD_COUNT - DELETE_COUNT) * ingredients.get(1).getQuantity().getValue(), addedIngredients.get(1).getQuantity().getValue());
+        assertEquals(ingredients.get(0).getQuantity().getUnit(), addedIngredients.get(0).getQuantity().getUnit());
+        assertEquals(ingredients.get(1).getQuantity().getUnit(), addedIngredients.get(1).getQuantity().getUnit());
+    }
+
+    @Test
+    public void splitIngredients() {
+        var ingredients = List.copyOf(this.ingredients);
+        List<List<Ingredient>> expectedList = List.of(List.of(ingredients.get(0)), List.of(ingredients.get(1)), List.of());
+        SplitStrategy splitStrategy = (ingredientList, lists) -> expectedList;
+
+        assertEquals(expectedList, shoppingList.splitIngredientListUsing(splitStrategy, 3));
     }
 }

@@ -1,33 +1,32 @@
 package model.data;
 
-import model.splitter.SplitStrategy;
+import splitter.SplitStrategy;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class ShoppingList implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    private Map<Dish, Integer> selectedDishes = new HashMap<>();
-    private Map<Ingredient, Quantity> ingredients = new HashMap<>();
-
     private static ShoppingList instance;
+    private Map<Dish, Integer> dishCount = new HashMap<>();
+    private Map<String, Ingredient> ingredientNameMap = new HashMap<>();
 
     private ShoppingList() {}
 
     public static ShoppingList getInstance() {
-        if(instance == null)
-            instance = new ShoppingList();
-
+        synchronized (ShoppingList.class) {
+            if (instance == null)
+                instance = new ShoppingList();
+        }
         return instance;
     }
 
-    public Map<Dish, Integer> getSelectedDishes() {
-        return selectedDishes;
+    public Map<Dish, Integer> getSelectedDishesWithTimesSelected() {
+        return dishCount;
     }
 
     public Set<Ingredient> getIngredients() {
-        return getIngredientsWithSetQuantities();
+        return Set.copyOf(ingredientNameMap.values());
     }
 
     public void addIngredientsFrom(Dish dish) {
@@ -40,55 +39,54 @@ public class ShoppingList implements Serializable {
         dish.getIngredients().forEach(this::deleteIngredient);
     }
 
-    private void removeDishFromSelected(Dish dish) {
-        if(selectedDishes.containsKey(dish)) {
-            var currentChosen = selectedDishes.get(dish);
+    public List<List<Ingredient>> splitIngredientListUsing(SplitStrategy splitter, int count) {
+        return splitter.split(List.copyOf(ingredientNameMap.values()), count);
+    }
 
-            if(currentChosen == 1)
-                selectedDishes.remove(dish);
+    public void clear() {
+        dishCount = new HashMap<>();
+        ingredientNameMap = new HashMap<>();
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        if(ingredientNameMap.containsKey(ingredient.getName())) {
+            var ingredientFromMap = ingredientNameMap.get(ingredient.getName());
+            var ingredientQuantity = ingredientFromMap.getQuantity();
+            ingredientQuantity.add(ingredient.getQuantity());
+        } else {
+            // CopyOf to avoid later changes in ingredient object stored in some dish
+            ingredientNameMap.put(ingredient.getName(), Ingredient.copyOf(ingredient));
+        }
+    }
+
+    public void deleteIngredient(Ingredient ingredientToDelete) {
+        var ingredientName = ingredientToDelete.getName();
+        if (ingredientNameMap.containsKey(ingredientName)) {
+            var currentQuantity = ingredientNameMap.get(ingredientName).getQuantity();
+            var quantityToDelete = ingredientToDelete.getQuantity();
+            if (currentQuantity.getValue() <= quantityToDelete.getValue())
+                ingredientNameMap.remove(ingredientToDelete.getName());
             else
-                selectedDishes.put(dish, currentChosen - 1);
+                currentQuantity.subtract(quantityToDelete);
+        }
+    }
+
+    private void removeDishFromSelected(Dish dish) {
+        if (dishCount.containsKey(dish)) {
+            var timesSelected = dishCount.get(dish);
+            if (timesSelected == 1)
+                dishCount.remove(dish);
+            else
+                dishCount.put(dish, timesSelected - 1);
         }
     }
 
     private void addToSelected(Dish dish) {
-        if(selectedDishes.containsKey(dish)) {
-            var scaleFactor = selectedDishes.get(dish);
-            selectedDishes.put(dish, scaleFactor + 1);
+        if (dishCount.containsKey(dish)) {
+            var timesSelected = dishCount.get(dish);
+            dishCount.put(dish, timesSelected + 1);
         } else {
-            selectedDishes.put(dish, 1);
+            dishCount.put(dish, 1);
         }
-    }
-
-    public void addIngredient(Ingredient ingredient) {
-        if(ingredients.containsKey(ingredient)) {
-            var currentQuantity = ingredients.get(ingredient);
-            System.out.println("Aktualna ilość: " + currentQuantity);
-            currentQuantity.addValue(ingredient.getQuantity());
-        } else {
-            ingredients.put(ingredient, new Quantity(ingredient.getQuantity().getValue(), ingredient.getQuantity().getUnit()));
-        }
-    }
-
-    public void deleteIngredient(Ingredient ingredient) {
-        if(ingredients.containsKey(ingredient)) {
-            var currentQuantity = ingredients.get(ingredient);
-
-            if(currentQuantity.getValue() <= ingredient.getQuantity().getValue())
-                ingredients.remove(ingredient);
-            else
-                currentQuantity.subtractValue(ingredient.getQuantity().getValue());
-        }
-    }
-
-    private Set<Ingredient> getIngredientsWithSetQuantities() {
-        var copyIngredients= new HashSet<Ingredient>();
-        ingredients.keySet().forEach(i -> copyIngredients.add(Ingredient.copyOf(i)));
-        copyIngredients.forEach(i -> i.setQuantity(ingredients.get(i)));
-        return copyIngredients;
-    }
-
-    public List<List<Ingredient>> splitIngredientListUsing(SplitStrategy splitter, int count) {
-        return splitter.split(List.copyOf(getIngredientsWithSetQuantities()), count);
     }
 }

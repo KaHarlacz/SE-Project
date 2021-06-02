@@ -8,9 +8,9 @@ import javafx.scene.control.Slider;
 import model.data.Ingredient;
 import model.data.ShoppingList;
 import model.enumerative.SplitOption;
-import model.files_management.Paths;
-import model.files_management.export.ExportIngredientsListBuilder;
-import model.files_management.export.TXTExporter;
+import files_management.Paths;
+import files_management.export.ExportIngredientsListBuilder;
+import files_management.export.TXTExporter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +54,7 @@ public class SummaryPaneController {
         setSplitOptionsOnAction();
     }
 
-    protected void showIngredientLists() {
+    public void showIngredientLists() {
         chosenSplitOption().ifPresent(this::applySplit);
     }
 
@@ -96,13 +96,13 @@ public class SummaryPaneController {
             clearListView(listViews.get(i));
     }
 
-
     //Methods for button functionality
     private void setUpExportButton() {
         exportButton.setOnAction(e -> {
             exportIngredientList();
             parent.goToMainMenu();
-            mainMenuPaneController.displaySuccessfulShoppingListExport();
+            // TODO: Fix this - throws exception
+            //mainMenuPaneController.displaySuccessfulShoppingListExport();
         });
     }
 

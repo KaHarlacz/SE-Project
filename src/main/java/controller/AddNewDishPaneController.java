@@ -1,5 +1,7 @@
 package controller;
 
+import files_management.Paths;
+import files_management.load.SerializableObjectsLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.builder.DishBuilderImpl;
@@ -8,10 +10,7 @@ import model.data.Ingredient;
 import model.data.Quantity;
 import model.enumerative.DishCategory;
 import model.enumerative.IngredientCategory;
-import model.files_management.Paths;
-import model.files_management.load.SerializableObjectsLoader;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,9 +58,9 @@ public class AddNewDishPaneController {
 
     // Methods for controller set up 
     public void init() {
+        loadCookBook();
         setToEditCookBookButtonOnAction();
         setSaveNewDishButtonOnAction();
-        loadCookBook();
         populateIngredientCategoryChoiceBox();
         populateDishCategoryChoiceBox();
         setIngredientsOfNewDishTabOnAction();
@@ -71,116 +70,47 @@ public class AddNewDishPaneController {
         parent = mainController;
     }
 
-    private void loadCookBook() {
-        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
-        loader.load().ifPresent(loaded -> cookBook = loaded);
-    }
-
-    public void populateIngredientCategoryChoiceBox() {
-        ingredientCategoryChoiceBox.getItems().setAll(IngredientCategory.values());
-    }
-
-    public void populateDishCategoryChoiceBox() {
-        dishCategoryChoiceBox.getItems().setAll(DishCategory.values());
-    }
-
-    // Methods for button functionality
-    public void setToEditCookBookButtonOnAction() {
-        toEditCookBook.setOnAction(e -> parent.goToCookBookEdit());
-    }
-
-    public void setSaveNewDishButtonOnAction() {
-        saveNewDishButton.setOnAction(e -> {
-            try {
-                addNewDishToCookBook();
-                parent.goToMainMenu();
-                mainMenuPaneController.displaySuccessfulAddOfNewDish();
-            } catch (IOException f) {
-                f.printStackTrace();
-            }
-
-        });
-    }
-
-    public void setAddIngredientButtonOnAction() {
-        addIngredientsButton.setOnAction(e -> addIngredientToListOfIngredientToAdd());
-    }
-
-    public void addNewDishToCookBook() {
+    private void addInputDishToCookBook() {
         cookBook.addDish(DishBuilderImpl.builder()
-                .withName(inputName())
-                .withRecipe(inputRecipe())
-                .withDescription(inputDescription())
-                .withIngredients(ingredientsOfNewDish)
-                .withCategories(Set.of(inputCategory()))
-                .withDuration(Duration.ofMinutes(inputTime()))
-                .withServings(inputServings())
+                .withName(getInputName())
+                .withRecipe(getInputRecipe())
+                .withDescription(getInputDescription())
+                .withIngredients(getInputIngredients())
+                .withCategories(getInputCategories())
+                .withDuration(getInputDuration())
+                .withServings(getInputServings())
                 .build()
         );
     }
 
-    public void addIngredientToListOfIngredientToAdd() {
-        ingredientsOfNewDish.add(new Ingredient(
-                getIngredientNameFromTextField(),
-                getIngredientCategoryFromChoiceBox(),
-                new Quantity(getIngredientQuantityFromTextField(), getIngredientUnitFromTextAreaField())
-        ));
-        setIngredientTextFieldsToEmpty();
+    private void addToIngredientsOfDish() {
+        ingredientsOfNewDish.add(Ingredient.builder()
+                .name(getInputIngredientName())
+                .category(getInputIngredientCategory())
+                .quantity(getInputIngredientQuantity())
+                .build()
+        );
+        setIngredientFieldsEmpty();
     }
 
-    // Methods for get dish data 
-    public String inputName() {
-        return dishNameTextField.getText();
+    private void setSaveNewDishButtonOnAction() {
+        saveNewDishButton.setOnAction(e -> {
+            addInputDishToCookBook();
+            parent.goToMainMenu();
+            mainMenuPaneController.displaySuccessfulAddOfNewDish();
+        });
     }
 
-    public String inputDescription() {
-        return dishDescriptionTextField.getText();
-    }
-
-    public String inputRecipe() {
-        return recipeTextField.getText();
-    }
-
-    public DishCategory inputCategory() {
-        return dishCategoryChoiceBox.getValue();
-    }
-
-    public int inputTime() {
-        return Integer.parseInt(neededTimeTextField.getText());
-    }
-
-    public int inputServings() {
-        return Integer.parseInt(numberOfServingsTextField.getText());
-    }
-
-    // Methods for get ingredient data 
-    public String getIngredientNameFromTextField() {
-        return ingredientNameTextField.getText();
-    }
-
-    public IngredientCategory getIngredientCategoryFromChoiceBox() {
-        return ingredientCategoryChoiceBox.getValue();
-    }
-
-    public double getIngredientQuantityFromTextField() {
-        return Integer.parseInt(ingredientQuantityTextArea.getText());
-    }
-
-    public String getIngredientUnitFromTextAreaField() {
-        return ingredientUnitTextArea.getText();
-    }
-
-    public void setIngredientTextFieldsToEmpty() {
+    private void setIngredientFieldsEmpty() {
         ingredientNameTextField.setText("");
         ingredientQuantityTextArea.setText("");
         ingredientUnitTextArea.setText("");
     }
 
-    // Methods for tabPane functionality
-    private void putIngredientsOnList(Set<Ingredient> IngredientsOfNewDish) {
+    private void putIngredientsOnList(Set<Ingredient> newDishIngredients) {
         addedIngredientsListView.getItems().clear();
         addedIngredientsListView.getItems().addAll(
-                IngredientsOfNewDish.stream()
+                newDishIngredients.stream()
                         .map(Ingredient::getName)
                         .collect(Collectors.toSet())
         );
@@ -191,5 +121,75 @@ public class AddNewDishPaneController {
             if (addedIngredientsTab.isSelected())
                 putIngredientsOnList(ingredientsOfNewDish);
         });
+    }
+
+    private void loadCookBook() {
+        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
+        loader.load().ifPresent(loaded -> cookBook = loaded);
+    }
+
+    private void populateIngredientCategoryChoiceBox() {
+        ingredientCategoryChoiceBox.getItems().setAll(IngredientCategory.values());
+    }
+
+    private void populateDishCategoryChoiceBox() {
+        dishCategoryChoiceBox.getItems().setAll(DishCategory.values());
+    }
+
+    private void setToEditCookBookButtonOnAction() {
+        toEditCookBook.setOnAction(e -> parent.goToCookBookEdit());
+    }
+
+    private void setAddIngredientButtonOnAction() {
+        addIngredientsButton.setOnAction(e -> addToIngredientsOfDish());
+    }
+
+    private Set<Ingredient> getInputIngredients() {
+        return ingredientsOfNewDish;
+    }
+
+    private String getInputName() {
+        return dishNameTextField.getText();
+    }
+
+    private String getInputDescription() {
+        return dishDescriptionTextField.getText();
+    }
+
+    private String getInputRecipe() {
+        return recipeTextField.getText();
+    }
+
+    private Set<DishCategory> getInputCategories() {
+        return Set.of(dishCategoryChoiceBox.getValue());
+    }
+
+    private Duration getInputDuration() {
+        return Duration.ofMinutes(Integer.parseInt(neededTimeTextField.getText()));
+    }
+
+    private int getInputServings() {
+        return Integer.parseInt(numberOfServingsTextField.getText());
+    }
+
+    private String getInputIngredientName() {
+        return ingredientNameTextField.getText();
+    }
+
+    private IngredientCategory getInputIngredientCategory() {
+        return ingredientCategoryChoiceBox.getValue();
+    }
+
+    private Quantity getInputIngredientQuantity() {
+        return new Quantity(getInputQuantityValue(), getInputQuantityUnit());
+    }
+
+    // TODO: Should inform user that it is not correct data
+    private double getInputQuantityValue() {
+        return Integer.parseInt(ingredientQuantityTextArea.getText());
+    }
+
+    private String getInputQuantityUnit() {
+        return ingredientUnitTextArea.getText();
     }
 }

@@ -1,8 +1,8 @@
 package model.enumerative;
 
-import model.splitter.CategoriesSplitter;
-import model.splitter.EqualListsSplitter;
-import model.splitter.SplitStrategy;
+import splitter.CategoriesSplitter;
+import splitter.EqualListsSplitter;
+import splitter.SplitStrategy;
 
 import java.util.Arrays;
 import java.util.Optional;
