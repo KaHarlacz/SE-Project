@@ -36,7 +36,6 @@ public class SummaryPaneController {
     private ChoiceBox<String> splitterTypeChoiceBox;
 
     private MainController parent;
-    private MainMenuPaneController mainMenuPaneController;
     private ShoppingList shoppingList = ShoppingList.getInstance();
     private List<ListView<String>> listViews;
 
@@ -101,8 +100,7 @@ public class SummaryPaneController {
         exportButton.setOnAction(e -> {
             exportIngredientList();
             parent.goToMainMenu();
-            // TODO: Fix this - throws exception
-            //mainMenuPaneController.displaySuccessfulShoppingListExport();
+            showExportSuccess();
         });
     }
 
@@ -128,6 +126,11 @@ public class SummaryPaneController {
 
     private void addSplitOptionToChoiceBox(SplitOption splitOption) {
         splitterTypeChoiceBox.getItems().add(splitOption.getDescription());
+    }
+
+    private void showExportSuccess() {
+        MainMenuPaneController mainMenuPane = parent.getMainMenuPaneController();
+        mainMenuPane.displaySuccessfulShoppingListExport();
     }
 
     private Optional<SplitOption> chosenSplitOption() {

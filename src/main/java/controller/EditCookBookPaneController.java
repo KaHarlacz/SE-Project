@@ -139,7 +139,13 @@ public class EditCookBookPaneController {
 
     private void setNavigationButtonsOnAction() {
         addNewDishButton.setOnAction(e -> parent.goToAddNewDish());
-        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+        toMainMenuButton.setOnAction(e -> goToMainMenu());
+    }
+
+    private void goToMainMenu() {
+        MainMenuPaneController mainMenuPane = parent.getMainMenuPaneController();
+        parent.goToMainMenu();
+        mainMenuPane.hideSpecialMessage();
     }
 
     // Methods for display dish data

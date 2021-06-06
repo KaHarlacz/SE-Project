@@ -53,7 +53,6 @@ public class AddNewDishPaneController {
 
     private CookBook cookBook;
     private MainController parent;
-    private MainMenuPaneController mainMenuPaneController;
     private Set<Ingredient> ingredientsOfNewDish = new HashSet<>();
 
     // Methods for controller set up 
@@ -97,7 +96,7 @@ public class AddNewDishPaneController {
         saveNewDishButton.setOnAction(e -> {
             addInputDishToCookBook();
             parent.goToMainMenu();
-            mainMenuPaneController.displaySuccessfulAddOfNewDish();
+            showAddSuccess();
         });
     }
 
@@ -142,6 +141,11 @@ public class AddNewDishPaneController {
 
     private void setAddIngredientButtonOnAction() {
         addIngredientsButton.setOnAction(e -> addToIngredientsOfDish());
+    }
+
+    public void showAddSuccess() {
+        MainMenuPaneController mainMenuPane = parent.getMainMenuPaneController();
+        mainMenuPane.displaySuccessfulAddOfNewDish();
     }
 
     private Set<Ingredient> getInputIngredients() {

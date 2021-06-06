@@ -171,7 +171,13 @@ public class ChoosingDishesPaneController {
 
     private void setNavigationButtonsOnAction() {
         toSummaryButton.setOnAction(e -> parent.goToSummary());
-        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+        toMainMenuButton.setOnAction(e -> goToMainMenu());
+    }
+
+    private void goToMainMenu() {
+        MainMenuPaneController mainMenuPane = parent.getMainMenuPaneController();
+        parent.goToMainMenu();
+        mainMenuPane.hideSpecialMessage();
     }
 
     // Method for tab functionality

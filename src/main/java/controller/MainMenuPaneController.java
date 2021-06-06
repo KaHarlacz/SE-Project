@@ -40,4 +40,8 @@ public class MainMenuPaneController {
     public void displaySuccessfulAddOfNewDish() {
         messagePromptText.setText("Pomyślenie dodano nowy przepis!");
     }
+
+    public void hideSpecialMessage() {
+        messagePromptText.setText("");
+    }
 }

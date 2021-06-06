@@ -76,6 +76,10 @@ public class MainController extends Application {
         addNewDishController.setParent(this);
     }
 
+    public MainMenuPaneController getMainMenuPaneController() {
+        return mainMenuController;
+    }
+
     //Methods for loading scenes
     private void loadSummary() throws IOException {
         var summaryLoader = new FXMLLoader(getClass().getResource("/fxml/summary/summaryPane.fxml"));
