@@ -1,74 +1,56 @@
 package controller;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.util.List;
 
-import java.io.IOException;
+public class MainController extends ApplicationController {
+    private MenuController mainMenuController;
+    private ViewController choosingDishesController;
+    private ViewController summaryController;
+    private ViewController editCookBookController;
+    private ViewController addNewDishController;
 
-public class MainController extends Application {
-    
-    private Scene addNewDish;
-    private Scene choosingDishes;
-    private Scene cookBookEdit;
-    private Scene mainMenu;
-    private Scene summary;
-    private Stage stage;
-
-    // Children controllers
-    private MainMenuPaneController mainMenuController;
-    private ChoosingDishesPaneController choosingDishesController;
-    private SummaryPaneController summaryController;
-    private EditCookBookPaneController editCookBookController;
-    private AddNewDishPaneController addNewDishController;
-
-    public static void main(String[] args) {
-        launch();
+    @Override
+    public void init() {
+        setUpStage();
+        getChildren();
+        setChildrenParent();
+        setUpNavigation();
+        initChildren();
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
-        loadScenes();
-        setSwitchingScenes();
-        setUpStage();
+    public void start() {
+        goToSceneOf(mainMenuController);
+        stage.show();
     }
 
-    private void loadScenes() throws IOException {
-        loadMainMenu();
-        loadChoosingDishes();
-        loadSummary();
-        loadAddNewDish();
-        loadEditCookBook();
-    }
-
-    private void setSwitchingScenes() throws IOException {
-        setControllersParent();
-        initControllers();
-    }
-
+    @Override
     public void exit() {
-        editCookBookController.exit();
         stage.close();
+        mainMenuController.exit();
+        choosingDishesController.exit();
+        summaryController.exit();
+        editCookBookController.exit();
+        addNewDishController.exit();
+    }
+
+    private void setUpNavigation() {
+        mainMenuController.setMenuReferences(List.of(choosingDishesController, editCookBookController));
+        choosingDishesController.setNext(summaryController);
+        choosingDishesController.setPrev(mainMenuController);
+        summaryController.setNext(mainMenuController);
+        summaryController.setPrev(choosingDishesController);
+        editCookBookController.setNext(addNewDishController);
+        editCookBookController.setPrev(mainMenuController);
+        addNewDishController.setPrev(editCookBookController);
     }
 
     private void setUpStage() {
         stage.setOnCloseRequest(e -> this.exit());
         stage.setTitle("Shopping Organiser");
-        stage.setScene(mainMenu);
-        stage.show();
     }
 
-    private void initControllers() throws IOException {
-        mainMenuController.init();
-        choosingDishesController.init();
-        summaryController.init();
-        editCookBookController.init();
-        addNewDishController.init();
-    }
-
-    private void setControllersParent() {
+    private void setChildrenParent() {
         mainMenuController.setParent(this);
         choosingDishesController.setParent(this);
         summaryController.setParent(this);
@@ -76,60 +58,20 @@ public class MainController extends Application {
         addNewDishController.setParent(this);
     }
 
-    //Methods for loading scenes
-    private void loadSummary() throws IOException {
-        var summaryLoader = new FXMLLoader(getClass().getResource("/fxml/summary/summaryPane.fxml"));
-        summary = new Scene(summaryLoader.load());
-        summaryController = summaryLoader.getController();
+    private void getChildren() {
+        mainMenuController = Controllers.getMenuController();
+        choosingDishesController = Controllers.getChoosingDishesController();
+        summaryController = Controllers.getSummaryController();
+        editCookBookController = Controllers.getEditCookBookController();
+        addNewDishController = Controllers.getAddingNewDishesController();
     }
 
-    private void loadChoosingDishes() throws IOException {
-        var choosingDishesLoader = new FXMLLoader(getClass().getResource("/fxml/choosing_dishes/choosingDishesPane.fxml"));
-        choosingDishes = new Scene(choosingDishesLoader.load());
-        choosingDishesController = choosingDishesLoader.getController();
-    }
-
-    private void loadMainMenu() throws IOException {
-        var mainMenuLoader = new FXMLLoader(getClass().getResource("/fxml/main_menu/mainMenuPane.fxml"));
-        mainMenu = new Scene(mainMenuLoader.load());
-        mainMenuController = mainMenuLoader.getController();
-    }
-
-    private void loadEditCookBook() throws IOException {
-        var editCookBookLoader = new FXMLLoader(getClass().getResource("/fxml/edit_cookBook/editCookBookPane.fxml"));
-        cookBookEdit = new Scene(editCookBookLoader.load());
-        editCookBookController = editCookBookLoader.getController();
-    }
-
-    private void loadAddNewDish() throws IOException {
-        var addNewDishLoader = new FXMLLoader(getClass().getResource("/fxml/add_dish/addDishPane.fxml"));
-        addNewDish = new Scene(addNewDishLoader.load());
-        addNewDishController = addNewDishLoader.getController();
-    }
-
-    //Methods for changing scenes
-    private void setScene(Scene scene) {
-        stage.setScene(scene);
-    }
-
-    public void goToMainMenu() {
-        setScene(mainMenu);
-    }
-
-    public void goToSummary() {
-        setScene(summary);
-        summaryController.showIngredientLists();
-    }
-
-    public void goToCookBookEdit() {
-        setScene(cookBookEdit);
-    }
-
-    public void goToChoosingDishes() {
-        setScene(choosingDishes);
-    }
-
-    public void goToAddNewDish() {
-        setScene(addNewDish);
+    private void initChildren() {
+        mainMenuController.init();
+        choosingDishesController.init();
+        summaryController.init();
+        editCookBookController.init();
+        addNewDishController.init();
+        super.currentController = addNewDishController;
     }
 }

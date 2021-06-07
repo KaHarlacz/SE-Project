@@ -23,7 +23,7 @@ class SerialObjectLoaderTest {
 
     @BeforeAll
     public static void setUp() {
-        cookBook = new CookBook(Set.of());
+        cookBook.setDishes(Set.of());
         try (
                 var outputStream = new FileOutputStream(TEST_PATH);
                 var output = new ObjectOutputStream(outputStream);

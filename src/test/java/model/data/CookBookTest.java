@@ -21,7 +21,8 @@ class CookBookTest {
         dishes.addAll(Set.of(mock(Dish.class), mock(Dish.class), mock(Dish.class)));
 
         // Adding dishes to CookBook
-        book = new CookBook(dishes);
+        book = CookBook.getInstance();
+        book.setDishes(dishes);
     }
 
     @Test
@@ -43,16 +44,13 @@ class CookBookTest {
 
     @Test
     public void filterDishesUsingTwoFilters() {
-        // Adding favourite dishes to cookBook
         var favouriteDishes = new ArrayList<>(List.of(mock(Dish.class), mock(Dish.class)));
         book.addDish(favouriteDishes.get(0));
         book.addDish(favouriteDishes.get(1));
 
         // Using same dish - it will be only expected one
         var dishesOfCategory = List.of(favouriteDishes.get(0));
-        book.addDish(dishesOfCategory.get(0));
 
-        // Filter stubs
         DishesFilterStrategy favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
         DishesFilterStrategy categoryFilter = dishes -> Set.copyOf(dishesOfCategory);
         var filters = List.of(favouriteFilter, categoryFilter);
@@ -70,14 +68,12 @@ class CookBookTest {
     // filtered set
     @Test
     public void passNullFiltersCheckIfCorrectOutput() {
-        // Adding favourite dishes to cookBook
         var favouriteDishes = new ArrayList<>(List.of(mock(Dish.class), mock(Dish.class)));
         book.addDish(favouriteDishes.get(0));
         book.addDish(favouriteDishes.get(1));
 
         // Using same dish - it will be only expected one
         var dishesOfCategory = List.of(favouriteDishes.get(0));
-        book.addDish(dishesOfCategory.get(0));
 
         // Filter stubs
         DishesFilterStrategy favouriteFilter = dishes -> Set.copyOf(favouriteDishes);
@@ -93,10 +89,7 @@ class CookBookTest {
         // Intersection of two sets is expected result
         favouriteDishes.retainAll(dishesOfCategory);
 
-        var expected = Set.copyOf(favouriteDishes);
-        var actual = book.filterDishesUsing(filters);
-
-        assertEquals(expected, actual);
+        assertEquals(Set.copyOf(favouriteDishes), book.filterDishesUsing(filters));
     }
 
     @Test
@@ -111,7 +104,10 @@ class CookBookTest {
         // Method getRandomDish returns one of dish already in "dishes"
         // so return value should be false
         var duplicate = List.copyOf(dishes).get(0);
-        assertFalse(book.addDish(duplicate));
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> book.addDish(duplicate)
+        );
     }
 
     // CookBook when only list of dishes passed to constructor should
@@ -130,6 +126,7 @@ class CookBookTest {
     public void deleteDishCheckIfDeleted() {
         var dishToDelete = List.copyOf(dishes).get(0);
         book.deleteDish(dishToDelete);
+        dishes.remove(dishToDelete);
         assertEquals(dishes, book.getDishes());
     }
 }

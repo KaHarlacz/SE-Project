@@ -49,18 +49,19 @@ public class ShoppingList implements Serializable {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        if(ingredientNameMap.containsKey(ingredient.getName())) {
-            var ingredientFromMap = ingredientNameMap.get(ingredient.getName());
+        var ingredientName = ingredient.getName().toLowerCase(Locale.ROOT).trim();
+        if(ingredientNameMap.containsKey(ingredientName)) {
+            var ingredientFromMap = ingredientNameMap.get(ingredientName);
             var ingredientQuantity = ingredientFromMap.getQuantity();
             ingredientQuantity.add(ingredient.getQuantity());
         } else {
             // CopyOf to avoid later changes in ingredient object stored in some dish
-            ingredientNameMap.put(ingredient.getName(), Ingredient.copyOf(ingredient));
+            ingredientNameMap.put(ingredientName, Ingredient.copyOf(ingredient));
         }
     }
 
     public void deleteIngredient(Ingredient ingredientToDelete) {
-        var ingredientName = ingredientToDelete.getName();
+        var ingredientName = ingredientToDelete.getName().toLowerCase(Locale.ROOT).trim();
         if (ingredientNameMap.containsKey(ingredientName)) {
             var currentQuantity = ingredientNameMap.get(ingredientName).getQuantity();
             var quantityToDelete = ingredientToDelete.getQuantity();

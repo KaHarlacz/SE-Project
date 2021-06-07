@@ -1,25 +1,30 @@
 package controller;
 
+import files_management.Paths;
+import files_management.export.ExportIngredientsListBuilder;
+import files_management.export.TXTExporter;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.stage.Stage;
 import model.data.Ingredient;
 import model.data.ShoppingList;
 import model.enumerative.SplitOption;
-import files_management.Paths;
-import files_management.export.ExportIngredientsListBuilder;
-import files_management.export.TXTExporter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SummaryPaneController {
-
+public class SummaryPaneController extends ViewController {
     private static final int LIST_VIEWS = 3;
+
+    private ShoppingList shoppingList = ShoppingList.getInstance();
+
+    private List<ListView<String>> listViews;
     @FXML
     private Button exportButton;
     @FXML
@@ -35,11 +40,7 @@ public class SummaryPaneController {
     @FXML
     private ChoiceBox<String> splitterTypeChoiceBox;
 
-    private MainController parent;
-    private MainMenuPaneController mainMenuPaneController;
-    private ShoppingList shoppingList = ShoppingList.getInstance();
-    private List<ListView<String>> listViews;
-
+    @Override
     public void init() {
         wrapListViewsIntoOneList();
         setGoBackButtonOnAction();
@@ -48,21 +49,21 @@ public class SummaryPaneController {
         setUpExportButton();
     }
 
+    @Override
+    public void refresh() {
+        showIngredientLists();
+    }
+
     private void setUpSplitOptions() {
         addSplitOptionsToChoiceBox();
         setDefaultSplitOption();
         setSplitOptionsOnAction();
     }
 
-    public void showIngredientLists() {
+    private void showIngredientLists() {
         chosenSplitOption().ifPresent(this::applySplit);
     }
 
-    public void setParent(MainController mainController) {
-        parent = mainController;
-    }
-   
-    //Methods for listView functionality
     private void showIngredientsOnList(ListView<String> listView, List<Ingredient> ingredients) {
         clearListView(listView);
         addIngredientsToListView(listView, ingredients);
@@ -96,21 +97,17 @@ public class SummaryPaneController {
             clearListView(listViews.get(i));
     }
 
-    //Methods for button functionality
     private void setUpExportButton() {
         exportButton.setOnAction(e -> {
             exportIngredientList();
-            parent.goToMainMenu();
-            // TODO: Fix this - throws exception
-            //mainMenuPaneController.displaySuccessfulShoppingListExport();
+            parent.goToSceneOf(next);
         });
     }
 
     private void setGoBackButtonOnAction() {
-        goBackButton.setOnAction(e -> parent.goToChoosingDishes());
+        goBackButton.setOnAction(e -> parent.goToSceneOf(prev));
     }
 
-    //Methods for choicebox functionality
     private void setSplitOptionsOnAction() {
         splitterTypeChoiceBox.setOnAction(e -> {
             chosenSplitOption().ifPresent(option -> splitterTypeChoiceBox.setValue(option.getDescription()));
@@ -134,9 +131,8 @@ public class SummaryPaneController {
         return SplitOption.fromDescription(splitterTypeChoiceBox.getValue());
     }
 
-    //Methods for export functionality
     private void exportIngredientList() {
-        new TXTExporter(Paths.EXPORT_PATH).export(buildExportString());
+        new TXTExporter(Paths.LIST_EXPORT).export(buildExportString());
     }
 
     private String buildExportString() {
@@ -148,7 +144,6 @@ public class SummaryPaneController {
         return exportStringBuilder.get();
     }
 
-    //Methods for splitter functionality
     private void setSliderOnAction() {
         numberOfListsSlider.setOnMouseReleased(e -> showIngredientLists());
     }

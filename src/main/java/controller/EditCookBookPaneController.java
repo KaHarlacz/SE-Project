@@ -1,5 +1,7 @@
 package controller;
 
+import files_management.Paths;
+import files_management.export.SerializableObjectsExporter;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -7,9 +9,6 @@ import model.builder.DishBuilderImpl;
 import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
-import files_management.Paths;
-import files_management.export.SerializableObjectsExporter;
-import files_management.load.SerializableObjectsLoader;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -17,7 +16,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EditCookBookPaneController {
+public class EditCookBookPaneController extends ViewController {
+    private CookBook cookBook;
+
     @FXML
     private Button addNewDishButton;
     @FXML
@@ -51,13 +52,10 @@ public class EditCookBookPaneController {
     @FXML
     private TextField numberOfServingsTextField;
 
-    private CookBook cookBook;
-    private MainController parent;
-
-    // Methods for controller set up
+    @Override
     public void init() {
         loadCookBook();
-        putDishesOnList(cookBook.getDishes());
+        showDishesOnList(cookBook.getDishes());
         setDishesListOnAction();
         setNavigationButtonsOnAction();
         setDishesTabOnAction();
@@ -67,13 +65,20 @@ public class EditCookBookPaneController {
         setConfirmButtonOnAction();
     }
 
-    public void setParent(MainController main) {
-        parent = main;
+    @Override
+    public void refresh() {
+        showDishesOnList(cookBook.getDishes());
     }
 
-    public void exit() {
-        new SerializableObjectsExporter<CookBook>(Paths.COOK_BOOK_PATH)
-                .export(cookBook);
+    private void setDishesListOnAction() {
+        dishListView.setOnMouseClicked(e -> showSelectedDish());
+    }
+
+    private void setDishesTabOnAction() {
+        dishesTab.setOnSelectionChanged(e -> {
+            if (dishesTab.isSelected())
+                showDishesOnList(cookBook.filterDishesUsing(filtersPaneController.getFilters()));
+        });
     }
 
     private void setConfirmButtonOnAction() {
@@ -86,11 +91,10 @@ public class EditCookBookPaneController {
     }
 
     private void loadCookBook() {
-        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
-        loader.load().ifPresent(loaded -> cookBook = loaded);
+        cookBook = CookBook.getInstance();
     }
 
-    private void putDishesOnList(Set<Dish> dishes) {
+    private void showDishesOnList(Set<Dish> dishes) {
         dishListView.getItems().clear();
         dishListView.getItems().addAll(
                 dishes.stream()
@@ -117,7 +121,14 @@ public class EditCookBookPaneController {
         deleteDishButton.setOnAction(e -> {
             var selectedDish = getSelectedDish();
             selectedDish.ifPresent(cookBook::deleteDish);
+            showDishesOnList(cookBook.getDishes());
+            saveCookBook();
         });
+    }
+
+    private void saveCookBook() {
+        var exporter = new SerializableObjectsExporter<CookBook>(Paths.COOK_BOOK);
+        exporter.export(cookBook);
     }
 
     private void setUndoChangesButtonOnAction() {
@@ -138,15 +149,16 @@ public class EditCookBookPaneController {
     }
 
     private void setNavigationButtonsOnAction() {
-        addNewDishButton.setOnAction(e -> parent.goToAddNewDish());
-        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+        addNewDishButton.setOnAction(e -> parent.goToSceneOf(next));
+        toMainMenuButton.setOnAction(e -> parent.goToSceneOf(prev));
     }
 
-    // Methods for display dish data
     private void showDish(Dish dish) {
         showNameOf(dish);
         showRecipeOf(dish);
         showImageOf(dish);
+        showServingsOf(dish);
+        showDurationOf(dish);
         showIngredientsOf(dish);
         showDescriptionOf(dish);
         showFavouriteStatus(dish);
@@ -170,7 +182,6 @@ public class EditCookBookPaneController {
                 .findFirst();
     }
 
-    // Methods to get new data of dish
     private Optional<Integer> getInputServings() {
         return Optional.of(Integer.parseInt(numberOfServingsTextField.getText()));
     }
@@ -211,6 +222,14 @@ public class EditCookBookPaneController {
         dishDescriptionText.setText(dish.getDescription());
     }
 
+    private void showDurationOf(Dish dish) {
+        neededTimeTextField.setText(String.valueOf(dish.getDuration().toMinutes()));
+    }
+
+    private void showServingsOf(Dish dish) {
+        numberOfServingsTextField.setText(String.valueOf(dish.getServings()));
+    }
+
     private void showFavouriteStatus(Dish dish) {
         if (!dish.isFavourite()) {
             isFavouriteButton.setText("Dodaj do ulubionych");
@@ -221,17 +240,5 @@ public class EditCookBookPaneController {
 
     private void showSelectedDish() {
         getSelectedDish().ifPresent(this::showDish);
-    }
-
-    // Methods for tabPane functionality
-    private void setDishesListOnAction() {
-        dishListView.setOnMouseClicked(e -> showSelectedDish());
-    }
-
-    private void setDishesTabOnAction() {
-        dishesTab.setOnSelectionChanged(e -> {
-            if (dishesTab.isSelected())
-                putDishesOnList(cookBook.filterDishesUsing(filtersPaneController.getFilters()));
-        });
     }
 }

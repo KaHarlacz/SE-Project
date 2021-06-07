@@ -11,15 +11,16 @@ import model.data.CookBook;
 import model.data.Dish;
 import model.data.Ingredient;
 import model.data.ShoppingList;
-import files_management.Paths;
-import files_management.load.SerializableObjectsLoader;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ChoosingDishesPaneController {
+public class ChoosingDishesController extends ViewController {
+    private ShoppingList shoppingList = ShoppingList.getInstance();
+    private CookBook cookBook;
+
     @FXML
     private Button addDishButton;
     @FXML
@@ -57,13 +58,9 @@ public class ChoosingDishesPaneController {
     @FXML
     private TextArea recipeTextArea;
 
-    private CookBook cookBook;
-    private MainController parent;
-    private ShoppingList shoppingList = ShoppingList.getInstance();
-
-    // Method for controller set up
+    @Override
     public void init() {
-        loadCookBook();
+        initCookBook();
         putDishesOnList(cookBook.getDishes());
         setDishesListOnAction();
         setNavigationButtonsOnAction();
@@ -73,11 +70,11 @@ public class ChoosingDishesPaneController {
         setFavouriteButtonOnAction();
     }
 
-    public void setParent(MainController main) {
-        parent = main;
+    @Override
+    public void refresh() {
+        putDishesOnList(cookBook.getDishes());
     }
 
-    // Methods for display dish data
     private void showDish(Dish dish) {
         showNameOf(dish);
         showRecipeOf(dish);
@@ -138,7 +135,6 @@ public class ChoosingDishesPaneController {
         neededTimeText.setText("Czas przygotowania: " + dish.getDuration().toMinutes() + " min");
     }
 
-    // Methods for button functionality
     private void setFavouriteButtonOnAction() {
         isFavouriteButton.setOnAction(e -> changeFavouriteStatus());
     }
@@ -170,11 +166,10 @@ public class ChoosingDishesPaneController {
     }
 
     private void setNavigationButtonsOnAction() {
-        toSummaryButton.setOnAction(e -> parent.goToSummary());
-        toMainMenuButton.setOnAction(e -> parent.goToMainMenu());
+        toSummaryButton.setOnAction(e -> parent.goToSceneOf(next));
+        toMainMenuButton.setOnAction(e -> parent.goToSceneOf(prev));
     }
 
-    // Method for tab functionality
     private void setDishesTabOnAction() {
         dishesTab.setOnSelectionChanged(e -> {
             if (dishesTab.isSelected())
@@ -227,8 +222,7 @@ public class ChoosingDishesPaneController {
         dishesListView.setOnMouseClicked(e -> showSelectedDish());
     }
 
-    private void loadCookBook() {
-        var loader = new SerializableObjectsLoader<CookBook>(Paths.COOK_BOOK_PATH);
-        loader.load().ifPresent(loaded -> cookBook = loaded);
+    private void initCookBook() {
+        cookBook = CookBook.getInstance();
     }
 }

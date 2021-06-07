@@ -10,19 +10,33 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewDishPaneController">
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddingNewDishController">
    <top>
       <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar id="upper-toolBar1" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <ToolBar id="upper-toolBar1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <items>
                 <Button id="to-edit-CookBook-button" fx:id="toEditCookBook" mnemonicParsing="false" text="Do edycji książki kucharskiej" />
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
+                     <children>
+                        <Text fx:id="promptText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets left="100.0" />
+                     </padding>
+                  </AnchorPane>
               </items>
             </ToolBar>
             <ToolBar id="upper-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
@@ -87,7 +101,7 @@
                               </TitledPane>
                               <HBox alignment="CENTER" prefHeight="34.0" prefWidth="256.0" spacing="10.0">
                                  <children>
-                                    <TextField fx:id="neededTmeTextField" alignment="CENTER" prefHeight="25.0" prefWidth="159.0" promptText="Czas przygotowania w minutach" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="neededTimeTextField" alignment="CENTER" prefHeight="25.0" prefWidth="159.0" promptText="Czas przygotowania w minutach" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets left="20.0" right="20.0" />
                                        </HBox.margin>

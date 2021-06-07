@@ -65,16 +65,16 @@
                            <bottom>
                               <HBox prefHeight="31.0" prefWidth="300.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="113.0">
+                                    <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="105.0">
                                        <children>
-                                          <Text layoutX="23.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość porcji :" textAlignment="RIGHT" wrappingWidth="73.841796875" />
-                                          <TextField fx:id="numberOfServingsTextField" layoutX="1.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0" />
+                                          <Text layoutX="27.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość porcji :" textAlignment="RIGHT" wrappingWidth="73.841796875" />
+                                          <TextField fx:id="numberOfServingsTextField" layoutX="8.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0" />
                                        </children>
                                     </Pane>
                                     <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="31.0" prefWidth="149.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Text fx:id="neededTimeText" layoutX="11.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Czas przygotowania : " />
-                                          <TextField fx:id="neededTimeTextField" layoutX="126.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0" />
+                                          <Text fx:id="neededTimeText" layoutX="8.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Czas przygotowania : " />
+                                          <TextField fx:id="neededTimeTextField" layoutX="121.0" layoutY="5.0" prefHeight="25.0" prefWidth="34.0" />
                                           <Text layoutX="157.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="minut" />
                                        </children>
                                     </Pane>
@@ -113,7 +113,7 @@
                            <children>
                               <TitledPane id="dish-recipe-TitledPane" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Sposób przygotowania" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <content>
-                                    <TextArea id="dish-recipe-textArea" fx:id="recipeTextArea" prefHeight="295.0" prefWidth="350.0" />
+                                    <TextArea id="dish-recipe-textArea" fx:id="recipeTextArea" prefHeight="295.0" prefWidth="350.0" promptText="Tutaj pojawi się sposób przygotowania" wrapText="true" />
                                  </content>
                               </TitledPane>
                            </children>
