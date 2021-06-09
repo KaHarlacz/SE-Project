@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class ChoosingDishesController extends ViewController {
     private ShoppingList shoppingList = ShoppingList.getInstance();
-    private CookBook cookBook;
+    private CookBook cookBook = CookBook.getInstance();
 
     @FXML
     private Button addDishButton;
@@ -60,7 +60,6 @@ public class ChoosingDishesController extends ViewController {
 
     @Override
     public void init() {
-        initCookBook();
         putDishesOnList(cookBook.getDishes());
         setDishesListOnAction();
         setNavigationButtonsOnAction();
@@ -220,9 +219,5 @@ public class ChoosingDishesController extends ViewController {
 
     private void setDishesListOnAction() {
         dishesListView.setOnMouseClicked(e -> showSelectedDish());
-    }
-
-    private void initCookBook() {
-        cookBook = CookBook.getInstance();
     }
 }

@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditCookBookPaneController extends ViewController {
-    private CookBook cookBook;
+    private CookBook cookBook = CookBook.getInstance();
 
     @FXML
     private Button addNewDishButton;
@@ -54,7 +54,6 @@ public class EditCookBookPaneController extends ViewController {
 
     @Override
     public void init() {
-        loadCookBook();
         showDishesOnList(cookBook.getDishes());
         setDishesListOnAction();
         setNavigationButtonsOnAction();
@@ -90,10 +89,6 @@ public class EditCookBookPaneController extends ViewController {
         });
     }
 
-    private void loadCookBook() {
-        cookBook = CookBook.getInstance();
-    }
-
     private void showDishesOnList(Set<Dish> dishes) {
         dishListView.getItems().clear();
         dishListView.getItems().addAll(
@@ -106,13 +101,13 @@ public class EditCookBookPaneController extends ViewController {
     private Optional<Dish> createDishFromInputData() {
         // TODO: Way to add categories and image needed
         var builder = DishBuilderImpl.builder()
-                .withName(dishNameText.getText())
-                .withDescription(dishDescriptionText.getText())
-                .withIngredients(getInputIngredients())
-                .withRecipe(recipeTextArea.getText());
+                .name(dishNameText.getText())
+                .description(dishDescriptionText.getText())
+                .ingredients(getInputIngredients())
+                .recipe(recipeTextArea.getText());
 
-        getInputDuration().ifPresent(builder::withDuration);
-        getInputServings().ifPresent(builder::withServings);
+        getInputDuration().ifPresent(builder::duration);
+        getInputServings().ifPresent(builder::servings);
 
         return Optional.of(builder.build());
     }

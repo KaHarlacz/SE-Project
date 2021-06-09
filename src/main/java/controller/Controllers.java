@@ -3,6 +3,8 @@ package controller;
 import files_management.Paths;
 
 public final class Controllers {
+    private Controllers() {}
+
     public static MenuController getMenuController() {
         return (MenuController) loadControllerOfScene(Paths.MENU_PANE);
     }

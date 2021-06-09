@@ -1,208 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddingNewDishController">
-   <top>
-      <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
-         <children>
-            <ToolBar id="upper-toolBar1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-              <items>
-                <Button id="to-edit-CookBook-button" fx:id="toEditCookBook" mnemonicParsing="false" text="Do edycji książki kucharskiej" />
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
-                     <children>
-                        <Text fx:id="promptText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <padding>
-                        <Insets left="100.0" />
-                     </padding>
-                  </AnchorPane>
-              </items>
-            </ToolBar>
-            <ToolBar id="upper-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-              <items>
-                <Button id="save-dish-button" fx:id="saveNewDishButton" mnemonicParsing="false" text="Zapisz nowy przepis" />
-              </items>
-            </ToolBar>
-         </children>
-      </HBox>
-   </top>
-   <left>
-      <TabPane id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab fx:id="addedIngredientsTab" text="Dodane składniki">
-               <content>
-                  <ListView fx:id="addedIngredientsListView" prefHeight="200.0" prefWidth="200.0" />
-               </content></Tab>
-        </tabs>
-      </TabPane>
-   </left>
-   <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <bottom>
-            <ToolBar id="bottom-toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <items>
-                <Button id="confirm-changes-button" fx:id="addIngredientsButton" mnemonicParsing="false" text="Dodaj składnik" />
-                  <Button id="undo-changes-button" fx:id="undoAddIngredientsButton" mnemonicParsing="false" text="Cofnij dodawanie składnika" />
-              </items>
-            </ToolBar>
-         </bottom>
-         <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox prefHeight="390.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Region prefHeight="233.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="261.0" prefWidth="277.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" prefHeight="105.0" prefWidth="263.0" text="Nazwa przepisu">
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                 </padding>
-                                 <content>
-                                    <TextArea fx:id="dishNameTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" prefHeight="105.0" prefWidth="263.0" text="Opis przepisu">
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" />
-                                 </padding>
-                                 <content>
-                                    <TextArea fx:id="dishDescriptionTextField" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" text="Kategoria dania" VBox.vgrow="ALWAYS">
-                                 <content>
-                                    <ChoiceBox fx:id="dishCategoryChoiceBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
-                                 </content>
-                                 <VBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </VBox.margin>
-                              </TitledPane>
-                              <HBox alignment="CENTER" prefHeight="34.0" prefWidth="256.0" spacing="10.0">
-                                 <children>
-                                    <TextField fx:id="neededTimeTextField" alignment="CENTER" prefHeight="25.0" prefWidth="159.0" promptText="Czas przygotowania w minutach" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="20.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="44.0" prefWidth="256.0">
-                                 <children>
-                                    <TextField fx:id="numberOfServingsTextField" alignment="CENTER" prefHeight="25.0" prefWidth="158.0" promptText="Liczba porcji" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="20.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="261.0" prefWidth="321.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" prefHeight="341.0" prefWidth="301.0" text="Sposób przygotowania" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                 </padding>
-                                 <content>
-                                    <TextArea fx:id="recipeTextField" prefHeight="256.0" prefWidth="259.0" wrapText="true" />
-                                 </content>
-                              </TitledPane>
-                           </children>
-                        </VBox>
-                        <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="39.0" prefWidth="700.0">
-                     <children>
-                        <ToolBar id="middle-toolBar" prefHeight="25.0" prefWidth="700.0" HBox.hgrow="ALWAYS">
-                           <items>
-                              <Text id="middle-toolBarText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Wprowadź kolejne składniki " />
-                           </items>
-                        </ToolBar>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="270.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Region prefHeight="384.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" prefHeight="116.0" prefWidth="238.0" text="Nazwa składnika">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" />
-                                 </padding>
-                                 <content>
-                                    <TextArea fx:id="ingredientNameTextField" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" text="Kategoria składnika" VBox.vgrow="ALWAYS">
-                                 <content>
-                                    <ChoiceBox fx:id="ingredientCategoryChoiceBox" prefHeight="25.0" prefWidth="649.0" />
-                                 </content>
-                                 <VBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </VBox.margin>
-                              </TitledPane>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" prefHeight="115.0" prefWidth="246.0" text="Ilość składnika">
-                                 <padding>
-                                    <Insets bottom="5.0" left="20.0" />
-                                 </padding>
-                                 <VBox.margin>
-                                    <Insets right="20.0" top="10.0" />
-                                 </VBox.margin>
-                                 <content>
-                                    <TextArea fx:id="ingredientQuantityTextArea" prefHeight="64.0" prefWidth="224.0" />
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" prefHeight="75.0" prefWidth="246.0" text="Jednostka składnika">
-                                 <VBox.margin>
-                                    <Insets right="20.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" />
-                                 </padding>
-                                 <content>
-                                    <TextArea fx:id="ingredientUnitTextArea" prefHeight="100.0" prefWidth="200.0" />
-                                 </content>
-                              </TitledPane>
-                           </children></VBox>
-                        <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </center>
-      </BorderPane>
-   </center>
+<BorderPane prefHeight="660.0" prefWidth="900.0" stylesheets="@../../css/addNewDish.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AddingNewDishPaneController">
+    <top>
+        <HBox prefHeight="40.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+            <children>
+                <ToolBar id="upper-toolBar1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                         prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                    <items>
+                        <Button id="to-edit-CookBook-button" fx:id="toEditCookBook" mnemonicParsing="false"
+                                text="Do edycji książki kucharskiej"/>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                    minWidth="-Infinity">
+                            <children>
+                                <Text fx:id="promptText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
+                                      AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="70.0"
+                                      AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0">
+                                    <font>
+                                        <Font name="System Bold Italic" size="15.0"/>
+                                    </font>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets left="100.0"/>
+                            </padding>
+                        </AnchorPane>
+                    </items>
+                </ToolBar>
+                <ToolBar id="upper-toolBar2" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                        <Button id="save-dish-button" fx:id="saveNewDishButton" mnemonicParsing="false"
+                                text="Zapisz nowy przepis"/>
+                    </items>
+                </ToolBar>
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <TabPane id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                 BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab fx:id="addedIngredientsTab" text="Dodane składniki">
+                    <content>
+                        <ListView fx:id="addedIngredientsListView" prefHeight="200.0" prefWidth="200.0"/>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </left>
+    <center>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <bottom>
+                <ToolBar id="bottom-toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0"
+                         BorderPane.alignment="CENTER">
+                    <items>
+                        <Button id="confirm-changes-button" fx:id="addIngredientsButton" mnemonicParsing="false"
+                                text="Dodaj składnik"/>
+                        <Button id="undo-changes-button" fx:id="undoAddIngredientsButton" mnemonicParsing="false"
+                                text="Cofnij dodawanie składnika"/>
+                    </items>
+                </ToolBar>
+            </bottom>
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <fx:include source="dishFieldsPane.fxml" fx:id="dishFieldsPane"/>
+                        <HBox prefHeight="39.0" prefWidth="700.0">
+                            <children>
+                                <ToolBar id="middle-toolBar" prefHeight="25.0" prefWidth="700.0" HBox.hgrow="ALWAYS">
+                                    <items>
+                                        <Text id="middle-toolBarText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              style="-fx-font-weight: bold;" text="Wprowadź kolejne składniki "/>
+                                    </items>
+                                </ToolBar>
+                            </children>
+                        </HBox>
+                        <fx:include fx:id="ingredientFieldsPane" source="ingredientFieldsPane.fxml"/>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </center>
 </BorderPane>

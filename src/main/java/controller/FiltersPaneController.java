@@ -45,7 +45,6 @@ public class FiltersPaneController {
     private TextField nameFilterTextField;
 
     private List<CheckBox> favouriteCheckboxes;
-    // It does not include allCategories checkbox
     private Map<CheckBox, DishCategory> categoriesCheckboxes = new HashMap<>();
 
     public void initialize() {

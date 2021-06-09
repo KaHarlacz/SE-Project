@@ -28,12 +28,14 @@ public class Dish implements Serializable, Comparable<Dish> {
                 Image image,
                 Duration duration,
                 int servings) {
-        validData(name, servings, ingredients);
         this.name = name;
         this.recipe = recipe;
         this.description = description;
         // new sets to make sure they will be mutable
-        this.ingredients = new HashSet<>(ingredients);
+        if(ingredients == null)
+            this.ingredients = new HashSet<>();
+        else
+            this.ingredients = new HashSet<>(ingredients);
         this.categories = getValidCategories(categories);
         this.image = image;
         this.duration = duration;
@@ -72,16 +74,8 @@ public class Dish implements Serializable, Comparable<Dish> {
         return recipe;
     }
 
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Image getImage() {
@@ -94,22 +88,6 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public int getServings() {
         return servings;
-    }
-
-    public void setServings(int servings) {
-        this.servings = servings;
-    }
-
-    public int getNumberOfServings() {
-        return servings;
-    }
-
-    public long getNeededTime() {
-        return duration.toMinutes();
-    }
-
-    public void setNeededTime(Duration duration) {
-        this.duration = duration;
     }
 
     public boolean isFavourite() {
@@ -126,6 +104,10 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public Set<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override
@@ -161,14 +143,11 @@ public class Dish implements Serializable, Comparable<Dish> {
         return string;
     }
 
-    private void validData(String name, int servings, Set<Ingredient> ingredients) {
+    private void validData(String name, int servings) {
         if (name.equals(""))
             throw new IllegalArgumentException();
 
         if (servings <= 0)
-            throw new IllegalArgumentException();
-
-        if (ingredients == null || ingredients.isEmpty())
             throw new IllegalArgumentException();
     }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefHeight="270.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.IngredientFieldsPaneController">
+   <children>
+      <Region prefHeight="384.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
+      <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
+         <children>
+            <TitledPane animated="false" collapsible="false" prefHeight="116.0" prefWidth="238.0" text="Nazwa składnika">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+               <content>
+                  <TextArea fx:id="nameTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Tutaj wpisz nazwę składnika" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="Kategoria składnika" VBox.vgrow="ALWAYS">
+               <content>
+                  <ChoiceBox fx:id="categoriesChoiceBox" prefHeight="25.0" prefWidth="649.0" />
+               </content>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </TitledPane>
+         </children>
+      </VBox>
+      <VBox prefHeight="384.0" prefWidth="260.0" spacing="20.0" HBox.hgrow="ALWAYS">
+         <children>
+            <TitledPane animated="false" collapsible="false" prefHeight="115.0" prefWidth="246.0" text="Ilość składnika">
+               <padding>
+                  <Insets bottom="5.0" left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="20.0" top="10.0" />
+               </VBox.margin>
+               <content>
+                  <TextArea fx:id="quantityValueTextArea" prefHeight="64.0" prefWidth="224.0" promptText="Ilość składnika o podanej nazwie" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" prefHeight="75.0" prefWidth="246.0" text="Jednostka składnika">
+               <VBox.margin>
+                  <Insets right="20.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" />
+               </padding>
+               <content>
+                  <TextArea fx:id="quantityUnitTextArea" prefHeight="100.0" prefWidth="200.0" promptText="Skrócona jednostka składnika np. szt" />
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
+   </children>
+</HBox>

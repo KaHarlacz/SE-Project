@@ -9,25 +9,25 @@ import java.time.Duration;
 import java.util.Set;
 
 public interface DishBuilder {
-    DishBuilder withName(String name);
+    DishBuilder name(String name);
 
-    DishBuilder withRecipe(String recipe);
+    DishBuilder recipe(String recipe);
 
-    DishBuilder withDescription(String description);
+    DishBuilder description(String description);
 
-    DishBuilder withIngredients(Set<Ingredient> ingredients);
+    DishBuilder ingredients(Set<Ingredient> ingredients);
 
-    DishBuilder withCategories(Set<DishCategory> categories);
+    DishBuilder categories(Set<DishCategory> categories);
 
-    DishBuilder withImage(Image image);
+    DishBuilder image(Image image);
 
-    DishBuilder withImage(String imagePath);
+    DishBuilder image(String imagePath);
 
-    DishBuilder withDuration(Duration duration);
+    DishBuilder duration(Duration duration);
 
-    DishBuilder withServings(int servings);
+    DishBuilder servings(int servings);
 
-    DishBuilder asFavourite(boolean favourite);
+    DishBuilder favourite(boolean favourite);
 
     Dish build();
 }

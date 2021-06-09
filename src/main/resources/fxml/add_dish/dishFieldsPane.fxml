@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefHeight="390.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DishFieldsPaneController">
+   <children>
+      <Region prefHeight="233.0" prefWidth="88.0" HBox.hgrow="ALWAYS" />
+      <VBox prefHeight="261.0" prefWidth="277.0" HBox.hgrow="ALWAYS">
+         <children>
+            <TitledPane animated="false" collapsible="false" prefHeight="105.0" prefWidth="263.0" text="Nazwa przepisu">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <content>
+                  <TextArea fx:id="nameTextArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" prefHeight="105.0" prefWidth="263.0" text="Opis przepisu">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+               <content>
+                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="Kategoria dania" VBox.vgrow="ALWAYS">
+               <content>
+                  <ChoiceBox fx:id="categoriesChoiceBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
+               </content>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </TitledPane>
+            <HBox alignment="CENTER" prefHeight="34.0" prefWidth="256.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="durationTextField" alignment="CENTER" prefHeight="25.0" prefWidth="159.0" promptText="Czas przygotowania w minutach" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="256.0">
+               <children>
+                  <TextField fx:id="servingsTextField" alignment="CENTER" prefHeight="25.0" prefWidth="158.0" promptText="Liczba porcji" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="261.0" prefWidth="321.0" HBox.hgrow="ALWAYS">
+         <children>
+            <TitledPane animated="false" collapsible="false" prefHeight="341.0" prefWidth="301.0" text="Sposób przygotowania" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <content>
+                  <TextArea fx:id="recipeTextArea" prefHeight="256.0" prefWidth="259.0" wrapText="true" />
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <Region prefHeight="261.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
+   </children>
+</HBox>

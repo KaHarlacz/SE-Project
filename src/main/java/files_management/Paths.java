@@ -1,6 +1,7 @@
 package files_management;
 
 public final class Paths {
+    private Paths() {}
     public static final String COOK_BOOK = "files/cook_book.obj";
     public static final String LIST_EXPORT = "files/export.txt";
     public static final String DISH_CHOOSE_PANE = "/fxml/choosing_dishes/choosingDishesPane.fxml";

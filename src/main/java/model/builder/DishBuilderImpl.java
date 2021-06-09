@@ -26,37 +26,37 @@ public class DishBuilderImpl implements DishBuilder {
     }
 
     @Override
-    public DishBuilder withName(String name) {
+    public DishBuilder name(String name) {
         this.name = name;
         return this;
     }
 
     @Override
-    public DishBuilder withRecipe(String recipe) {
+    public DishBuilder recipe(String recipe) {
         this.recipe = recipe;
         return this;
     }
 
     @Override
-    public DishBuilder withDescription(String description) {
+    public DishBuilder description(String description) {
         this.description = description;
         return this;
     }
 
     @Override
-    public DishBuilder withIngredients(Set<Ingredient> ingredients) {
+    public DishBuilder ingredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
         return this;
     }
 
     @Override
-    public DishBuilder withCategories(Set<DishCategory> categories) {
+    public DishBuilder categories(Set<DishCategory> categories) {
         this.categories = categories;
         return this;
     }
 
     @Override
-    public DishBuilder withImage(String imagePath) {
+    public DishBuilder image(String imagePath) {
         try {
             this.image = new Image(new FileInputStream(imagePath));
         } catch (IOException e) {
@@ -66,25 +66,25 @@ public class DishBuilderImpl implements DishBuilder {
     }
 
     @Override
-    public DishBuilder withImage(Image image) {
+    public DishBuilder image(Image image) {
         this.image = image;
         return this;
     }
 
     @Override
-    public DishBuilder withDuration(Duration duration) {
+    public DishBuilder duration(Duration duration) {
         this.duration = duration;
         return this;
     }
 
     @Override
-    public DishBuilder withServings(int servings) {
+    public DishBuilder servings(int servings) {
         this.servings = servings;
         return this;
     }
 
     @Override
-    public DishBuilder asFavourite(boolean favourite) {
+    public DishBuilder favourite(boolean favourite) {
         this.favourite = favourite;
         return this;
     }
@@ -95,8 +95,6 @@ public class DishBuilderImpl implements DishBuilder {
             throw new IllegalArgumentException("Name cannot be empty");
         if(recipe.isEmpty())
             throw new IllegalArgumentException("Recipe cannot be empty");
-        if(ingredients == null || ingredients.isEmpty())
-            throw new IllegalArgumentException("Ingredients list cannot be empty");
 
         return new Dish(name, recipe, description, ingredients, categories, image, duration, servings);
     }
